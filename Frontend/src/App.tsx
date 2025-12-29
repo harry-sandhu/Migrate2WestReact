@@ -26,6 +26,7 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
+import VisaDetail from "./pages/VisaDetail";
 
 function App() {
   return (
@@ -47,6 +48,8 @@ function App() {
 
         {/* Visa */}
         <Route path="/visa" element={<Visa />} />
+        <Route path="/visa/:slug" element={<VisaDetail />} />
+
         <Route path="/apply-visa" element={<ApplyVisa />} />
 
         {/* Passport flow */}
