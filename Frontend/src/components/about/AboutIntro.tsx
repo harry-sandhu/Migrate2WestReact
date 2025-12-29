@@ -1,37 +1,62 @@
+import aboutImg from "../../assets/images/abt.png";
+
 const AboutIntro = () => {
   return (
-    <section className="py-24">
-      <div className="container mx-auto px-4 grid lg:grid-cols-2 gap-12 items-center">
-        <div>
-          <h2 className="text-3xl font-bold mb-4">About Migrate2West</h2>
+    <section className="relative bg-white overflow-hidden">
+      {/* Background accent */}
+      <div className="absolute top-1/2 -left-40 w-[30rem] h-[30rem] bg-blue-50 rounded-full blur-3xl -translate-y-1/2" />
 
-          <p className="mb-4 text-gray-600">
-            At Migrate2West, we make global travel and migration simple, secure,
-            and stress-free. Whether you’re planning to study abroad, work
-            overseas, or explore new destinations, our team of visa experts is
-            here to guide you every step of the way.
-          </p>
+      <div className="relative max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-28">
+        <div className="grid lg:grid-cols-12 gap-16 items-center">
+          {/* Content */}
+         <div className="lg:col-span-7">
+  <div className="mb-8 flex items-center gap-4">
+    <span className="text-sm font-semibold tracking-wide text-blue-700 uppercase">
+      Our Story
+    </span>
+    <span className="h-px w-12 bg-blue-200" />
+  </div>
 
-          <p className="mb-4 text-gray-600">
-            With years of experience and partnerships across multiple embassies
-            and consulates, Migrate2West offers end-to-end support — from document
-            preparation and application submission to interview guidance and
-            travel planning.
-          </p>
+  <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">
+    Simplifying Global Travel <br className="hidden sm:block" />
+    with Trusted Visa Expertise
+  </h2>
 
-          <p className="text-gray-600">
-            Our mission is to help you reach your goals with confidence.
-            Wherever your journey takes you, Migrate2West ensures you get there
-            smoothly.
-          </p>
-        </div>
+  <p className="text-gray-700 text-lg mb-6 leading-relaxed max-w-2xl">
+    At <span className="font-medium text-gray-900">Migrate2West</span>,
+    we make global travel and migration simple, secure, and stress-free.
+    Whether you’re planning to study abroad, work overseas, or explore
+    new destinations, our experts guide you every step of the way.
+  </p>
 
-        <div className="hidden lg:block">
-          <img
-            src="/src/assets/images/abt.png"
-            alt="About Migrate2West"
-            className="rounded-lg"
-          />
+  <p className="text-gray-600 mb-6 leading-relaxed max-w-2xl">
+    With years of experience and trusted partnerships across embassies
+    and consulates, we provide end-to-end support — from document
+    preparation and application submission to interview guidance and
+    travel planning.
+  </p>
+
+  <p className="text-gray-600 leading-relaxed max-w-2xl">
+    Our mission is simple: help you move forward with confidence.
+    Wherever your journey takes you, we keep the process smooth,
+    transparent, and reliable.
+  </p>
+</div>
+
+
+          {/* Image */}
+          <div className="lg:col-span-5 relative">
+            {/* Offset image card */}
+            <div className="relative lg:-translate-y-12">
+              <div className="absolute -inset-6 bg-blue-100/50 rounded-3xl -z-10" />
+
+              <img
+                src={aboutImg}
+                alt="About Migrate2West"
+                className="rounded-3xl shadow-2xl w-full object-cover"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </section>

@@ -1,116 +1,115 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Button from "../ui/Button";
+import logo from "../../assets/images/logo.png";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [visaOpen, setVisaOpen] = useState(false);
-  const [packageOpen, setPackageOpen] = useState(false);
+
+  const navLinkClass = ({ isActive }: { isActive: boolean }) =>
+    `relative px-1 py-2 text-sm font-medium transition-all duration-200
+     ${
+       isActive
+         ? "text-blue-600 after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-full after:bg-blue-600"
+         : "text-gray-700 hover:text-blue-600"
+     }`;
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-sm">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-6 h-20">
         {/* Logo */}
         <Link to="/" className="flex items-center">
-          <img src="/assets/images/logo.png" alt="Migrate2West" className="h-10" />
+          <img src={logo} alt="Migrate2West" className="h-9 md:h-10" />
         </Link>
 
-        {/* Desktop Menu */}
-        <nav className="hidden xl:flex items-center gap-8 text-sm font-medium">
-          <Link to="/">Home</Link>
-          <Link to="/about">About Us</Link>
-          <Link to="/services">Services</Link>
+        {/* Desktop Navigation */}
+        <nav className="hidden xl:flex items-center gap-10">
+          <NavLink to="/" className={navLinkClass}>
+            Home
+          </NavLink>
 
-          {/* Visa dropdown */}
-          <div className="relative">
-            <button
-              onClick={() => setVisaOpen(!visaOpen)}
-              className="flex items-center gap-1"
-            >
-              Visa ▾
-            </button>
-            {visaOpen && (
-              <ul className="absolute top-full mt-2 w-48 bg-white shadow rounded-md">
-                {["Tourist", "Business", "Student", "Work", "Medical", "Spouse"].map(
-                  (v) => (
-                    <li key={v}>
-                      <Link
-                        to="/visa-details"
-                        className="block px-4 py-2 hover:bg-gray-100"
-                      >
-                        {v} Visa
-                      </Link>
-                    </li>
-                  )
-                )}
-              </ul>
-            )}
-          </div>
+          <NavLink to="/about" className={navLinkClass}>
+            Why Choose Us
+          </NavLink>
 
-          {/* Package dropdown */}
-          <div className="relative">
-            <button
-              onClick={() => setPackageOpen(!packageOpen)}
-              className="flex items-center gap-1"
-            >
-              Visa Package ▾
-            </button>
-            {packageOpen && (
-              <ul className="absolute top-full mt-2 w-56 bg-white shadow rounded-md">
-                <li>
-                  <Link to="/visa" className="block px-4 py-2 hover:bg-gray-100">
-                    Visa Package
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/visa-details"
-                    className="block px-4 py-2 hover:bg-gray-100"
-                  >
-                    Package Details
-                  </Link>
-                </li>
-              </ul>
-            )}
-          </div>
+          <NavLink to="/services" className={navLinkClass}>
+            Services
+          </NavLink>
 
-          <Link to="/faq">FAQ</Link>
-          <Link to="/contact">Contact</Link>
+          <NavLink to="/blog" className={navLinkClass}>
+            Blog
+          </NavLink>
+
+          <NavLink to="/faq" className={navLinkClass}>
+            FAQ
+          </NavLink>
+
+          <NavLink to="/contact" className={navLinkClass}>
+            Contact
+          </NavLink>
         </nav>
 
-        {/* Right */}
-        <div className="hidden xl:flex items-center gap-4">
-          <div className="text-sm">
-            <p className="text-gray-500">Need Help?</p>
-            <a href="tel:+919217113001" className="font-semibold">
+        {/* Right Side */}
+        <div className="hidden xl:flex items-center gap-6">
+          <div className="text-right leading-tight">
+            <p className="text-xs text-gray-500">Need Help?</p>
+            <a
+              href="tel:+919217113001"
+              className="text-sm font-semibold text-gray-800 hover:text-blue-600 transition"
+            >
               +91 92171 13001
             </a>
           </div>
-          <Button variant="black">Login</Button>
+
+          <Link to="/admin/login">
+            <Button variant="black" className="px-5">
+              Login
+            </Button>
+          </Link>
         </div>
 
-        {/* Mobile button */}
+        {/* Mobile Toggle */}
         <button
-          className="xl:hidden"
+          className="xl:hidden flex items-center justify-center w-10 h-10 rounded-lg border border-gray-300 text-xl hover:bg-gray-100 transition"
           onClick={() => setOpen(!open)}
+          aria-label="Toggle menu"
         >
           ☰
         </button>
       </div>
 
       {/* Mobile Menu */}
-      {open && (
-        <div className="xl:hidden bg-white border-t">
-          <nav className="flex flex-col p-4 gap-4">
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-            <Link to="/services">Services</Link>
-            <Link to="/faq">FAQ</Link>
-            <Link to="/contact">Contact</Link>
-            <Button variant="black">Login</Button>
-          </nav>
-        </div>
-      )}
+      <div
+        className={`xl:hidden transition-all duration-300 overflow-hidden ${
+          open ? "max-h-[100vh]" : "max-h-0"
+        }`}
+      >
+        <nav className="bg-white border-t px-6 py-8 flex flex-col gap-6 text-base">
+          {[
+            { label: "Home", to: "/" },
+            { label: "About", to: "/about" },
+            { label: "Services", to: "/services" },
+            { label: "Blog", to: "/blog" },
+            { label: "FAQ", to: "/faq" },
+            { label: "Contact", to: "/contact" },
+          ].map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              onClick={() => setOpen(false)}
+              className="font-medium text-gray-700 hover:text-blue-600 transition"
+            >
+              {item.label}
+            </Link>
+          ))}
+
+          <Link to="/admin/login" onClick={() => setOpen(false)}>
+            <Button variant="black" className="w-full mt-4">
+              Login
+            </Button>
+          </Link>
+        </nav>
+      </div>
     </header>
   );
 }
