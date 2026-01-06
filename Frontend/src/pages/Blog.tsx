@@ -1,6 +1,7 @@
 import PageBanner from "../components/ui/PageBanner";
 import BlogCard from "../components/blog/BlogCard";
 import blogimage from "../assets/images/2222.jpeg";
+import { Link } from "react-router-dom";
 
 const blogs = [
   {
@@ -107,15 +108,16 @@ export default function Blog() {
           {featured.excerpt}
         </p>
 
-        <a
-          href={`/blog/${featured.slug}`}
-          className="inline-flex items-center text-blue-600 font-semibold"
-        >
-          Read article
-          <span className="ml-1 transition-transform group-hover:translate-x-1">
-            →
-          </span>
-        </a>
+        <Link
+  to={`/blog/${featured.slug}`}
+  className="inline-flex items-center text-blue-600 font-semibold"
+>
+  Read article
+  <span className="ml-1 transition-transform group-hover:translate-x-1">
+    →
+  </span>
+</Link>
+
       </div>
 
     </div>
