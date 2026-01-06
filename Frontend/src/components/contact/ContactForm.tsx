@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Button from "../ui/Button";
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = "https://migrate2-west-react-45ra.vercel.app";
 
 const countries = [
   "USA",
