@@ -2,6 +2,7 @@ import { useState } from "react";
 import PageBanner from "../components/ui/PageBanner";
 import FAQItem from "../components/faq/FAQItem";
 import Button from "../components/ui/Button";
+import { Link } from "react-router-dom";
 
 const faqs = [
   {
@@ -70,9 +71,11 @@ export default function FAQ() {
                 your answer here, our experts are just one click away.
               </p>
 
-              <Button variant="gold" className="px-8 py-4">
-                Talk to an Expert
-              </Button>
+              <Link to="/contact">
+  <Button variant="gold" className="px-8 py-4">
+    Talk to an Expert
+  </Button>
+</Link>
             </div>
 
             {/* RIGHT SIDE – FAQs */}
@@ -96,9 +99,12 @@ export default function FAQ() {
                 <p className="text-gray-600">
                   Still confused or need personalized guidance?
                 </p>
-                <Button variant="primary" className="px-6">
-                  Schedule a Consultation
-                </Button>
+                
+  <Link to="/contact">
+    <Button variant="primary" className="px-6">
+      Schedule a Consultation
+    </Button>
+  </Link>
               </div>
             </div>
 
