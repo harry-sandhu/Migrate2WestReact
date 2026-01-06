@@ -17,7 +17,7 @@ const faqs = [
   {
     question: "Is consultation paid?",
     answer:
-      "Initial consultation is free. Charges apply only after service confirmation.",
+      "Initial consultation is minimal. Charges apply only after service confirmation.",
   },
   {
     question: "Can you guarantee visa approval?",
@@ -97,7 +97,7 @@ export default function FAQ() {
                   Still confused or need personalized guidance?
                 </p>
                 <Button variant="primary" className="px-6">
-                  Schedule Free Consultation
+                  Schedule a Consultation
                 </Button>
               </div>
             </div>

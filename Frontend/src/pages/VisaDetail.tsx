@@ -32,19 +32,19 @@ export default function VisaDetail() {
         ]}
       />
 
-      {/* Hero */}
+      {/* Hero 1*/}
       <VisaHero visa={visa} />
 
       {/* Cost Estimator (VERY IMPORTANT) */}
       <VisaCostEstimator visa={visa} />
 
-      {/* Eligibility Snapshot */}
+      {/* Eligibility Snapshot 4*/}
       <VisaEligibility visa={visa} />
 
-      {/* Process Timeline */}
+      {/* Process Timeline 2*/}
       <VisaProcessTimeline visa={visa} />
 
-      {/* Documents */}
+      {/* Documents 3*/}
       <VisaRequirements visa={visa} />
 
       {/* Final CTA */}

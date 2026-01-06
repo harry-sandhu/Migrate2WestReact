@@ -9,6 +9,7 @@ interface ButtonProps {
   variant?: ButtonVariant;
   className?: string;
   type?: "button" | "submit";
+  disabled?: boolean; 
 }
 
 export default function Button({
@@ -17,6 +18,7 @@ export default function Button({
   variant = "primary",
   className,
   type = "button",
+  disabled = false, 
 }: ButtonProps) {
   const base =
     "relative inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 \
@@ -24,29 +26,28 @@ export default function Button({
      focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 \
      active:translate-y-[1px] active:scale-[0.97]";
 
+  const disabledStyles =
+    "opacity-50 cursor-not-allowed pointer-events-none";
+
   const variants = {
-    // 👑 PRIMARY — Royal Blue (main CTA)
     primary:
       "bg-[#0b3c91] text-white \
        hover:bg-[#0a3278] \
        shadow-sm hover:shadow-md \
        focus-visible:ring-[#0b3c91]",
 
-    // 🖤 BLACK — Serious / admin / login
     black:
       "bg-[#111827] text-white \
        hover:bg-black \
        shadow-sm hover:shadow-md \
        focus-visible:ring-[#111827]",
 
-    // 🤍 WHITE — Secondary / light sections
     white:
       "bg-white text-gray-900 border border-gray-200 \
        hover:bg-gray-50 \
        shadow-sm \
        focus-visible:ring-gray-400",
 
-    // 🏅 GOLD — Premium accent (USE SPARINGLY)
     gold:
       "bg-[#c9a24d] text-gray-900 \
        hover:bg-[#b8923e] \
@@ -57,7 +58,13 @@ export default function Button({
   return (
     <button
       type={type}
-      className={clsx(base, variants[variant], className)}
+      disabled={disabled} 
+      className={clsx(
+        base,
+        variants[variant],
+        disabled && disabledStyles, 
+        className
+      )}
     >
       <span className="relative z-10 flex items-center gap-2">
         {children}
