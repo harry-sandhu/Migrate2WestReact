@@ -51,11 +51,12 @@ export default function Footer() {
             Mon–Fri: 9:30 AM – 6:30 PM
             <br />
             <a
-              href="tel:+919217113001"
-              className="inline-block mt-2 font-medium text-gray-200 hover:text-white transition"
-            >
-              +91 92171 13001
-            </a>
+  href="mailto:info@migrate2west.com"
+  className="inline-block mt-2 font-medium text-gray-200 hover:text-white transition"
+>
+  info@migrate2west.com
+</a>
+
           </p>
         </div>
 

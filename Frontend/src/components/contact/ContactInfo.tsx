@@ -36,14 +36,15 @@ const ContactInfo = () => {
               {/* Phone */}
               <div className="mb-6">
                 <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">
-                  Phone
+                  Email
                 </p>
                 <a
-                  href="tel:+919217113001"
-                  className="text-lg font-semibold text-blue-600 hover:underline"
-                >
-                  +91 92171 13001
-                </a>
+  href="mailto:info@migrate2west.com"
+  className="inline-block mt-2 font-medium text-gray-200 hover:text-white transition"
+>
+  info@migrate2west.com
+</a>
+
                 <p className="text-sm text-gray-500 mt-1">
                   Mon – Fri · 9:30 AM – 6:30 PM
                 </p>

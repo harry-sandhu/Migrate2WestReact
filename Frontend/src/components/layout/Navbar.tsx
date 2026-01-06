@@ -57,7 +57,7 @@ export default function Navbar() {
               href="tel:+919217113001"
               className="text-sm font-semibold text-gray-800 hover:text-blue-600 transition"
             >
-              +91 92171 13001
+              info@migrate2west.com
             </a>
           </div>
 
