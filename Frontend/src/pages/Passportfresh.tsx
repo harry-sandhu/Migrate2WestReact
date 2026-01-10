@@ -7,18 +7,18 @@ import SlotPicker from "../components/passport/SlotPicker";
 import PaymentCTA from "../components/passport/PaymentCTA";
 import PageBanner from "../components/ui/PageBanner";
 
-/* ---------------- TYPES ---------------- */
+
 type Step = 1 | 2;
 type PassportType = "normal" | "express" | "consultation";
 type ApplicantType = "adult" | "child";
 
-/* ---------------- DUMMY BOOKED SLOTS ---------------- */
+
 const bookedSlots = [
   "2026-01-10T11:00",
   "2026-01-10T14:00",
 ];
 
-/* ---------------- PRICING ---------------- */
+
 const PRICES = {
   normal: { adult: 2500, child: 1500 },
   express: { adult: 3500, child: 2500 },
@@ -26,7 +26,7 @@ const PRICES = {
 };
 
 export default function PassportFresh() {
-  /* ---------------- STATE ---------------- */
+  
   const [step, setStep] = useState<Step>(1);
   const [completedStep1, setCompletedStep1] = useState(false);
 
@@ -47,7 +47,7 @@ export default function PassportFresh() {
     form.phone.trim().length >= 10 &&
     form.email.includes("@");
 
-  /* ---------------- SLOT LOGIC ---------------- */
+  
   const now = new Date();
 
   function isSlotAllowed(slot: Date) {
@@ -57,33 +57,33 @@ export default function PassportFresh() {
     const hour = slot.getHours();
     const isNormalTime = hour >= 10 && hour < 20;
 
-    // Nothing below 12 hours for any service
+    
     if (diffHours < 12) return false;
 
-    // CONSULTATION → NORMAL SLOTS ONLY
+    
     if (passportType === "consultation") {
       if (diffHours < 24) return false;
       return isNormalTime;
     }
 
-    // NORMAL PASSPORT
+    
     if (passportType === "normal") {
       if (diffHours < 24) return false;
       return isNormalTime;
     }
 
-    // EXPRESS PASSPORT
+    
     if (passportType === "express") {
-      // 12–24 hours → any time
+      
       if (diffHours >= 12 && diffHours < 24) return true;
-      // 24+ → normal slots
+      
       return isNormalTime;
     }
 
     return false;
   }
 
-  /* ---------------- CLEAR INVALID SLOT ON TYPE CHANGE ---------------- */
+  
   useEffect(() => {
     if (selectedSlot) {
       const slotDate = new Date(selectedSlot);
@@ -93,7 +93,7 @@ export default function PassportFresh() {
     }
   }, [passportType]);
 
-  /* ---------------- PRICE CALCULATION ---------------- */
+  
   const basePrice =
     passportType === "consultation"
       ? PRICES.consultation
@@ -101,11 +101,11 @@ export default function PassportFresh() {
 
   const totalAmount = basePrice;
 
-  /* ---------------- UI ---------------- */
+  
   return (
     <div className="min-h-screen bg-[#f7f9fc]">
 
-      {/* PAGE BANNER */}
+      
       <PageBanner
         title="Apply for Passport"
         bgImage="/src/assets/images/About-Us-Page.webp"
@@ -115,7 +115,7 @@ export default function PassportFresh() {
         ]}
       />
 
-      {/* PROCESS HEADER + STEPPER */}
+      
       <section className="pt-12 pb-6">
         <div className="max-w-5xl mx-auto px-4">
 
@@ -136,11 +136,11 @@ export default function PassportFresh() {
         </div>
       </section>
 
-      {/* CONTENT */}
+      
       <section className="pb-24">
         <div className="max-w-5xl mx-auto px-4">
 
-          {/* STEP 1 */}
+          
           {step === 1 && (
             <ApplicantForm
               form={form}
@@ -155,7 +155,7 @@ export default function PassportFresh() {
             />
           )}
 
-          {/* STEP 2 */}
+          
           {step === 2 && (
             <div className="space-y-10">
 
@@ -171,7 +171,7 @@ export default function PassportFresh() {
                 selectedSlot={selectedSlot}
                 onSelect={setSelectedSlot}
                 isSlotAllowed={isSlotAllowed}
-                passportType={passportType}
+                
               />
 
               <PaymentCTA

@@ -1,5 +1,6 @@
 import { Link, useLocation, Navigate } from "react-router-dom";
 
+/* ---------- Types ---------- */
 interface PaymentState {
   applicant: {
     name: string;
@@ -8,7 +9,7 @@ interface PaymentState {
   };
   passportType: "normal" | "express" | "consultation";
   applicantType: "adult" | "child";
-  selectedSlot: string;
+  selectedSlot: string | null;
   breakdown: {
     basePrice: number;
     expressConsultationFee: number;
@@ -16,11 +17,12 @@ interface PaymentState {
   totalAmount: number;
 }
 
+/* ---------- Page ---------- */
 export default function Payment() {
   const location = useLocation();
   const state = location.state as PaymentState | null;
 
-  // Safety: direct access protection
+  // Redirect if page is opened directly
   if (!state) {
     return <Navigate to="/" replace />;
   }
@@ -38,7 +40,7 @@ export default function Payment() {
     <div className="bg-[#f7f9fc] min-h-screen py-20">
       <div className="max-w-6xl mx-auto px-4">
 
-        {/* Header */}
+        {/* HEADER */}
         <div className="text-center mb-14">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
             Complete Your Payment
@@ -50,10 +52,10 @@ export default function Payment() {
 
         <div className="grid lg:grid-cols-3 gap-10">
 
-          {/* LEFT: PAYMENT METHODS */}
+          {/* PAYMENT METHODS */}
           <div className="lg:col-span-2 space-y-8">
 
-            {/* UPI PAYMENT */}
+            {/* UPI */}
             <div className="bg-white rounded-3xl shadow-lg p-8">
               <h3 className="text-xl font-semibold mb-4">
                 UPI Payment (Recommended)
@@ -81,7 +83,7 @@ export default function Payment() {
               </div>
             </div>
 
-            {/* BANK TRANSFER */}
+            {/* BANK */}
             <div className="bg-white rounded-3xl shadow-lg p-8">
               <h3 className="text-xl font-semibold mb-4">
                 Bank Transfer
@@ -99,7 +101,7 @@ export default function Payment() {
               </p>
             </div>
 
-            {/* CARD – COMING SOON */}
+            {/* CARD */}
             <div className="bg-gray-100 rounded-3xl p-8 text-center">
               <h3 className="text-lg font-semibold text-gray-700 mb-2">
                 Card / Net Banking
@@ -111,7 +113,7 @@ export default function Payment() {
 
           </div>
 
-          {/* RIGHT: SUMMARY */}
+          {/* SUMMARY */}
           <div className="bg-white rounded-3xl shadow-xl p-8 h-fit sticky top-24">
             <h3 className="text-xl font-semibold mb-6">
               Payment Summary
@@ -121,14 +123,13 @@ export default function Payment() {
 
               <div className="flex justify-between">
                 <span>
-  {passportType === "consultation"
-    ? "Consultation Only"
-    : passportType === "express"
-    ? "Express Passport"
-    : "Normal Passport"}{" "}
-  ({applicantType})
-</span>
-
+                  {passportType === "consultation"
+                    ? "Consultation Only"
+                    : passportType === "express"
+                    ? "Express Passport"
+                    : "Normal Passport"}{" "}
+                  ({applicantType})
+                </span>
                 <span>₹{breakdown.basePrice}</span>
               </div>
 
@@ -145,15 +146,24 @@ export default function Payment() {
               </div>
             </div>
 
-            {/* SLOT INFO */}
-            <div className="mt-6 text-sm text-gray-600">
-              <p>
-                <strong>Appointment Slot:</strong>{" "}
-                {new Date(selectedSlot).toLocaleString()}
-              </p>
+            {/* APPLICANT INFO */}
+            <div className="mt-6 text-sm text-gray-600 space-y-1">
+              <p><strong>Applicant:</strong> {applicant.name}</p>
+              <p><strong>Phone:</strong> {applicant.phone}</p>
+              <p><strong>Email:</strong> {applicant.email}</p>
             </div>
 
-            {/* Terms */}
+            {/* SLOT */}
+            {selectedSlot && (
+              <div className="mt-4 text-sm text-gray-600">
+                <p>
+                  <strong>Appointment Slot:</strong>{" "}
+                  {new Date(selectedSlot).toLocaleString()}
+                </p>
+              </div>
+            )}
+
+            {/* TERMS */}
             <div className="mt-6 text-sm text-gray-600">
               By proceeding, you agree to our{" "}
               <Link to="/terms" className="underline hover:text-black">
@@ -165,14 +175,14 @@ export default function Payment() {
               </Link>.
             </div>
 
-            {/* CTA */}
+            {/* CONFIRM */}
             <Link
-  to="/payment-success"
-  state={state}
-  className="block mt-8 text-center bg-blue-600 text-white py-4 rounded-xl font-semibold hover:bg-blue-700 transition"
->
-  I’ve Completed the Payment →
-</Link>
+              to="/payment-success"
+              state={state}
+              className="block mt-8 text-center bg-blue-600 text-white py-4 rounded-xl font-semibold hover:bg-blue-700 transition"
+            >
+              I’ve Completed the Payment →
+            </Link>
 
           </div>
 

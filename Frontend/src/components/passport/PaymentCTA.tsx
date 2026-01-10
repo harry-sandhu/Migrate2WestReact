@@ -1,16 +1,28 @@
 import { Link } from "react-router-dom";
 
-interface Props {
-  state: {
-    totalAmount: number;
-    breakdown: {
-      basePrice: number;
-      expressConsultationFee: number;
-    };
-    selectedSlot: string | null;
+/* ---------- Shared Payment State ---------- */
+export interface PaymentState {
+  applicant: {
+    name: string;
+    phone: string;
+    email: string;
   };
+  passportType: "normal" | "express" | "consultation";
+  applicantType: "adult" | "child";
+  selectedSlot: string | null;
+  breakdown: {
+    basePrice: number;
+    expressConsultationFee: number;
+  };
+  totalAmount: number;
 }
 
+/* ---------- Props ---------- */
+interface Props {
+  state: PaymentState;
+}
+
+/* ---------- Component ---------- */
 export default function PaymentCTA({ state }: Props) {
   const { totalAmount, breakdown, selectedSlot } = state;
 

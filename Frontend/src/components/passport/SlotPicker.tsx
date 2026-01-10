@@ -13,7 +13,7 @@ export default function SlotPicker({
   onSelect,
   isSlotAllowed,
 }: Props) {
-  /* ---------------- DATE STATE ---------------- */
+
   const [selectedDate, setSelectedDate] = useState<Date>(() => {
     const d = new Date();
     d.setDate(d.getDate() + 1);
@@ -21,19 +21,19 @@ export default function SlotPicker({
     return d;
   });
 
-  /* ---------------- CLEAR SLOT ON DATE CHANGE ---------------- */
+
   useEffect(() => {
     onSelect(null as any);
   }, [selectedDate]);
 
-  /* ---------------- GENERATE TIME SLOTS ---------------- */
+
   const slots = Array.from({ length: 24 }).map((_, hour) => {
     const slot = new Date(selectedDate);
     slot.setHours(hour, 0, 0, 0);
     return slot;
   });
 
-  /* ---------------- DATE LIMITS ---------------- */
+
   const minDate = (() => {
     const d = new Date();
     d.setDate(d.getDate() + 1);
@@ -43,7 +43,7 @@ export default function SlotPicker({
   return (
     <div className="bg-white p-6 rounded-3xl shadow space-y-6">
 
-      {/* HEADER */}
+      
       <div>
         <h3 className="font-bold text-lg">Select Appointment Slot</h3>
         <p className="text-sm text-gray-600 mt-1">
@@ -51,7 +51,7 @@ export default function SlotPicker({
         </p>
       </div>
 
-      {/* DATE PICKER */}
+      
       <div>
         <label className="block text-sm font-medium mb-2">
           Select Date
@@ -69,7 +69,7 @@ export default function SlotPicker({
         />
       </div>
 
-      {/* LEGEND */}
+      
       <div className="flex flex-wrap gap-4 text-sm text-gray-600">
         <span className="flex items-center gap-2">
           <span className="w-3 h-3 bg-gray-300 rounded-full" />
@@ -85,7 +85,7 @@ export default function SlotPicker({
         </span>
       </div>
 
-      {/* TIME SLOTS */}
+      
       <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3">
         {slots.map((slot) => {
           const iso = slot.toISOString().slice(0, 16);
@@ -122,7 +122,7 @@ export default function SlotPicker({
         })}
       </div>
 
-      {/* HELPER */}
+      
       <p className="text-xs text-gray-500 leading-relaxed">
         • Normal & Consultation: slots available after 24 hours (10 AM – 8 PM)<br />
         • Express: priority slots after 12 hours + all normal slots
