@@ -27,6 +27,8 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import VisaDetail from "./pages/VisaDetail";
+import PaymentSuccess from "./pages/paymentSuccess";
+import ThankYou from "./pages/thankYou";
 
 function App() {
   return (
@@ -56,6 +58,8 @@ function App() {
         <Route path="/passport" element={<Passport />} />
         <Route path="/passport/fresh" element={<PassportFresh />} />
         <Route path="/payment" element={<Payment />} />
+        <Route path="/payment-success" element={<PaymentSuccess />} />
+        <Route path="/thank-you" element={<ThankYou/>} />
 
         {/* Application */}
         <Route path="/application" element={<Application />} />

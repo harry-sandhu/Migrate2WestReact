@@ -1,177 +1,183 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, Navigate } from "react-router-dom";
+
+interface PaymentState {
+  applicant: {
+    name: string;
+    phone: string;
+    email: string;
+  };
+  passportType: "normal" | "express" | "consultation";
+  applicantType: "adult" | "child";
+  selectedSlot: string;
+  breakdown: {
+    basePrice: number;
+    expressConsultationFee: number;
+  };
+  totalAmount: number;
+}
 
 export default function Payment() {
-  const [step, setStep] = useState<1 | 2>(1);
+  const location = useLocation();
+  const state = location.state as PaymentState | null;
+
+  // Safety: direct access protection
+  if (!state) {
+    return <Navigate to="/" replace />;
+  }
+
+  const {
+    applicant,
+    passportType,
+    applicantType,
+    selectedSlot,
+    breakdown,
+    totalAmount,
+  } = state;
 
   return (
-    <div className="visa-agency">
-      {/* Breadcrumb */}
-      <div
-        className="bg-cover bg-center py-20 text-center"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4)), url(/images/About-Us-Page.webp)",
-        }}
-      >
-        <h1 className="text-4xl font-bold text-white">Fresh Passport</h1>
-        <ul className="mt-4 flex justify-center gap-2 text-white text-sm">
-          <li>
-            <Link to="/" className="hover:underline">
-              Home
-            </Link>
-          </li>
-          <li>/</li>
-          <li>
-            <Link to="/passport" className="hover:underline">
-              Passport
-            </Link>
-          </li>
-          <li>/</li>
-          <li>Fresh Passport</li>
-        </ul>
-      </div>
+    <div className="bg-[#f7f9fc] min-h-screen py-20">
+      <div className="max-w-6xl mx-auto px-4">
 
-      {/* ABOUT */}
-      <section className="py-20">
-        <div className="max-w-5xl mx-auto px-4 text-center">
-          <span className="text-sm text-gray-500 uppercase">
-            Fresh Passport
-          </span>
-          <h2 className="text-3xl font-bold mt-2 mb-4">
-            Apply for a New Indian Passport
-          </h2>
-          <p className="text-gray-600">
-            Apply for a new Indian Passport with expert guidance, accurate
-            documentation, and hassle-free processing.
+        {/* Header */}
+        <div className="text-center mb-14">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+            Complete Your Payment
+          </h1>
+          <p className="text-gray-600 text-lg">
+            Secure payment for your passport application
           </p>
-
-          <div className="mt-10 max-w-md mx-auto border rounded-lg p-6 text-left">
-            <h4 className="font-semibold mb-3">Documents Required</h4>
-            <ul className="list-disc pl-5 text-gray-600">
-              <li>Aadhaar Card</li>
-              <li>Additional documents may be required</li>
-            </ul>
-          </div>
         </div>
-      </section>
 
-      {/* STEP 1 – Applicant Details */}
-      {step === 1 && (
-        <section className="pb-20">
-          <div className="max-w-xl mx-auto px-4">
-            <h2 className="text-2xl font-bold text-center mb-2">
-              Applicant Details
-            </h2>
-            <p className="text-center text-gray-600 mb-8">
-              Enter your basic details to continue.
-            </p>
+        <div className="grid lg:grid-cols-3 gap-10">
 
-            <div className="space-y-5">
-              <div>
-                <label className="block mb-1 font-medium">Full Name</label>
-                <input
-                  type="text"
-                  className="w-full border rounded px-4 py-2"
-                  placeholder="Enter full name"
-                />
-              </div>
+          {/* LEFT: PAYMENT METHODS */}
+          <div className="lg:col-span-2 space-y-8">
 
-              <div>
-                <label className="block mb-1 font-medium">
-                  Contact Number
-                </label>
-                <input
-                  type="tel"
-                  className="w-full border rounded px-4 py-2"
-                  placeholder="+91 XXXXX XXXXX"
-                />
-                <small className="text-gray-500">
-                  OTP verification will be required
-                </small>
-              </div>
+            {/* UPI PAYMENT */}
+            <div className="bg-white rounded-3xl shadow-lg p-8">
+              <h3 className="text-xl font-semibold mb-4">
+                UPI Payment (Recommended)
+              </h3>
 
-              <div>
-                <label className="block mb-1 font-medium">Email ID</label>
-                <input
-                  type="email"
-                  className="w-full border rounded px-4 py-2"
-                  placeholder="Enter email"
-                />
-              </div>
+              <div className="grid sm:grid-cols-2 gap-6 items-center">
+                <div>
+                  <p className="text-gray-600 mb-2">UPI ID</p>
+                  <div className="bg-gray-100 rounded-xl px-4 py-3 font-medium">
+                    migrate2west@upi
+                  </div>
 
-              <button
-                onClick={() => setStep(2)}
-                className="w-full bg-black text-white py-3 rounded hover:bg-gray-800 transition"
-              >
-                Submit & Continue
-              </button>
-            </div>
-          </div>
-        </section>
-      )}
+                  <p className="text-sm text-gray-500 mt-3">
+                    Pay using Google Pay, PhonePe, Paytm or any UPI app
+                  </p>
+                </div>
 
-      {/* STEP 2 – Fees & Appointment */}
-      {step === 2 && (
-        <section className="pb-20">
-          <div className="max-w-5xl mx-auto px-4">
-            <h2 className="text-2xl font-bold text-center mb-2">
-              Fees & Appointment
-            </h2>
-            <p className="text-center text-gray-600 mb-10">
-              Select a processing option or consultation.
-            </p>
-
-            {/* Fees */}
-            <div className="grid md:grid-cols-2 gap-6 mb-10">
-              <div className="border rounded-lg p-6 text-center">
-                <h4 className="font-semibold mb-2">Normal Processing</h4>
-                <p>Adult: <strong>₹2,500</strong></p>
-                <p>Child (Below 10): <strong>₹1,500</strong></p>
-              </div>
-
-              <div className="border rounded-lg p-6 text-center">
-                <h4 className="font-semibold mb-2">Tatkal Processing</h4>
-                <p>Adult: <strong>₹4,500</strong></p>
-                <p>Child (Below 10): <strong>₹3,500</strong></p>
+                <div className="flex justify-center">
+                  <div className="w-40 h-40 bg-gray-100 rounded-xl flex items-center justify-center text-gray-400 text-sm">
+                    QR Code
+                    <br />
+                    (Scan & Pay)
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Appointment */}
-            <div className="max-w-md mx-auto border rounded-lg p-6 text-center mb-10">
-              <h4 className="font-semibold mb-2">Consultation Option</h4>
-              <p>Consultation Fee: <strong>₹500</strong></p>
-              <p className="text-gray-600 mb-4">
-                Expert guidance & document verification.
+            {/* BANK TRANSFER */}
+            <div className="bg-white rounded-3xl shadow-lg p-8">
+              <h3 className="text-xl font-semibold mb-4">
+                Bank Transfer
+              </h3>
+
+              <div className="grid sm:grid-cols-2 gap-6 text-gray-700">
+                <p><strong>Account Name:</strong> Migrate2west Global</p>
+                <p><strong>Bank:</strong> HDFC Bank</p>
+                <p><strong>Account No:</strong> 1234567890</p>
+                <p><strong>IFSC:</strong> HDFC0000123</p>
+              </div>
+
+              <p className="text-sm text-gray-500 mt-4">
+                After payment, please share the transaction reference with our team.
               </p>
-
-              <input
-                type="datetime-local"
-                className="w-full border rounded px-4 py-2"
-              />
             </div>
-            <span>
-              I agree to the{" "}
+
+            {/* CARD – COMING SOON */}
+            <div className="bg-gray-100 rounded-3xl p-8 text-center">
+              <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                Card / Net Banking
+              </h3>
+              <p className="text-gray-500">
+                Credit Card, Debit Card & Net Banking support coming soon.
+              </p>
+            </div>
+
+          </div>
+
+          {/* RIGHT: SUMMARY */}
+          <div className="bg-white rounded-3xl shadow-xl p-8 h-fit sticky top-24">
+            <h3 className="text-xl font-semibold mb-6">
+              Payment Summary
+            </h3>
+
+            <div className="space-y-4 text-gray-700">
+
+              <div className="flex justify-between">
+                <span>
+  {passportType === "consultation"
+    ? "Consultation Only"
+    : passportType === "express"
+    ? "Express Passport"
+    : "Normal Passport"}{" "}
+  ({applicantType})
+</span>
+
+                <span>₹{breakdown.basePrice}</span>
+              </div>
+
+              {breakdown.expressConsultationFee > 0 && (
+                <div className="flex justify-between">
+                  <span>Express Consultation</span>
+                  <span>₹{breakdown.expressConsultationFee}</span>
+                </div>
+              )}
+
+              <div className="border-t pt-4 flex justify-between font-semibold text-lg">
+                <span>Total</span>
+                <span>₹{totalAmount}</span>
+              </div>
+            </div>
+
+            {/* SLOT INFO */}
+            <div className="mt-6 text-sm text-gray-600">
+              <p>
+                <strong>Appointment Slot:</strong>{" "}
+                {new Date(selectedSlot).toLocaleString()}
+              </p>
+            </div>
+
+            {/* Terms */}
+            <div className="mt-6 text-sm text-gray-600">
+              By proceeding, you agree to our{" "}
               <Link to="/terms" className="underline hover:text-black">
                 Terms & Conditions
               </Link>{" "}
               and{" "}
               <Link to="/privacy" className="underline hover:text-black">
                 Privacy Policy
-              </Link>
-            </span>
-            {/* Proceed */}
-            <div className="text-center">
-              <Link
-                to="/payment-success"
-                className="inline-block bg-black text-white px-8 py-3 rounded hover:bg-gray-800"
-              >
-                Proceed to Payment
-              </Link>
+              </Link>.
             </div>
+
+            {/* CTA */}
+            <Link
+  to="/payment-success"
+  state={state}
+  className="block mt-8 text-center bg-blue-600 text-white py-4 rounded-xl font-semibold hover:bg-blue-700 transition"
+>
+  I’ve Completed the Payment →
+</Link>
+
           </div>
-        </section>
-      )}
+
+        </div>
+      </div>
     </div>
   );
 }

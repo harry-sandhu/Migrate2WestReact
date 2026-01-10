@@ -124,8 +124,6 @@ export default function Blog() {
   </div>
 </div>
 
-
-
           {/* Blog Grid */}
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {rest.map((blog, i) => (
