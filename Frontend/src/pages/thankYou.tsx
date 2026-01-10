@@ -11,11 +11,11 @@ interface ThankYouState {
   };
   passportType: "normal" | "express" | "consultation";
   applicantType: "adult" | "child";
-  selectedSlot: string;
+  selectedSlot: string | null;
   totalAmount: number;
   referenceId: string;
   status: string;
-  submittedAt: string;
+  submittedAt: string | null;
   paymentMethod: "upi" | "bank" | "qr";
 }
 
@@ -24,7 +24,6 @@ export default function ThankYou() {
   const location = useLocation();
   const state = location.state as ThankYouState | null;
 
-  /* SAFETY */
   if (!state) {
     return <Navigate to="/" replace />;
   }
@@ -55,9 +54,11 @@ export default function ThankYou() {
     /* HEADER */
     doc.setFontSize(18);
     doc.setTextColor(primary);
+    doc.setFont("helvetica", "bold");
     doc.text("Payment Receipt", 105, 22, { align: "center" });
 
     doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
     doc.setTextColor(gray);
     doc.text("Migrate2West Global Services", 105, 28, {
       align: "center",
@@ -66,19 +67,25 @@ export default function ThankYou() {
     doc.setDrawColor(220);
     doc.line(15, 35, 195, 35);
 
+    /* ROW HELPER */
     function row(label: string, value: string) {
-      doc.setFont(undefined, "bold");
+      doc.setFont("helvetica", "bold");
       doc.setTextColor(0);
       doc.text(label, 20, y);
-      doc.setFont(undefined, "normal");
+
+      doc.setFont("helvetica", "normal");
       doc.text(value, 85, y);
+
       y += 8;
     }
 
     /* META */
     row("Reference ID:", referenceId);
     row("Status:", status);
-    row("Submitted On:", new Date(submittedAt).toLocaleString());
+    row(
+      "Submitted On:",
+      submittedAt ? new Date(submittedAt).toLocaleString() : "N/A"
+    );
 
     y += 4;
     doc.line(15, y, 195, y);
@@ -101,7 +108,11 @@ export default function ThankYou() {
         : `${passportType} Passport (${applicantType})`
     );
 
-    row("Appointment:", new Date(selectedSlot).toLocaleString());
+    row(
+      "Appointment:",
+      selectedSlot ? new Date(selectedSlot).toLocaleString() : "Not selected"
+    );
+
     row("Payment Method:", paymentMethod.toUpperCase());
 
     y += 4;
@@ -110,7 +121,7 @@ export default function ThankYou() {
 
     /* AMOUNT */
     doc.setFontSize(13);
-    doc.setFont(undefined, "bold");
+    doc.setFont("helvetica", "bold");
     doc.text("Total Amount Paid:", 20, y);
     doc.text(`₹ ${totalAmount}`, 85, y);
 
@@ -118,7 +129,7 @@ export default function ThankYou() {
 
     /* FOOTER */
     doc.setFontSize(10);
-    doc.setFont(undefined, "normal");
+    doc.setFont("helvetica", "normal");
     doc.setTextColor(gray);
     doc.text(
       "Thank you for choosing Migrate2West.\nOur team has received your payment details and will contact you shortly.",
@@ -154,9 +165,7 @@ export default function ThankYou() {
         {/* STATUS CARD */}
         <div className="bg-white rounded-3xl shadow p-6 space-y-4">
           <div className="flex justify-between items-center">
-            <h3 className="font-semibold text-lg">
-              Application Status
-            </h3>
+            <h3 className="font-semibold text-lg">Application Status</h3>
             <span className="px-4 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-700">
               {status}
             </span>
@@ -164,7 +173,10 @@ export default function ThankYou() {
 
           <div className="grid sm:grid-cols-2 gap-4 text-sm text-gray-700">
             <p><strong>Reference ID:</strong> {referenceId}</p>
-            <p><strong>Submitted:</strong> {new Date(submittedAt).toLocaleString()}</p>
+            <p>
+              <strong>Submitted:</strong>{" "}
+              {submittedAt ? new Date(submittedAt).toLocaleString() : "N/A"}
+            </p>
             <p>
               <strong>Service:</strong>{" "}
               {passportType === "consultation"
@@ -173,7 +185,9 @@ export default function ThankYou() {
             </p>
             <p>
               <strong>Appointment:</strong>{" "}
-              {new Date(selectedSlot).toLocaleString()}
+              {selectedSlot
+                ? new Date(selectedSlot).toLocaleString()
+                : "Not selected"}
             </p>
             <p>
               <strong>Payment Method:</strong>{" "}
