@@ -46,9 +46,9 @@ export default function Footer() {
           <p className="text-sm leading-relaxed text-gray-400">
             <span className="font-semibold text-gray-200">New Delhi</span>
             <br />
-            Barakhamba Road, New Delhi 110001
+            Address will be revealed soon.
             <br />
-            Mon–Fri: 9:30 AM – 6:30 PM
+            Timing will be revealed soon.
             <br />
             <a
   href="mailto:info@migrate2west.com"

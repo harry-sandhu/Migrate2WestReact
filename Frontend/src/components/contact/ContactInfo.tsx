@@ -59,9 +59,9 @@ const ContactInfo = () => {
                   Address
                 </p>
                 <p className="text-gray-700 leading-relaxed">
-                  Barakhamba Road,
+                  Address
                   <br />
-                  New Delhi 110001, India
+                  Will be revealed soon
                 </p>
               </div>
 

@@ -16,6 +16,7 @@ type ApplicantType = "adult" | "child";
 const bookedSlots = [
   "2026-01-10T11:00",
   "2026-01-10T14:00",
+  "2026-01-12T14:00",
 ];
 
 

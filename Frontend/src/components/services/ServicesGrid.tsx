@@ -1,81 +1,102 @@
 import ServiceCard from "./ServiceCard";
-import serviceBg from "../../assets/images/home3-service-bg.png"
+import passportBg from "../../assets/images/services/passport-services.jpg"
+import visaBg from "../../assets/images/services/visa-services.jpg"
+import airTicketBg from "../../assets/images/services/air-tickets.webp"
+import hotelBg from "../../assets/images/services/hotel.webp"
+import travelBg from "../../assets/images/services/travel-insurance.webp"
+import PRBg from "../../assets/images/services/PR.webp"
+import FRROBg from "../../assets/images/services/frro.webp"
+import OCIBg from "../../assets/images/services/oci-card.webp"
 
 const services = [
   {
     title: "Passport Assistance",
     subtitle: "Fresh • Renewal • Lost • Damaged",
-    image: serviceBg,
+    image: passportBg,
     href: "/passport",
+    featured: true,
+    highlight: "Most Popular",
   },
   {
     title: "Visa Services",
     subtitle: "Tourist • Business • Study • Work",
-    image: serviceBg,
+    image: visaBg,
     href: "/visa",
+    featured: true,
+    highlight: "High Demand",
   },
   {
     title: "Air Ticket",
     subtitle: "Domestic & International",
-    image: serviceBg,
+    image: airTicketBg,
     href: "/air-ticket",
   },
   {
     title: "Hotel Confirmation",
     subtitle: "Visa Purpose",
-    image: serviceBg,
+    image: hotelBg,
     href: "/hotel-confirmation",
   },
   {
     title: "Travel Insurance",
     subtitle: "Domestic & International",
-    image: serviceBg,
+    image: travelBg,
     href: "/travel-insurance",
   },
   {
     title: "Permanent Residence",
     subtitle: "Canada • Australia",
-    image: serviceBg,
+    image: PRBg,
     href: "/permanent-residence",
+    highlight: "Expert Handling",
   },
   {
     title: "FRRO Services",
     subtitle: "Registration & Extension",
-    image: serviceBg,
+    image: FRROBg,
     href: "/frro",
   },
   {
     title: "OCI Card",
     subtitle: "Application & Renewal",
-    image: serviceBg,
+    image: OCIBg,
     href: "/oci",
   },
 ];
 
+
 const ServicesGrid = () => {
   return (
     <section className="relative bg-white overflow-hidden">
-      {/* Soft background depth */}
+      {/* Background depth */}
       <div className="absolute -top-40 right-0 w-[28rem] h-[28rem] bg-blue-50 rounded-full blur-3xl opacity-60" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-28">
         <div className="grid lg:grid-cols-12 gap-16 items-start">
+          
           {/* Left Context */}
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-4 sticky top-32">
             <span className="inline-block text-sm font-semibold tracking-wide text-blue-700 uppercase mb-4">
               Our Services
             </span>
 
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">
-              Complete Immigration
+              End-to-End Immigration
               <br className="hidden sm:block" />
-              & Travel Solutions
+              & Travel Assistance
             </h2>
 
-            <p className="text-gray-600 text-lg leading-relaxed">
-              From visa applications to post-arrival documentation, we provide
-              reliable services tailored to your travel and migration needs.
+            <p className="text-gray-600 text-lg leading-relaxed mb-6">
+              We simplify complex government procedures with expert guidance,
+              accurate documentation, and dedicated support at every step.
             </p>
+
+            {/* Trust bullets */}
+            <ul className="space-y-3 text-gray-700">
+              <li>✔ Government-compliant process</li>
+              <li>✔ Experienced documentation experts</li>
+              <li>✔ Transparent pricing & timelines</li>
+            </ul>
           </div>
 
           {/* Services Grid */}

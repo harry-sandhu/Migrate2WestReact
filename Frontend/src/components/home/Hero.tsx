@@ -1,4 +1,4 @@
-import { useState } from "react";
+ import { useState } from "react";
 import Button from "../ui/Button";
 import { countries } from "../../assets/data/countries";
 import Lottie from "lottie-react";
@@ -37,14 +37,13 @@ export default function Hero() {
           </h1>
 
           <p className="text-gray-600 max-w-xl mx-auto lg:mx-0 text-lg">
-            Check visa requirements, choose your destination, and apply online
-            with expert guidance — all in one place.
+            Expert-led visa solutions with fast processing, accurate documentation, and global coverage.
           </p>
 
           {/* Actions */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
             <Button variant="primary" className="px-8">
-              Apply for Visa
+              Apply Now
             </Button>
 
             <a
@@ -84,7 +83,7 @@ export default function Hero() {
               className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
             >
               <option value="">Visa Type</option>
-              {["Travel", "Business", "Student", "Work", "Medical"].map((v) => (
+              {["Tourist", "Business", "Student", "Work", "Medical","Visitor(Family / Friend)","Dependent(Spouse / Children","Others"].map((v) => (
                 <option key={v}>{v} Visa</option>
               ))}
             </select>
