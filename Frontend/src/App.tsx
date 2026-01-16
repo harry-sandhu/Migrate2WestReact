@@ -29,6 +29,12 @@ import Footer from "./components/layout/Footer";
 import VisaDetail from "./pages/VisaDetail";
 import PaymentSuccess from "./pages/paymentSuccess";
 import ThankYou from "./pages/thankYou";
+import AirTicket from "./pages/airTicket";
+import HotelConfirmation from "./pages/hotelConfirmation";
+import TravelInsurance from "./pages/travelInsurance";
+import PermanentResidence from "./pages/permanentResidence";
+import FRRO from "./pages/frro";
+import OCI from "./pages/oci";
 
 function App() {
   return (
@@ -54,6 +60,25 @@ function App() {
 
         <Route path="/apply-visa" element={<ApplyVisa />} />
 
+        {/*Air Ticket */}
+        <Route path="/air-ticket" element={<AirTicket />} />
+
+        {/*Hotel Conformation */}
+        <Route path="/hotel-confirmation" element={<HotelConfirmation />} />
+
+        {/*Travel Insurance */}
+        <Route path="/travel-insurance" element={<TravelInsurance />} />
+        
+        {/*Travel Insurance */}
+        <Route path="/permanent-residence" element={<PermanentResidence />} />
+        
+        {/*Travel Insurance */}
+        <Route path="/frro" element={<FRRO />} />
+
+        {/*Travel Insurance */}
+        <Route path="/oci" element={<OCI />} />
+
+        
         {/* Passport flow */}
         <Route path="/passport" element={<Passport />} />
         <Route path="/passport/fresh" element={<PassportFresh />} />
