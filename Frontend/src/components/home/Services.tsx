@@ -1,47 +1,112 @@
-import touristImg from "../../assets/images/img4.jpeg";
-import businessImg from "../../assets/images/visa-img2.jpg";
-import studentImg from "../../assets/images/img6.jpg";
-import medicalImg from "../../assets/images/img5.jpeg";
-import workImg from "../../assets/images/img7.jpeg";
+import passportImg from "../../assets/images/services/passport-services.jpg";
+import visaImg from "../../assets/images/services/visa-services.jpg";
+import airTicketImg from "../../assets/images/services/air-tickets.webp";
+import hotelImg from "../../assets/images/services/hotel.webp";
+import travelImg from "../../assets/images/services/travel-insurance.webp";
+import PRImg from "../../assets/images/services/PR.webp";
+import FRROImg from "../../assets/images/services/frro.webp";
+import OCIImg from "../../assets/images/services/oci-card.webp";
+import tourImg from "../../assets/images/services/tour-packages.webp";
+import jobImg from "../../assets/images/services/job-assistance.webp";
+import careerImg from "../../assets/images/services/career.webp";
+import meetAssistImg from "../../assets/images/services/meet-assist.webp";
+import coachingImg from "../../assets/images/services/coaching.webp";
+
+import { Link } from "react-router-dom";
+
 
 const services = [
   {
-    title: "Tourist Visa",
-    image: touristImg,
-    desc: "Travel for leisure, sightseeing, or personal visits abroad.",
+    title: "Passport Assistance",
+    image: passportImg,
+    desc: "Fresh passport applications, renewals, lost or damaged passports.",
+    href: "/passport",
   },
   {
-    title: "Business Visa",
-    image: businessImg,
-    desc: "Attend meetings, conferences, or business negotiations.",
+    title: "Visa Services",
+    image: visaImg,
+    desc: "Tourist, business, study and work visa assistance.",
+    href: "/visa",
   },
   {
-    title: "Student Visa",
-    image: studentImg,
-    desc: "Study at accredited institutions across the globe.",
+    title: "Air Ticketing",
+    image: airTicketImg,
+    desc: "Domestic and international flight bookings at best prices.",
+    href: "/air-ticket",
   },
   {
-    title: "Medical Visa",
-    image: medicalImg,
-    desc: "Receive treatment from recognized international hospitals.",
+    title: "Hotel Confirmation",
+    image: hotelImg,
+    desc: "Verified hotel bookings for visa and travel purposes.",
+    href: "/hotel-confirmation",
   },
   {
-    title: "Work Visa",
-    image: workImg,
-    desc: "Live and work abroad legally with proper authorization.",
+    title: "Travel Insurance",
+    image: travelImg,
+    desc: "Mandatory and optional insurance coverage for travelers.",
+    href: "/travel-insurance",
+  },
+  {
+    title: "Permanent Residence",
+    image: PRImg,
+    desc: "PR application assistance for Canada and Australia.",
+    href: "/permanent-residence",
+  },
+  {
+    title: "FRRO Services",
+    image: FRROImg,
+    desc: "Foreigners registration, visa extension and compliance services.",
+    href: "/frro",
+  },
+  {
+    title: "OCI Card",
+    image: OCIImg,
+    desc: "OCI card application and renewal services for NRIs.",
+    href: "/oci",
+  },
+  {
+    title: "Tour Packages",
+    image: tourImg,
+    desc: "Domestic and international holiday packages.",
+    href: "/tour-packages",
+  },
+  {
+    title: "Job Assistance",
+    image: jobImg,
+    desc: "Resume building, job search and interview preparation.",
+    href: "/job-assistance",
+  },
+  {
+    title: "Career Counseling",
+    image: careerImg,
+    desc: "Career guidance for students and working professionals.",
+    href: "/career-counseling",
+  },
+  {
+    title: "Meet & Assist",
+    image: meetAssistImg,
+    desc: "Premium airport meet and greet assistance.",
+    href: "/meet-and-assist",
+  },
+  {
+    title: "Coaching",
+    image: coachingImg,
+    desc: "IELTS, PTE and CELPIP coaching programs.",
+    href: "/coaching",
   },
 ];
+
+
+
 
 export default function Services() {
   return (
     <section className="relative overflow-hidden bg-gray-50">
       {/* Background shapes */}
       <div className="pointer-events-none absolute inset-0">
-        {/* Gradient blobs */}
         <div className="absolute -top-32 -left-32 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-60" />
         <div className="absolute top-1/3 -right-40 w-[28rem] h-[28rem] bg-blue-50 rounded-full blur-3xl opacity-70" />
 
-        {/* Diagonal accent lines */}
         <div className="absolute top-20 left-1/4 w-64 h-px bg-blue-100 rotate-45" />
         <div className="absolute bottom-24 right-1/4 w-64 h-px bg-blue-100 rotate-45" />
       </div>
@@ -53,7 +118,7 @@ export default function Services() {
             What We Offer
           </h2>
           <p className="text-gray-600 mt-3">
-            Explore our most popular visa services, designed to make your
+            Explore our most popular services, designed to make your
             journey smooth and stress-free.
           </p>
         </div>
@@ -61,9 +126,10 @@ export default function Services() {
         {/* Services Grid */}
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((s) => (
-            <div
+            <Link
               key={s.title}
-              className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
+              to={s.href}
+              className="group block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
             >
               {/* Image */}
               <div className="relative h-48 overflow-hidden">
@@ -88,7 +154,7 @@ export default function Services() {
                   Learn More →
                 </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

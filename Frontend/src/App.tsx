@@ -35,6 +35,11 @@ import TravelInsurance from "./pages/travelInsurance";
 import PermanentResidence from "./pages/permanentResidence";
 import FRRO from "./pages/frro";
 import OCI from "./pages/oci";
+import TourPackages from "./pages/tourPackages";
+import JobAssistance from "./pages/jobAssistance";
+import CareerCounseling from "./pages/careerCounseling";
+import MeetAndAssist from "./pages/meetAndAssist";
+import Coaching from "./pages/coaching";
 
 function App() {
   return (
@@ -76,8 +81,22 @@ function App() {
         <Route path="/frro" element={<FRRO />} />
 
         {/*Travel Insurance */}
-        <Route path="/oci" element={<OCI />} />
+        <Route path="/tour-packages" element={<TourPackages />} />
+        
+        {/*Travel Insurance */}
+        <Route path="/job-assistance" element={<JobAssistance />} />
 
+        {/*Travel Insurance */}
+        <Route path="/career-counseling" element={<CareerCounseling />} />
+
+        {/*Travel Insurance */}
+        <Route path="/meet-and-assist" element={<MeetAndAssist />} />
+
+        {/*Travel Insurance */}
+        <Route path="/coaching" element={<Coaching />} />
+
+        {/*Travel Insurance */}
+        <Route path="/oci" element={<OCI />} />
         
         {/* Passport flow */}
         <Route path="/passport" element={<Passport />} />

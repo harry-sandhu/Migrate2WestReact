@@ -7,6 +7,11 @@ import travelBg from "../../assets/images/services/travel-insurance.webp"
 import PRBg from "../../assets/images/services/PR.webp"
 import FRROBg from "../../assets/images/services/frro.webp"
 import OCIBg from "../../assets/images/services/oci-card.webp"
+import tourBg from "../../assets/images/services/tour-packages.webp";
+import jobBg from "../../assets/images/services/job-assistance.webp";
+import careerBg from "../../assets/images/services/career.webp";
+import meetAssistBg from "../../assets/images/services/meet-assist.webp";
+import coachingBg from "../../assets/images/services/coaching.webp";
 
 const services = [
   {
@@ -61,6 +66,37 @@ const services = [
     subtitle: "Application & Renewal",
     image: OCIBg,
     href: "/oci",
+  },
+
+  {
+    title: "Tour Packages",
+    subtitle: "Domestic • International",
+    image: tourBg,
+    href: "/tour-packages",
+  },
+  {
+    title: "Job Assistance",
+    subtitle: "Resume • Interview • Career",
+    image: jobBg,
+    href: "/job-assistance",
+  },
+  {
+    title: "Career Counseling",
+    subtitle: "Young • Career Professionals",
+    image: careerBg,
+    href: "/career-counseling",
+  },
+  {
+    title: "Meet & Assist",
+    subtitle: "Airport Assistance",
+    image: meetAssistBg,
+    href: "/meet-and-assist",
+  },
+  {
+    title: "Coaching",
+    subtitle: "IELTS • PTE • CELPIP",
+    image: coachingBg,
+    href: "/coaching",
   },
 ];
 
