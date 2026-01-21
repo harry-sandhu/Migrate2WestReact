@@ -1,5 +1,7 @@
 import { Link, useLocation, Navigate } from "react-router-dom";
+import { useState } from "react";
 
+import qr from "../assets/images/qr.jpeg";
 /* ---------- Types ---------- */
 interface PaymentState {
   applicant: {
@@ -21,6 +23,7 @@ interface PaymentState {
 export default function Payment() {
   const location = useLocation();
   const state = location.state as PaymentState | null;
+  const [showQR, setShowQR] = useState(false);
 
   // Redirect if page is opened directly
   if (!state) {
@@ -65,7 +68,7 @@ export default function Payment() {
                 <div>
                   <p className="text-gray-600 mb-2">UPI ID</p>
                   <div className="bg-gray-100 rounded-xl px-4 py-3 font-medium">
-                    migrate2west@upi
+                    migrate2west@okhdfcbank
                   </div>
 
                   <p className="text-sm text-gray-500 mt-3">
@@ -74,12 +77,27 @@ export default function Payment() {
                 </div>
 
                 <div className="flex justify-center">
-                  <div className="w-40 h-40 bg-gray-100 rounded-xl flex items-center justify-center text-gray-400 text-sm">
-                    QR Code
-                    <br />
-                    (Scan & Pay)
-                  </div>
-                </div>
+  <img
+    src={qr}
+    alt="Scan & Pay QR"
+    className="w-40 h-40 rounded-xl cursor-pointer border bg-white"
+    onClick={() => setShowQR(true)}
+  />
+
+  {showQR && (
+    <div
+      className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center cursor-pointer"
+      onClick={() => setShowQR(false)}
+    >
+      <img
+        src={qr}
+        alt="QR Fullscreen"
+        className="max-w-[90vw] max-h-[90vh] rounded-2xl bg-white p-4"
+      />
+    </div>
+  )}
+</div>
+
               </div>
             </div>
 

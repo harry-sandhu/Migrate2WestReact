@@ -58,6 +58,12 @@ export default function Visa() {
             href: "/visa/spouse",
             active: true,
           },
+          {
+            title: "Family / Friend Visa(visitor)",
+            desc: "Join your Friend or family member living abroad.",
+            href: "/visa/visitor",
+            active: true,
+          },
         ]}
       />
 

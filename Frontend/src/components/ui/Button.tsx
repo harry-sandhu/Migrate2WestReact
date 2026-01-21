@@ -1,15 +1,16 @@
 import clsx from "clsx";
-import type { ReactNode } from "react";
+import type {
+  ReactNode,
+  ButtonHTMLAttributes,
+} from "react";
 
 type ButtonVariant = "primary" | "black" | "white" | "gold";
 
-interface ButtonProps {
+interface ButtonProps
+  extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   hoverText?: string;
   variant?: ButtonVariant;
-  className?: string;
-  type?: "button" | "submit";
-  disabled?: boolean; 
 }
 
 export default function Button({
@@ -18,7 +19,8 @@ export default function Button({
   variant = "primary",
   className,
   type = "button",
-  disabled = false, 
+  disabled = false,
+  ...props
 }: ButtonProps) {
   const base =
     "relative inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 \
@@ -58,11 +60,12 @@ export default function Button({
   return (
     <button
       type={type}
-      disabled={disabled} 
+      disabled={disabled}
+      {...props}
       className={clsx(
         base,
         variants[variant],
-        disabled && disabledStyles, 
+        disabled && disabledStyles,
         className
       )}
     >

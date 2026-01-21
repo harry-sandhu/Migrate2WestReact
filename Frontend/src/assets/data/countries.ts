@@ -2,7 +2,7 @@ export const countries = [
   "Afghanistan",
   "Albania",
   "Algeria",
-  "United States",
+  "United States of America",
   "Andorra",
   "Angola",
   "Antigua and Barbuda",

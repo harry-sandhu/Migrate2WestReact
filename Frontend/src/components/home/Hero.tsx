@@ -3,11 +3,13 @@ import Button from "../ui/Button";
 import { countries } from "../../assets/data/countries";
 import Lottie from "lottie-react";
 import flightMap from "../../assets/Flight_map.json";
+import { useNavigate } from "react-router-dom";
 
 export default function Hero() {
   const [citizen, setCitizen] = useState("");
   const [visa, setVisa] = useState("");
   const [destination, setDestination] = useState("");
+  const navigate = useNavigate();
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-100">
@@ -78,15 +80,21 @@ export default function Hero() {
             </select>
 
             <select
-              value={visa}
-              onChange={(e) => setVisa(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            >
-              <option value="">Visa Type</option>
-              {["Tourist", "Business", "Student", "Work", "Medical","Visitor(Family / Friend)","Dependent(Spouse / Children","Others"].map((v) => (
-                <option key={v}>{v} Visa</option>
-              ))}
-            </select>
+  value={visa}
+  onChange={(e) => setVisa(e.target.value)}
+  className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+>
+  <option value="">Visa Type</option>
+  <option value="tourist">Tourist Visa</option>
+  <option value="business">Business Visa</option>
+  <option value="student">Student Visa</option>
+  <option value="work">Work Visa</option>
+  <option value="medical">Medical Visa</option>
+  <option value="visitor">Visitor (Family / Friend)</option>
+  <option value="spouse">Dependent (Spouse / Children)</option>
+  <option value="other">Other Visa Type</option>
+</select>
+
 
             <select
               value={destination}
@@ -100,9 +108,25 @@ export default function Hero() {
             </select>
 
             <div className="md:col-span-2">
-              <Button variant="gold" className="w-full py-4 text-base">
-                Check Visa Requirements
-              </Button>
+              <Button
+  variant="gold"
+  className="w-full py-4 text-base"
+  onClick={() => {
+    if (!visa) {
+      alert("Please select a visa type");
+      return;
+    }
+
+    if (visa === "other") {
+      navigate("/contact");
+    } else {
+      navigate(`/visa/${visa}`);
+    }
+  }}
+>
+  Check Visa Requirements
+</Button>
+
             </div>
           </div>
         </div>
