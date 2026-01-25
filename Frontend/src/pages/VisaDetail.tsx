@@ -36,7 +36,8 @@ export default function VisaDetail() {
       <VisaHero visa={visa} />
 
       {/* Cost Estimator (VERY IMPORTANT) */}
-      <VisaCostEstimator visa={visa} />
+      <VisaCostEstimator visa={visa} slug={slug!} />
+
 
       {/* Eligibility Snapshot 4*/}
       <VisaEligibility visa={visa} />

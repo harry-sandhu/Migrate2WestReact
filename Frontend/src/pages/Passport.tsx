@@ -31,17 +31,20 @@ export default function Passport() {
           {
             title: "Renewal Passport",
             desc: "Renew your expired or expiring passport quickly and securely.",
-            active: false,
+            href: "/passport/renewal",
+            active: true,
           },
           {
             title: "Lost Passport",
             desc: "Reapply for a lost passport with proper legal and procedural guidance.",
-            active: false,
+            href:"/passport/lost",
+            active: true,
           },
           {
             title: "Damaged Passport",
             desc: "Replace your damaged passport with professional support.",
-            active: false,
+            href:"/passport/damaged",
+            active: true,
           },
         ]}
       />

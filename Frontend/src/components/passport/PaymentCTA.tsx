@@ -1,76 +1,69 @@
 import { Link } from "react-router-dom";
 
-/* ---------- Shared Payment State ---------- */
 export interface PaymentState {
+  serviceType: string;
+  serviceName: string;
+  subServiceName?: string;
+
   applicant: {
     name: string;
     phone: string;
     email: string;
   };
-  passportType: "normal" | "express" | "consultation";
-  applicantType: "adult" | "child";
-  selectedSlot: string | null;
+
+  selectedSlot?: string | null;
+
   breakdown: {
     basePrice: number;
-    expressConsultationFee: number;
+    additionalFee?: number;
   };
+
   totalAmount: number;
 }
 
-/* ---------- Props ---------- */
 interface Props {
   state: PaymentState;
+  disabled?: boolean;
 }
 
-/* ---------- Component ---------- */
-export default function PaymentCTA({ state }: Props) {
-  const { totalAmount, breakdown, selectedSlot } = state;
-
-  const isDisabled = !selectedSlot;
-
+export default function PaymentCTA({ state, disabled = false }: Props) {
   return (
     <div className="bg-white rounded-3xl shadow p-6 space-y-4">
-
       {/* SUMMARY */}
-      <div className="space-y-2 text-sm text-gray-700">
-        <div className="flex justify-between">
-          <span>Passport Service</span>
-          <span>₹{breakdown.basePrice}</span>
-        </div>
+      <div className="flex justify-between text-sm">
+        <span>
+          {state.serviceName}
+          {state.subServiceName && ` (${state.subServiceName})`}
+        </span>
+        <span>₹{state.breakdown.basePrice}</span>
+      </div>
 
-        {breakdown.expressConsultationFee > 0 && (
-          <div className="flex justify-between">
-            <span>Express Consultation</span>
-            <span>₹{breakdown.expressConsultationFee}</span>
-          </div>
-        )}
-
-        <div className="border-t pt-3 flex justify-between font-semibold text-base">
-          <span>Total Amount</span>
-          <span>₹{totalAmount}</span>
-        </div>
+      <div className="border-t pt-3 flex justify-between font-semibold">
+        <span>Total</span>
+        <span>₹{state.totalAmount}</span>
       </div>
 
       {/* CTA */}
       <Link
-        to={isDisabled ? "#" : "/payment"}
-        state={state}
-        className={`block text-center py-4 rounded-xl font-bold transition ${
-          isDisabled
-            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-            : "bg-blue-600 text-white hover:bg-blue-700"
-        }`}
+        to={disabled ? "#" : "/payment"}
+        state={disabled ? null : state}
         onClick={(e) => {
-          if (isDisabled) e.preventDefault();
+          if (disabled) e.preventDefault();
         }}
+        className={`block text-center py-4 rounded-xl font-bold transition
+          ${
+            disabled
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-blue-600 text-white hover:bg-blue-700"
+          }
+        `}
       >
-        Pay ₹{totalAmount} →
+        Pay ₹{state.totalAmount} →
       </Link>
 
-      {/* HELPER */}
-      {isDisabled && (
+      {disabled && (
         <p className="text-xs text-red-500 text-center">
-          Please select an appointment slot to continue
+          Please fill required details and select a slot to continue
         </p>
       )}
     </div>

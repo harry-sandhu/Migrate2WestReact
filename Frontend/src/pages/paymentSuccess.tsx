@@ -5,14 +5,23 @@ import { useLocation, Navigate, useNavigate } from "react-router-dom";
 type PaymentMethod = "upi" | "bank" | "qr";
 
 interface PaymentState {
+  serviceType: string;
+  serviceName: string;
+  subServiceName?: string;
+
   applicant: {
     name: string;
     phone: string;
     email: string;
   };
-  passportType: "normal" | "express" | "consultation";
-  applicantType: "adult" | "child";
-  selectedSlot: string;
+
+  selectedSlot?: string | null;
+
+  breakdown: {
+    basePrice: number;
+    additionalFee?: number;
+  };
+
   totalAmount: number;
 }
 
@@ -29,8 +38,8 @@ export default function PaymentSuccess() {
 
   const {
     applicant,
-    passportType,
-    applicantType,
+    serviceName,
+    subServiceName,
     selectedSlot,
     totalAmount,
   } = state;
@@ -101,21 +110,26 @@ export default function PaymentSuccess() {
         {/* SUMMARY */}
         <div className="bg-white rounded-3xl shadow p-6">
           <h3 className="font-semibold text-lg mb-4">
-            Application Summary
+            Service Summary
           </h3>
 
           <div className="text-sm text-gray-700 space-y-2">
             <p>
               <strong>Service:</strong>{" "}
-              {passportType === "consultation"
-                ? "Consultation Only"
-                : `${passportType} passport (${applicantType})`}
+              {serviceName}
+              {subServiceName && (
+                <span className="text-gray-500">
+                  {" "}({subServiceName})
+                </span>
+              )}
             </p>
 
-            <p>
-              <strong>Appointment:</strong>{" "}
-              {new Date(selectedSlot).toLocaleString()}
-            </p>
+            {selectedSlot && (
+              <p>
+                <strong>Appointment:</strong>{" "}
+                {new Date(selectedSlot).toLocaleString()}
+              </p>
+            )}
 
             <p className="font-semibold">
               <strong>Amount Paid:</strong> ₹{totalAmount}

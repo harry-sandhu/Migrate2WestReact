@@ -1,16 +1,18 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../ui/Button";
 import type { CountryCost, VisaDetail } from "../../utils/visaDetails";
 
 type Props = {
   visa: VisaDetail;
+  slug: string;
 };
 
-export default function VisaCostEstimator({ visa }: Props) {
+export default function VisaCostEstimator({ visa,slug }: Props) {
   const [country, setCountry] = useState<CountryCost | null>(null);
   const [people, setPeople] = useState(1);
   const [express, setExpress] = useState(false);
-
+  const navigate = useNavigate();
   const base = country?.baseCost ?? 0;
   const perPerson = visa.additionalCosts.perPerson * people;
   const expressFee = express
@@ -104,9 +106,48 @@ export default function VisaCostEstimator({ visa }: Props) {
             <span>₹ {total.toLocaleString()}</span>
           </div>
 
-          <Button variant="gold" className="w-full mt-4">
-            Proceed to Apply
-          </Button>
+          <Button
+          type="button"
+  variant="gold"
+  className="w-full mt-4"
+  disabled={!country}
+  onClick={() => {
+    if (!country) return;
+
+    navigate(`/visa/${slug}/slot`, {
+      state: {
+        serviceType: "visa",
+        serviceName: visa.title,
+        subServiceName: `${country.country} ${
+          express ? "Express" : "Normal"
+        }`,
+
+        applicant: {
+          name: "",
+          phone: "",
+          email: "",
+        },
+
+        selectedSlot: null,
+
+        breakdown: {
+          basePrice: total,
+        },
+
+        totalAmount: total,
+
+        meta: {
+          country: country.country,
+          people,
+          express,
+        },
+      },
+    });
+  }}
+>
+  Proceed to Apply
+</Button>
+
 
           <p className="text-xs text-gray-500 text-center">
             * Embassy fees not included. Final cost may vary.

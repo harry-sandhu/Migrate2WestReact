@@ -12,18 +12,18 @@ type PassportType = "normal" | "express" | "consultation";
 type ApplicantType = "adult" | "child";
 
 const bookedSlots = [
-  "2026-01-10T11:00",
-  "2026-01-10T14:00",
-  "2026-01-12T14:00",
+  "2026-01-11T11:00",
+  "2026-01-11T15:00",
+  "2026-01-13T14:00",
 ];
 
 const PRICES = {
-  normal: { adult: 2500, child: 1500 },
-  express: { adult: 3500, child: 2500 },
+  normal: { adult: 2000, child: 1200 },
+  express: { adult: 3000, child: 2200 },
   consultation: 500,
 };
 
-export default function PassportFresh() {
+export default function PassportRenewal() {
   const [step, setStep] = useState<Step>(1);
   const [completedStep1, setCompletedStep1] = useState(false);
 
@@ -46,31 +46,25 @@ export default function PassportFresh() {
 
   const now = new Date();
 
+  /* ✅ SLOT RULES (NO CONFLICTS) */
   function isSlotAllowed(slot: Date) {
     const diffHours =
       (slot.getTime() - now.getTime()) / (1000 * 60 * 60);
 
     const hour = slot.getHours();
-    const isNormalTime = hour >= 10 && hour < 20;
-
-    if (diffHours < 12) return false;
+    const isOfficeTime = hour >= 10 && hour < 18;
+    if (!isOfficeTime) return false;
 
     if (passportType === "consultation") {
-      if (diffHours < 24) return false;
-      return isNormalTime;
-    }
-
-    if (passportType === "normal") {
-      if (diffHours < 24) return false;
-      return isNormalTime;
+      return diffHours >= 24;
     }
 
     if (passportType === "express") {
-      if (diffHours >= 12 && diffHours < 24) return true;
-      return isNormalTime;
+      return diffHours >= 12;
     }
 
-    return false;
+    // normal renewal
+    return diffHours >= 24;
   }
 
   useEffect(() => {
@@ -82,6 +76,7 @@ export default function PassportFresh() {
     }
   }, [passportType]);
 
+  /* ✅ PRICE LOGIC (SAFE) */
   const basePrice =
     passportType === "consultation"
       ? PRICES.consultation
@@ -91,20 +86,21 @@ export default function PassportFresh() {
 
   const subServiceName =
     passportType === "consultation"
-      ? "Consultation"
+      ? "Passport Renewal Consultation"
       : passportType === "express"
-      ? "Express Passport"
-      : "Normal Passport";
+      ? "Passport Renewal (Express)"
+      : "Passport Renewal (Normal)";
 
   return (
     <div className="min-h-screen bg-[#f7f9fc]">
 
       <PageBanner
-        title="Apply for Passport"
+        title="Passport Renewal"
         bgImage="/src/assets/images/About-Us-Page.webp"
         breadcrumbs={[
           { label: "Home", href: "/" },
-          { label: "Passport" },
+          { label: "Passport", href: "/passport" },
+          { label: "Renewal" },
         ]}
       />
 
@@ -113,10 +109,10 @@ export default function PassportFresh() {
 
           <div className="text-center mb-8">
             <h2 className="text-xl md:text-2xl font-semibold text-gray-900">
-              Passport Application Process
+              Passport Renewal Process
             </h2>
             <p className="text-gray-600 mt-2 text-sm md:text-base">
-              Follow the steps below to complete your application
+              Renew or consult with our passport experts
             </p>
           </div>
 
@@ -148,6 +144,7 @@ export default function PassportFresh() {
           {step === 2 && (
             <div className="space-y-10">
 
+              {/* ✅ CONSULTATION ENABLED */}
               <ApplicationType
                 passportType={passportType}
                 applicantType={applicantType}
@@ -165,7 +162,7 @@ export default function PassportFresh() {
               <PaymentCTA
                 state={{
                   serviceType: "passport",
-                  serviceName: "Passport Application",
+                  serviceName: "Passport Renewal",
                   subServiceName,
                   applicant: form,
                   selectedSlot,

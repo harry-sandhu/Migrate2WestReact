@@ -16,6 +16,7 @@ import ApplyVisa from "./pages/ApplyVisa";
 
 import Passport from "./pages/Passport";
 import PassportFresh from "./pages/Passportfresh";
+import PassportRenewal from "./pages/passportRenewal";
 import Payment from "./pages/Payment";
 
 import Application from "./pages/Application";
@@ -40,6 +41,9 @@ import JobAssistance from "./pages/jobAssistance";
 import CareerCounseling from "./pages/careerCounseling";
 import MeetAndAssist from "./pages/meetAndAssist";
 import Coaching from "./pages/coaching";
+import PassportLost from "./pages/passportLost";
+import PassportDamaged from "./pages/passportDamaged";
+import VisaSlot from "./pages/Visaslot";
 
 function App() {
   return (
@@ -62,6 +66,7 @@ function App() {
         {/* Visa */}
         <Route path="/visa" element={<Visa />} />
         <Route path="/visa/:slug" element={<VisaDetail />} />
+        <Route path="/visa/:slug/slot" element={<VisaSlot />} />
 
         <Route path="/apply-visa" element={<ApplyVisa />} />
 
@@ -101,6 +106,9 @@ function App() {
         {/* Passport flow */}
         <Route path="/passport" element={<Passport />} />
         <Route path="/passport/fresh" element={<PassportFresh />} />
+        <Route path="/passport/renewal" element={<PassportRenewal />} />
+        <Route path="/passport/lost" element={<PassportLost />} />
+        <Route path="/passport/damaged" element={<PassportDamaged />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
         <Route path="/thank-you" element={<ThankYou/>} />

@@ -17,24 +17,44 @@ export default function Coaching() {
 
       <ServiceIntro
         title="Language & Exam Coaching"
-        description="Prepare confidently for international language exams with expert coaching and structured study plans."
+        description="Prepare confidently for international language and entrance exams with expert trainers, structured plans, and personalized guidance."
       />
 
       <SubServiceGrid
         services={[
           {
             title: "IELTS Coaching",
-            desc: "Comprehensive IELTS preparation for study, work, and migration.",
+            desc: "IELTS preparation for General, Academic, Medical & DULAT. (30 Hours)",
             active: true,
           },
           {
             title: "PTE Coaching",
-            desc: "Targeted PTE training with exam-focused strategies.",
+            desc: "PTE Academic & PTE Core coaching with exam-focused strategies. (30 Hours)",
             active: true,
           },
           {
             title: "CELPIP Coaching",
-            desc: "Specialized CELPIP preparation for Canada immigration.",
+            desc: "Specialized CELPIP training for Canada immigration. (30 Hours)",
+            active: true,
+          },
+          {
+            title: "GRE / GMAT / SAT",
+            desc: "Comprehensive preparation for international entrance exams. (40 Hours)",
+            active: true,
+          },
+          {
+            title: "OET Coaching",
+            desc: "OET preparation for Nursing & Medicine professionals. (30 Hours)",
+            active: true,
+          },
+          {
+            title: "French Language",
+            desc: "Beginner to intermediate French language coaching. (30 Hours)",
+            active: true,
+          },
+          {
+            title: "German Language",
+            desc: "German language training for study, work & migration. (30 Hours)",
             active: true,
           },
         ]}

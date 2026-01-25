@@ -4,14 +4,18 @@ import logo from "../assets/images/logo.png";
 
 /* ---------------- TYPES ---------------- */
 interface ThankYouState {
+  serviceType: string;
+  serviceName: string;
+  subServiceName?: string;
+
   applicant: {
     name: string;
     phone: string;
     email: string;
   };
-  passportType: "normal" | "express" | "consultation";
-  applicantType: "adult" | "child";
-  selectedSlot: string | null;
+
+  selectedSlot?: string | null;
+
   totalAmount: number;
   referenceId: string;
   status: string;
@@ -30,8 +34,8 @@ export default function ThankYou() {
 
   const {
     applicant,
-    passportType,
-    applicantType,
+    serviceName,
+    subServiceName,
     selectedSlot,
     totalAmount,
     referenceId,
@@ -103,15 +107,17 @@ export default function ThankYou() {
     /* SERVICE */
     row(
       "Service:",
-      passportType === "consultation"
-        ? "Consultation Only"
-        : `${passportType} Passport (${applicantType})`
+      subServiceName
+        ? `${serviceName} (${subServiceName})`
+        : serviceName
     );
 
-    row(
-      "Appointment:",
-      selectedSlot ? new Date(selectedSlot).toLocaleString() : "Not selected"
-    );
+    if (selectedSlot) {
+      row(
+        "Appointment:",
+        new Date(selectedSlot).toLocaleString()
+      );
+    }
 
     row("Payment Method:", paymentMethod.toUpperCase());
 
@@ -165,7 +171,7 @@ export default function ThankYou() {
         {/* STATUS CARD */}
         <div className="bg-white rounded-3xl shadow p-6 space-y-4">
           <div className="flex justify-between items-center">
-            <h3 className="font-semibold text-lg">Application Status</h3>
+            <h3 className="font-semibold text-lg">Payment Status</h3>
             <span className="px-4 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-700">
               {status}
             </span>
@@ -179,16 +185,16 @@ export default function ThankYou() {
             </p>
             <p>
               <strong>Service:</strong>{" "}
-              {passportType === "consultation"
-                ? "Consultation Only"
-                : `${passportType} passport (${applicantType})`}
+              {subServiceName
+                ? `${serviceName} (${subServiceName})`
+                : serviceName}
             </p>
-            <p>
-              <strong>Appointment:</strong>{" "}
-              {selectedSlot
-                ? new Date(selectedSlot).toLocaleString()
-                : "Not selected"}
-            </p>
+            {selectedSlot && (
+              <p>
+                <strong>Appointment:</strong>{" "}
+                {new Date(selectedSlot).toLocaleString()}
+              </p>
+            )}
             <p>
               <strong>Payment Method:</strong>{" "}
               {paymentMethod.toUpperCase()}

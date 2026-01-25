@@ -12,18 +12,18 @@ type PassportType = "normal" | "express" | "consultation";
 type ApplicantType = "adult" | "child";
 
 const bookedSlots = [
-  "2026-01-10T11:00",
-  "2026-01-10T14:00",
-  "2026-01-12T14:00",
+  "2026-01-12T11:00",
+  "2026-01-12T15:00",
+  "2026-01-14T14:00",
 ];
 
 const PRICES = {
-  normal: { adult: 2500, child: 1500 },
-  express: { adult: 3500, child: 2500 },
-  consultation: 500,
+  normal: { adult: 3500, child: 2500 },
+  express: { adult: 4500, child: 3500 },
+  consultation: 800,
 };
 
-export default function PassportFresh() {
+export default function PassportLost() {
   const [step, setStep] = useState<Step>(1);
   const [completedStep1, setCompletedStep1] = useState(false);
 
@@ -46,31 +46,25 @@ export default function PassportFresh() {
 
   const now = new Date();
 
+  /* SLOT RULES — stricter for lost passports */
   function isSlotAllowed(slot: Date) {
     const diffHours =
       (slot.getTime() - now.getTime()) / (1000 * 60 * 60);
 
     const hour = slot.getHours();
-    const isNormalTime = hour >= 10 && hour < 20;
-
-    if (diffHours < 12) return false;
+    const isOfficeTime = hour >= 10 && hour < 18;
+    if (!isOfficeTime) return false;
 
     if (passportType === "consultation") {
-      if (diffHours < 24) return false;
-      return isNormalTime;
-    }
-
-    if (passportType === "normal") {
-      if (diffHours < 24) return false;
-      return isNormalTime;
+      return diffHours >= 24;
     }
 
     if (passportType === "express") {
-      if (diffHours >= 12 && diffHours < 24) return true;
-      return isNormalTime;
+      return diffHours >= 12;
     }
 
-    return false;
+    // normal lost passport
+    return diffHours >= 48;
   }
 
   useEffect(() => {
@@ -91,20 +85,21 @@ export default function PassportFresh() {
 
   const subServiceName =
     passportType === "consultation"
-      ? "Consultation"
+      ? "Lost Passport Consultation"
       : passportType === "express"
-      ? "Express Passport"
-      : "Normal Passport";
+      ? "Lost Passport (Express)"
+      : "Lost Passport (Normal)";
 
   return (
     <div className="min-h-screen bg-[#f7f9fc]">
 
       <PageBanner
-        title="Apply for Passport"
+        title="Lost Passport"
         bgImage="/src/assets/images/About-Us-Page.webp"
         breadcrumbs={[
           { label: "Home", href: "/" },
-          { label: "Passport" },
+          { label: "Passport", href: "/passport" },
+          { label: "Lost Passport" },
         ]}
       />
 
@@ -113,10 +108,10 @@ export default function PassportFresh() {
 
           <div className="text-center mb-8">
             <h2 className="text-xl md:text-2xl font-semibold text-gray-900">
-              Passport Application Process
+              Lost Passport Application Process
             </h2>
             <p className="text-gray-600 mt-2 text-sm md:text-base">
-              Follow the steps below to complete your application
+              Assistance for lost passport cases with expert guidance
             </p>
           </div>
 
@@ -148,6 +143,7 @@ export default function PassportFresh() {
           {step === 2 && (
             <div className="space-y-10">
 
+              {/* CONSULTATION ENABLED */}
               <ApplicationType
                 passportType={passportType}
                 applicantType={applicantType}
@@ -165,7 +161,7 @@ export default function PassportFresh() {
               <PaymentCTA
                 state={{
                   serviceType: "passport",
-                  serviceName: "Passport Application",
+                  serviceName: "Lost Passport",
                   subServiceName,
                   applicant: form,
                   selectedSlot,

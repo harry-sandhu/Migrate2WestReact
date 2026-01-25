@@ -10,20 +10,27 @@ import PageBanner from "../components/ui/PageBanner";
 type Step = 1 | 2;
 type PassportType = "normal" | "express" | "consultation";
 type ApplicantType = "adult" | "child";
+type DamageType = "minor" | "major";
 
 const bookedSlots = [
-  "2026-01-10T11:00",
-  "2026-01-10T14:00",
-  "2026-01-12T14:00",
+  "2026-01-13T11:00",
+  "2026-01-13T15:00",
+  "2026-01-15T14:00",
 ];
 
 const PRICES = {
-  normal: { adult: 2500, child: 1500 },
-  express: { adult: 3500, child: 2500 },
-  consultation: 500,
+  normal: {
+    adult: { minor: 3000, major: 4000 },
+    child: { minor: 2000, major: 3000 },
+  },
+  express: {
+    adult: { minor: 4000, major: 5000 },
+    child: { minor: 3000, major: 4000 },
+  },
+  consultation: 700,
 };
 
-export default function PassportFresh() {
+export default function PassportDamaged() {
   const [step, setStep] = useState<Step>(1);
   const [completedStep1, setCompletedStep1] = useState(false);
 
@@ -37,6 +44,8 @@ export default function PassportFresh() {
     useState<PassportType>("normal");
   const [applicantType, setApplicantType] =
     useState<ApplicantType>("adult");
+  const [damageType, setDamageType] =
+    useState<DamageType>("minor");
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
 
   const isValid =
@@ -46,31 +55,25 @@ export default function PassportFresh() {
 
   const now = new Date();
 
+  /* SLOT RULES — damaged passport */
   function isSlotAllowed(slot: Date) {
     const diffHours =
       (slot.getTime() - now.getTime()) / (1000 * 60 * 60);
 
     const hour = slot.getHours();
-    const isNormalTime = hour >= 10 && hour < 20;
-
-    if (diffHours < 12) return false;
+    const isOfficeTime = hour >= 10 && hour < 18;
+    if (!isOfficeTime) return false;
 
     if (passportType === "consultation") {
-      if (diffHours < 24) return false;
-      return isNormalTime;
-    }
-
-    if (passportType === "normal") {
-      if (diffHours < 24) return false;
-      return isNormalTime;
+      return diffHours >= 24;
     }
 
     if (passportType === "express") {
-      if (diffHours >= 12 && diffHours < 24) return true;
-      return isNormalTime;
+      return diffHours >= 24;
     }
 
-    return false;
+    // normal damaged passport
+    return diffHours >= 48;
   }
 
   useEffect(() => {
@@ -82,29 +85,29 @@ export default function PassportFresh() {
     }
   }, [passportType]);
 
+  /* PRICE LOGIC */
   const basePrice =
     passportType === "consultation"
       ? PRICES.consultation
-      : PRICES[passportType][applicantType];
+      : PRICES[passportType][applicantType][damageType];
 
   const totalAmount = basePrice;
 
   const subServiceName =
     passportType === "consultation"
-      ? "Consultation"
-      : passportType === "express"
-      ? "Express Passport"
-      : "Normal Passport";
+      ? "Damaged Passport Consultation"
+      : `Damaged Passport (${passportType}, ${damageType})`;
 
   return (
     <div className="min-h-screen bg-[#f7f9fc]">
 
       <PageBanner
-        title="Apply for Passport"
+        title="Damaged Passport"
         bgImage="/src/assets/images/About-Us-Page.webp"
         breadcrumbs={[
           { label: "Home", href: "/" },
-          { label: "Passport" },
+          { label: "Passport", href: "/passport" },
+          { label: "Damaged Passport" },
         ]}
       />
 
@@ -113,10 +116,10 @@ export default function PassportFresh() {
 
           <div className="text-center mb-8">
             <h2 className="text-xl md:text-2xl font-semibold text-gray-900">
-              Passport Application Process
+              Damaged Passport Application Process
             </h2>
             <p className="text-gray-600 mt-2 text-sm md:text-base">
-              Follow the steps below to complete your application
+              Apply for a replacement passport in case of damage
             </p>
           </div>
 
@@ -148,12 +151,56 @@ export default function PassportFresh() {
           {step === 2 && (
             <div className="space-y-10">
 
+              {/* PASSPORT TYPE */}
               <ApplicationType
                 passportType={passportType}
                 applicantType={applicantType}
                 onPassportChange={setPassportType}
                 onApplicantChange={setApplicantType}
               />
+
+              {/* DAMAGE TYPE */}
+              {passportType !== "consultation" && (
+                <div className="bg-white rounded-3xl shadow p-6 space-y-4">
+                  <h3 className="font-semibold text-lg">
+                    Damage Type
+                  </h3>
+
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {[
+                      {
+                        key: "minor",
+                        label: "Minor Damage",
+                        desc: "Torn pages, faded print, small water marks",
+                      },
+                      {
+                        key: "major",
+                        label: "Major Damage",
+                        desc: "Burnt, missing pages, unreadable details",
+                      },
+                    ].map((d) => (
+                      <button
+                        key={d.key}
+                        onClick={() =>
+                          setDamageType(d.key as DamageType)
+                        }
+                        className={`p-4 rounded-xl border text-left transition ${
+                          damageType === d.key
+                            ? "border-blue-600 bg-blue-50"
+                            : "border-gray-200 hover:border-gray-300"
+                        }`}
+                      >
+                        <div className="font-medium">
+                          {d.label}
+                        </div>
+                        <div className="text-sm text-gray-600">
+                          {d.desc}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               <SlotPicker
                 bookedSlots={bookedSlots}
@@ -165,7 +212,7 @@ export default function PassportFresh() {
               <PaymentCTA
                 state={{
                   serviceType: "passport",
-                  serviceName: "Passport Application",
+                  serviceName: "Damaged Passport",
                   subServiceName,
                   applicant: form,
                   selectedSlot,
