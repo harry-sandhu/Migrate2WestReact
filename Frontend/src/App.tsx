@@ -44,6 +44,8 @@ import Coaching from "./pages/coaching";
 import PassportLost from "./pages/passportLost";
 import PassportDamaged from "./pages/passportDamaged";
 import VisaSlot from "./pages/Visaslot";
+import AirTicketApply from "./pages/AirTicketApply";
+import HotelConfirmationApply from "./pages/HotelConfirmationApply";
 
 function App() {
   return (
@@ -72,9 +74,14 @@ function App() {
 
         {/*Air Ticket */}
         <Route path="/air-ticket" element={<AirTicket />} />
+        <Route path="/air-tickets/apply/:slug" element={<AirTicketApply />} />
 
         {/*Hotel Conformation */}
         <Route path="/hotel-confirmation" element={<HotelConfirmation />} />
+        <Route
+  path="/hotel-confirmation/apply/:slug"
+  element={<HotelConfirmationApply />}
+/>
 
         {/*Travel Insurance */}
         <Route path="/travel-insurance" element={<TravelInsurance />} />

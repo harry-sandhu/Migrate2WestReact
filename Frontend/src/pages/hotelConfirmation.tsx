@@ -26,23 +26,25 @@ export default function HotelConfirmation() {
             title: "Visa Purpose Hotel Confirmation",
             desc: "Hotel booking confirmation accepted for visa and embassy submissions.",
             active: true,
-            // later → href: "/hotel-confirmation/visa"
+            href: "/hotel-confirmation/apply/visa-purpose",
           },
           {
             title: "Dummy Hotel Booking",
             desc: "Temporary hotel reservation for visa application and documentation needs.",
             active: true,
-            // later → href: "/hotel-confirmation/dummy"
+            href: "/hotel-confirmation/apply/dummy-booking",
           },
           {
             title: "International Hotel Booking",
             desc: "Confirmed hotel bookings for international travel plans.",
-            active: false,
+            active: true,
+            href: "/hotel-confirmation/apply/international",
           },
           {
             title: "Group & Long-Stay Booking",
             desc: "Hotel confirmations for group travel and extended stays.",
-            active: false,
+            active: true,
+            href: "/hotel-confirmation/apply/group-longstay",
           },
         ]}
       />

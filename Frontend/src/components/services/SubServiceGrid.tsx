@@ -5,8 +5,7 @@ import Button from "../ui/Button";
 type SubService = {
   title: string;
   desc: string;
-  active: boolean;
-  href?: string;
+  href: string;
 };
 
 type Props = {
@@ -14,7 +13,7 @@ type Props = {
 };
 
 export default function SubServiceGrid({ services }: Props) {
-  // 👇 FIRST CARD SELECTED BY DEFAULT
+  // First card selected by default
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   return (
@@ -31,7 +30,7 @@ export default function SubServiceGrid({ services }: Props) {
             return (
               <div
                 key={item.title}
-                onClick={() => setSelectedIndex(index)} // 👈 CHANGE SELECTION
+                onClick={() => setSelectedIndex(index)}
                 className={`group relative rounded-3xl p-7 transition-all duration-300 cursor-pointer
                   ${
                     isSelected
@@ -39,13 +38,6 @@ export default function SubServiceGrid({ services }: Props) {
                       : "bg-white/80 backdrop-blur border border-gray-100 hover:-translate-y-1 hover:shadow-xl"
                   }`}
               >
-                {/* Coming soon badge */}
-                {!item.active && (
-                  <span className="absolute top-5 right-5 text-xs font-semibold bg-blue-50 text-blue-600 px-3 py-1 rounded-full">
-                    Coming Soon
-                  </span>
-                )}
-
                 {/* Icon */}
                 <div
                   className={`h-12 w-12 rounded-xl mb-6 flex items-center justify-center
@@ -71,20 +63,17 @@ export default function SubServiceGrid({ services }: Props) {
                 </p>
 
                 {/* CTA */}
-                {item.active && item.href ? (
-                  <Link to={item.href} onClick={(e) => e.stopPropagation()}>
-                    <Button
-                      variant="white"
-                      className="w-full bg-white text-blue-700 hover:bg-gray-100"
-                    >
-                      Apply Now →
-                    </Button>
-                  </Link>
-                ) : (
-                  <div className="text-sm font-medium text-gray-400">
-                    Launching soon
-                  </div>
-                )}
+                <Link
+                  to={item.href}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Button
+                    variant="white"
+                    className="w-full bg-white text-blue-700 hover:bg-gray-100"
+                  >
+                    Apply Now →
+                  </Button>
+                </Link>
               </div>
             );
           })}

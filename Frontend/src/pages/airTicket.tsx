@@ -21,31 +21,30 @@ export default function AirTicket() {
       />
 
       <SubServiceGrid
-        services={[
-          {
-            title: "Domestic Air Tickets",
-            desc: "Book affordable and convenient flights across India with trusted airlines.",
-            active: true,
-            // later → href: "/air-ticket/domestic"
-          },
-          {
-            title: "International Air Tickets",
-            desc: "Fly worldwide with competitive fares and end-to-end booking support.",
-            active: true,
-            // later → href: "/air-ticket/international"
-          },
-          {
-            title: "Group Bookings",
-            desc: "Special assistance and pricing for group and corporate travel.",
-            active: false,
-          },
-          {
-            title: "Flight Rescheduling & Cancellation",
-            desc: "Support for rescheduling, cancellations, and refund processing.",
-            active: false,
-          },
-        ]}
-      />
+  services={[
+    {
+      title: "Domestic Air Tickets",
+      desc: "Book affordable and convenient flights across India with trusted airlines.",
+    
+      href: "/air-tickets/apply/domestic",
+    },
+    {
+      title: "International Air Tickets",
+      desc: "Fly worldwide with competitive fares and end-to-end booking support.",
+      href: "/air-tickets/apply/international",
+    },
+    {
+      title: "Group Bookings",
+      desc: "Special assistance and pricing for group and corporate travel.",
+      href: "/air-tickets/apply/group",
+    },
+    {
+      title: "Flight Rescheduling & Cancellation",
+      desc: "Support for rescheduling, cancellations, and refund processing.",
+      href: "/air-tickets/apply/reschedule-cancellation",
+    },
+  ]}
+/>
 
       <ServicesCTA />
     </>
