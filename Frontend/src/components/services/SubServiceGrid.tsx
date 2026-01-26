@@ -5,7 +5,7 @@ import Button from "../ui/Button";
 type SubService = {
   title: string;
   desc: string;
-  href: string;
+  href?: string;
   active?: boolean;
 };
 
