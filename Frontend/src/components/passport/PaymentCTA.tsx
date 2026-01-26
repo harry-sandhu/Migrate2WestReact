@@ -29,6 +29,16 @@ export interface PaymentState {
 
     notes?: string;
   };
+  
+  hotelDetails?: {
+    city: string;
+    country: string;
+    checkIn: string;
+    checkOut: string;
+    rooms: number;
+    guests: number;
+    notes?: string;
+  };
 
   selectedSlot?: string | null;
 

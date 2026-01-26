@@ -45,7 +45,7 @@ export default function VisaSlot() {
 
   const {
     serviceName,
-    subServiceName,
+    
     totalAmount,
     breakdown,
     meta,
