@@ -78,11 +78,7 @@ export default function AirTicketApply() {
           {/* DESCRIPTION */}
           <div className="text-center max-w-2xl mx-auto">
             <p className="text-gray-600">{config.description}</p>
-            {config.comingSoon && (
-              <p className="mt-3 text-sm text-yellow-600 font-medium">
-                🚧 This service is launching soon
-              </p>
-            )}
+            
           </div>
 
           {/* APPLICATION FORM */}
@@ -114,7 +110,7 @@ export default function AirTicketApply() {
 
           {/* PAYMENT */}
           <PaymentCTA
-            disabled={!isValid || config.comingSoon}
+            disabled={!isValid}
             state={{
               serviceType: "air-ticket",
               serviceName: "Air Tickets",
