@@ -64,6 +64,7 @@ export default function SubServiceGrid({ services }: Props) {
                 </p>
 
                 {/* CTA */}
+                {item.href &&(
                 <Link
                   to={item.href}
                   onClick={(e) => e.stopPropagation()}
@@ -74,7 +75,7 @@ export default function SubServiceGrid({ services }: Props) {
                   >
                     Apply Now →
                   </Button>
-                </Link>
+                </Link>)}
               </div>
             );
           })}

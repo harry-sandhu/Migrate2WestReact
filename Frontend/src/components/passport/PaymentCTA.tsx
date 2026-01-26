@@ -10,6 +10,25 @@ export interface PaymentState {
     phone: string;
     email: string;
   };
+  
+  flightDetails?: {
+    fromCountry: string;
+    toCountry: string;
+
+    fromAirport: string;
+    toAirport: string;
+    layoverAirport?: string;
+
+    tripType: "one-way" | "round-trip";
+    departureDate: string;
+    returnDate?: string;
+
+    adults: number;
+    children: number;
+    infants: number;
+
+    notes?: string;
+  };
 
   selectedSlot?: string | null;
 
