@@ -114,7 +114,7 @@ export default function Services() {
       <div className="relative max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-16 md:py-20">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-14">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+          <h2 className="text-2xl md:text-3xl font-bold text-blue-600">
             What We Offer
           </h2>
           <p className="text-gray-600 mt-3">
@@ -143,7 +143,7 @@ export default function Services() {
 
               {/* Content */}
               <div className="p-6">
-                <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                <h4 className="text-lg font-semibold text-blue-600 mb-2">
                   {s.title}
                 </h4>
                 <p className="text-sm text-gray-600 mb-4">

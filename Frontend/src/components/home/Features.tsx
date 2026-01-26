@@ -33,7 +33,7 @@ export default function Features() {
       <div className="relative max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-16 md:py-20">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-14">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+          <h2 className="text-2xl md:text-3xl font-bold text-blue-600">
             Trusted by Thousands Worldwide
           </h2>
           <p className="text-gray-600 mt-3 text-lg">

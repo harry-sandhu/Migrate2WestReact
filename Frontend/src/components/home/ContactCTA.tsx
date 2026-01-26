@@ -20,7 +20,7 @@ export default function ContactCTA() {
               Need Visa Assistance?
             </span>
 
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">
+            <h2 className="text-3xl md:text-4xl font-bold text-blue-600 mb-6 leading-tight">
               Speak with a Visa Expert <br />
               Before You Apply
             </h2>
@@ -32,7 +32,7 @@ export default function ContactCTA() {
 
             <div className="flex flex-col sm:flex-row sm:items-center gap-4">
               <Link to="/contact">
-  <Button variant="gold" className="px-10 py-4 text-base w-full sm:w-auto">
+  <Button variant="primary" className="px-10 py-4 text-base w-full sm:w-auto">
     Schedule a Consultation
   </Button>
 </Link>

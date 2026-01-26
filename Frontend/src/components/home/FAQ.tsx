@@ -55,7 +55,7 @@ export default function FAQ() {
       >
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+          <h2 className="text-3xl md:text-4xl font-bold text-blue-600">
             Frequently Asked Questions
           </h2>
           <p className="text-gray-600 mt-4 text-lg">

@@ -4,6 +4,7 @@ import { countries } from "../../assets/data/countries";
 import Lottie from "lottie-react";
 import flightMap from "../../assets/Flight_map.json";
 import { useNavigate } from "react-router-dom";
+import { FaPaperPlane, FaWhatsapp, FaPhone } from "react-icons/fa";
 
 export default function Hero() {
   const [citizen, setCitizen] = useState("");
@@ -33,7 +34,7 @@ export default function Hero() {
             Trusted Visa Assistance
           </span>
 
-          <h1 className="text-4xl md:text-5xl xl:text-6xl font-bold leading-tight text-gray-900">
+          <h1 className="text-4xl md:text-5xl xl:text-6xl font-bold leading-tight text-blue-600">
             Fast & Hassle-Free <br />
             <span className="text-blue-600">Visa Processing</span>
           </h1>
@@ -44,24 +45,35 @@ export default function Hero() {
 
           {/* Actions */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-            <Button variant="primary" className="px-8">
-              Apply Now
-            </Button>
+  <Button
+    variant="primary"
+    className="px-8 inline-flex items-center gap-2"
+  >
+    <FaPaperPlane className="text-blue-600" />
+    Apply Now
+  </Button>
 
-            <a
-              href="https://wa.me/919217113001"
-              className="inline-flex items-center justify-center rounded-xl px-8 py-3 text-sm font-semibold text-white bg-green-500 hover:bg-green-600 transition shadow-md"
-            >
-              WhatsApp Expert
-            </a>
+  <a
+    href="https://wa.me/919217113001"
+    className="inline-flex items-center justify-center gap-2 rounded-xl px-8 py-3 text-sm font-semibold text-white bg-green-500 hover:bg-green-600 transition shadow-md"
+  >
+    <FaWhatsapp className="text-blue-600" />
+    WhatsApp Expert
+  </a>
 
-            <a
-              href="tel:+919217113001"
-              className="inline-flex items-center justify-center rounded-xl px-8 py-3 text-sm font-semibold text-white bg-black hover:bg-gray-900 transition shadow-md"
-            >
-              Call Now
-            </a>
-          </div>
+  <Button
+  variant="primary"
+  className="px-8 py-3 inline-flex items-center justify-center gap-2 min-w-[220px]"
+  onClick={() => (window.location.href = "tel:+919217113001")}
+>
+  <FaPhone className="text-blue-600 text-lg shrink-0" />
+  <span className="whitespace-nowrap">Contact Us</span>
+</Button>
+
+
+
+</div>
+
         </div>
 
         {/* Right Filter Card */}
@@ -109,7 +121,7 @@ export default function Hero() {
 
             <div className="md:col-span-2">
               <Button
-  variant="gold"
+  variant="primary"
   className="w-full py-4 text-base"
   onClick={() => {
     if (!visa) {
