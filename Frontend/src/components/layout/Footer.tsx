@@ -46,7 +46,7 @@ export default function Footer() {
           <p className="text-sm leading-relaxed text-gray-400">
             <span className="font-semibold text-gray-200">New Delhi</span>
             <br />
-            Address will be revealed soon.
+            Gp-57, Landmark Near Ndpl Office, Saraswati Vihar,North West Delhi,Delhi,India ,110034
             <br />
             Timing will be revealed soon.
             <br />

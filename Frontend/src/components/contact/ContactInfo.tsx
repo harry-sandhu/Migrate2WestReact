@@ -59,9 +59,9 @@ const ContactInfo = () => {
                   Address
                 </p>
                 <p className="text-gray-700 leading-relaxed">
-                  Address
+                  Gp-57, Landmark Near Ndpl Office
                   <br />
-                  Will be revealed soon
+                 Saraswati Vihar,North West Delhi,Delhi,India ,110034
                 </p>
               </div>
 

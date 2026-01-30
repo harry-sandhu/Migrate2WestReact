@@ -32,7 +32,7 @@ const PageBanner = ({ title, bgImage, breadcrumbs }: Props) => {
       {/* Content */}
       <div className="relative max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-24 md:py-28">
         <div className="max-w-3xl">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-blue-600 mb-6 leading-tight">
             {title}
           </h1>
 
