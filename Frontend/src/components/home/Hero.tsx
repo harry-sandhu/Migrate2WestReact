@@ -11,6 +11,7 @@ export default function Hero() {
   const [visa, setVisa] = useState("");
   const [destination, setDestination] = useState("");
   const navigate = useNavigate();
+  const ICON_CLASS = "w-5 h-5 shrink-0";
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-100">
@@ -46,29 +47,32 @@ export default function Hero() {
           {/* Actions */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
   <Button
-    variant="primary"
-    className="px-8 inline-flex items-center gap-2"
-  >
-    <FaPaperPlane className="text-blue-600" />
-    Apply Now
-  </Button>
+  variant="primary"
+  className="px-8 inline-flex items-center gap-2"
+>
+  <FaPaperPlane className={ICON_CLASS} />
+  Apply Now
+</Button>
+
 
   <a
-    href="https://wa.me/919217113001"
-    className="inline-flex items-center justify-center gap-2 rounded-xl px-8 py-3 text-sm font-semibold text-white bg-green-500 hover:bg-green-600 transition shadow-md"
-  >
-    <FaWhatsapp className="text-blue-600" />
-    WhatsApp Expert
-  </a>
+  href="https://wa.me/919217113001"
+  className="inline-flex items-center justify-center gap-2 rounded-xl px-8 py-3 text-sm font-semibold text-white bg-green-500 hover:bg-green-600 transition shadow-md"
+>
+  <FaWhatsapp className="w-7 h-7 shrink-0" />
+  WhatsApp Expert
+</a>
+
 
   <Button
   variant="primary"
   className="px-8 py-3 inline-flex items-center justify-center gap-2 min-w-[220px]"
   onClick={() => (window.location.href = "tel:+919217113001")}
 >
-  <FaPhone className="text-blue-600 text-lg shrink-0" />
+  <FaPhone className={ICON_CLASS} />
   <span className="whitespace-nowrap">Contact Us</span>
 </Button>
+
 
 
 

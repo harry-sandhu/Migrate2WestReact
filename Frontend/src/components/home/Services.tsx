@@ -1,4 +1,4 @@
-import passportImg from "../../assets/images/services/passport-services.jpg";
+import passportImg from "../../assets/images/services/passport.jpeg";
 import visaImg from "../../assets/images/services/visa-services.jpg";
 import airTicketImg from "../../assets/images/services/air-tickets.webp";
 import hotelImg from "../../assets/images/services/hotel.webp";

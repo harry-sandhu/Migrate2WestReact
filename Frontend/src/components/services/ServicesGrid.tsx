@@ -1,5 +1,5 @@
 import ServiceCard from "./ServiceCard";
-import passportBg from "../../assets/images/services/passport-services.jpg"
+import passportBg from "../../assets/images/services/passport.jpeg"
 import visaBg from "../../assets/images/services/visa-services.jpg"
 import airTicketBg from "../../assets/images/services/air-tickets.webp"
 import hotelBg from "../../assets/images/services/hotel.webp"
