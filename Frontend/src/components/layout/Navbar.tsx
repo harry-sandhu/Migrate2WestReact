@@ -22,39 +22,34 @@ export default function Navbar() {
           <img src={logo} alt="Migrate2West" className="h-9 md:h-10" />
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden xl:flex items-center gap-10">
+        {/* Desktop Navigation (Laptop & Up) */}
+        <nav className="hidden lg:flex items-center gap-10">
           <NavLink to="/" className={navLinkClass}>
             Home
           </NavLink>
-
           <NavLink to="/about" className={navLinkClass}>
             Why Choose Us
           </NavLink>
-
           <NavLink to="/services" className={navLinkClass}>
             Services
           </NavLink>
-
           <NavLink to="/blog" className={navLinkClass}>
             Blog
           </NavLink>
-
           <NavLink to="/faq" className={navLinkClass}>
             FAQ
           </NavLink>
-
           <NavLink to="/contact" className={navLinkClass}>
-            Contact
+            Contact Us
           </NavLink>
         </nav>
 
-        {/* Right Side */}
-        <div className="hidden xl:flex items-center gap-6">
+        {/* Right Side (Laptop & Up) */}
+        <div className="hidden lg:flex items-center gap-6">
           <div className="text-right leading-tight">
             <p className="text-xs text-gray-500">Need Help?</p>
             <a
-              href="tel:+919217113001"
+              href="mailto:info@migrate2west.com"
               className="text-sm font-semibold text-gray-800 hover:text-blue-600 transition"
             >
               info@migrate2west.com
@@ -68,9 +63,9 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Mobile Toggle */}
+        {/* Mobile Menu Toggle */}
         <button
-          className="xl:hidden flex items-center justify-center w-10 h-10 rounded-lg border border-gray-300 text-xl hover:bg-gray-100 transition"
+          className="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg border border-gray-300 text-xl hover:bg-gray-100 transition"
           onClick={() => setOpen(!open)}
           aria-label="Toggle menu"
         >
@@ -80,7 +75,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       <div
-        className={`xl:hidden transition-all duration-300 overflow-hidden ${
+        className={`lg:hidden overflow-hidden transition-all duration-300 ${
           open ? "max-h-[100vh]" : "max-h-0"
         }`}
       >
@@ -91,7 +86,7 @@ export default function Navbar() {
             { label: "Services", to: "/services" },
             { label: "Blog", to: "/blog" },
             { label: "FAQ", to: "/faq" },
-            { label: "Contact", to: "/contact" },
+            { label: "Contact US", to: "/contact" },
           ].map((item) => (
             <Link
               key={item.to}

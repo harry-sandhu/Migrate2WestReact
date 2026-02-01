@@ -19,12 +19,13 @@ const ContactMap = () => {
         {/* Map Container */}
         <div className="relative rounded-3xl overflow-hidden shadow-xl border border-gray-200">
           <iframe
-            title="Migrate2West Office Location"
-            src="https://www.google.com/maps?q=Barakhamba%20Road%20New%20Delhi%20110001&output=embed"
-            className="w-full h-[320px] sm:h-[420px] lg:h-[480px] border-0"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          />
+  title="Migrate2West Office Location"
+  src="https://www.google.com/maps?q=GP-57%20Near%20NDPL%20Office%20Saraswati%20Vihar%20North%20West%20Delhi%20110034%20India&output=embed"
+  className="w-full h-[320px] sm:h-[420px] lg:h-[480px] border-0"
+  loading="lazy"
+  referrerPolicy="no-referrer-when-downgrade"
+/>
+
         </div>
       </div>
     </section>

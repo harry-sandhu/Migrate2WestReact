@@ -11,7 +11,7 @@ const ContactInfo = () => {
           <span className="inline-block text-sm font-semibold text-blue-600 bg-blue-100 px-4 py-1 rounded-full mb-4">
             Contact Information
           </span>
-          <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
+          <h3 className="text-2xl md:text-3xl font-bold text-blue-600 mb-3">
             Visit or Call Our Office
           </h3>
           <p className="text-gray-600">
@@ -40,7 +40,7 @@ const ContactInfo = () => {
                 </p>
                 <a
   href="mailto:info@migrate2west.com"
-  className="inline-block mt-2 font-medium text-gray-200 hover:text-white transition"
+  className="inline-block mt-2 font-medium text-gray-900 hover:text-white transition"
 >
   info@migrate2west.com
 </a>

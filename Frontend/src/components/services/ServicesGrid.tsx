@@ -116,7 +116,7 @@ const ServicesGrid = () => {
               Our Services
             </span>
 
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">
+            <h2 className="text-3xl md:text-4xl font-bold text-blue-600 mb-6 leading-tight">
               End-to-End Immigration
               <br className="hidden sm:block" />
               & Travel Assistance

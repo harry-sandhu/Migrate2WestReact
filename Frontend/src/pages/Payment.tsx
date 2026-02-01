@@ -47,7 +47,7 @@ export default function Payment() {
 
         {/* HEADER */}
         <div className="text-center mb-14">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+          <h1 className="text-3xl md:text-4xl font-bold text-blue-600 mb-3">
             Complete Your Payment
           </h1>
           <p className="text-gray-600 text-lg">
@@ -107,7 +107,7 @@ export default function Payment() {
               <div className="grid sm:grid-cols-2 gap-6 text-gray-700">
                 <p><strong>Account Name:</strong> Migrate2west Global</p>
                 <p><strong>Bank:</strong> HDFC Bank</p>
-                <p><strong>Account No:</strong> 1234567890</p>
+                <p><strong>Account No:</strong> 12345*****</p>
                 <p><strong>IFSC:</strong> HDFC0000123</p>
               </div>
             </div>

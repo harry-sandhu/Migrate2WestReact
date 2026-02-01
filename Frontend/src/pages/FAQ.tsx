@@ -61,7 +61,7 @@ export default function FAQ() {
                 Help Center
               </span>
 
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">
+              <h2 className="text-3xl md:text-4xl font-bold text-blue-600 mb-6 leading-tight">
                 Answers to Common <br className="hidden sm:block" />
                 Visa Questions
               </h2>

@@ -11,33 +11,46 @@ const ServiceCard = ({ title, subtitle, image, href }: Props) => {
   return (
     <Link
       to={href}
-      className="group relative block overflow-hidden rounded-2xl bg-gray-100 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+      className="
+        group block overflow-hidden rounded-3xl
+        bg-white
+        shadow-[0_4px_14px_rgba(0,0,0,0.08)]
+        transition-all duration-300
+        hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(0,0,0,0.14)]
+      "
     >
       {/* Image */}
       <div className="relative h-52 overflow-hidden">
         <img
           src={image}
           alt={title}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
         />
 
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent transition-opacity duration-300 group-hover:from-black/70" />
+        {/* subtle divider shadow */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-black/10 to-transparent" />
       </div>
 
-      {/* Content overlay */}
-      <div className="absolute inset-0 flex flex-col justify-end p-6">
-        <h5 className="text-lg font-semibold text-white mb-1">
+      {/* Content */}
+      <div className="p-6">
+        <h5 className="text-lg font-semibold text-blue-600 mb-1 tracking-tight">
           {title}
         </h5>
 
-        <span className="text-sm text-white/80 mb-4">
+        <p className="text-sm leading-relaxed text-gray-600 mb-5">
           {subtitle}
-        </span>
+        </p>
 
-        <span className="inline-flex items-center text-sm font-medium text-white transition-all duration-300 group-hover:translate-x-1">
-          Explore service →
-        </span>
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-medium text-primary transition-transform duration-300 group-hover:translate-x-1">
+            Explore service →
+          </span>
+
+          {/* optional affordance */}
+          <span className="text-gray-300 transition-colors duration-300 group-hover:text-primary">
+            →
+          </span>
+        </div>
       </div>
     </Link>
   );

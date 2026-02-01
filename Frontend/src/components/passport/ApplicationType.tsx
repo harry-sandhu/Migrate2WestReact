@@ -48,13 +48,14 @@ export default function ApplicationType({
             <div className="flex justify-between mb-2">
               <h4 className="font-semibold">Normal Passport</h4>
               <span className="font-bold">
-                ₹{PRICES.normal[applicantType]}
+                Rs.{PRICES.normal[applicantType]}
               </span>
             </div>
             <ul className="text-sm text-gray-600 space-y-1">
               <li>• Passport + Consultation</li>
               <li>• Slots after 24 hours</li>
               <li>• 10 AM – 8 PM</li>
+              (After inclusive govt. fees)
             </ul>
           </button>
 
@@ -70,13 +71,14 @@ export default function ApplicationType({
             <div className="flex justify-between mb-2">
               <h4 className="font-semibold">Express Passport</h4>
               <span className="font-bold">
-                ₹{PRICES.express[applicantType]}
+                Rs.{PRICES.express[applicantType]}
               </span>
             </div>
             <ul className="text-sm text-gray-600 space-y-1">
               <li>• Passport + Consultation</li>
               <li>• Slots after 12 hours</li>
               <li>• Priority processing</li>
+               (After inclusive govt. fees)
             </ul>
           </button>
 
@@ -92,13 +94,14 @@ export default function ApplicationType({
             <div className="flex justify-between mb-2">
               <h4 className="font-semibold">Consultation Only</h4>
               <span className="font-bold">
-                ₹{PRICES.consultation}
+                Rs.{PRICES.consultation}
               </span>
             </div>
             <ul className="text-sm text-gray-600 space-y-1">
               <li>• Expert guidance only</li>
               <li>• Normal slots only</li>
               <li>• No passport application</li>
+              
             </ul>
           </button>
         </div>

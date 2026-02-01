@@ -17,7 +17,7 @@ const AboutIntro = () => {
     <span className="h-px w-12 bg-blue-200" />
   </div>
 
-  <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">
+  <h2 className="text-3xl md:text-4xl font-bold text-blue-600 mb-6 leading-tight">
     Simplifying Global Travel <br className="hidden sm:block" />
     with Trusted Visa Expertise
   </h2>
