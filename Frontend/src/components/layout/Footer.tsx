@@ -145,27 +145,11 @@ export default function Footer() {
           <p>
             © 2025{" "}
             <span className="text-gray-200 font-medium">
-              Migrate2West
-            </span>
+              Migrate2West Global Pvt Ltd           </span>
             . All Rights Reserved.
           </p>
 
-          <p className="flex items-center justify-center gap-2">
-            Made by
-            <span className="inline-block animate-heartbeat text-red-500">❤️</span>
-            <a
-              href="https://github.com/harry-sandhu"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-300 hover:text-white underline underline-offset-4 transition font-medium"
-            >
-              Primordic
-            </a>
-            <span className="text-gray-600">• Powered by</span>
-            <span className="text-gray-300 font-medium">
-              AdGrow Media
-            </span>
-          </p>
+          
         </div>
       </div>
     </footer>

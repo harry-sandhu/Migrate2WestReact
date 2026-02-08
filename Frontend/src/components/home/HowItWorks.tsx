@@ -1,4 +1,6 @@
-import stepImg from "../../assets/images/1.png";
+import stepImg from "../../assets/images/student_color_transparent_1.png";
+import stepImg2 from "../../assets/images/student_color_transparent_2.png";
+import stepImg3 from "../../assets/images/student_color_transparent_3.png";
 
 const steps = [
   {
@@ -11,13 +13,13 @@ const steps = [
     step: "02",
     title: "We Handle Documents",
     desc: "Upload documents digitally. No embassy queues — our experts take care of everything.",
-    image: stepImg,
+    image: stepImg2,
   },
   {
     step: "03",
     title: "Get Your Visa",
     desc: "Track progress in real time and receive your visa quickly without stress.",
-    image: stepImg,
+    image: stepImg3,
   },
 ];
 
@@ -55,17 +57,15 @@ export default function HowItWorks() {
                 </div>
 
                 {/* Step number (corner watermark) */}
-                <span className="absolute top-4 right-6 text-6xl font-extrabold text-blue-300/70 select-none">
-                  {s.step}
-                </span>
+               
 
                 {/* Image */}
                 <div className="relative z-10 mt-6 mb-6 flex justify-center">
-                  <div className="h-28 w-28 rounded-2xl bg-blue-50 flex items-center justify-center">
+                  <div className="h-36 w-36 rounded-2xl bg-blue-50 flex items-center justify-center">
                     <img
                       src={s.image}
                       alt={s.title}
-                      className="h-16 w-16 object-contain"
+                      className="h-34 w-34 object-contain"
                     />
                   </div>
                 </div>

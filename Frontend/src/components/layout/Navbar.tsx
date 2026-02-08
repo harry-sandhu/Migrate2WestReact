@@ -99,7 +99,7 @@ export default function Navbar() {
           ))}
 
           <Link to="/admin/login" onClick={() => setOpen(false)}>
-            <Button variant="black" className="w-full mt-4">
+            <Button variant="primary" className="w-full mt-4">
               Login
             </Button>
           </Link>
