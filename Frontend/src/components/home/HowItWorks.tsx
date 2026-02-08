@@ -72,7 +72,7 @@ export default function HowItWorks() {
 
                 {/* Content */}
                 <div className="relative z-10 text-center">
-                  <h4 className="text-xl font-semibold text-gray-900 mb-3">
+                  <h4 className="text-xl font-semibold text-blue-600 mb-3">
                     {s.title}
                   </h4>
                   <p className="text-gray-600 leading-relaxed">
