@@ -28,8 +28,7 @@ export default function Hero() {
       </div>
 
       {/* 🔵 CONTENT */}
-      <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-20 md:py-28 flex flex-col items-center text-center">
-
+      <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-20 md:py-28 grid gap-16 lg:grid-cols-2 items-center">
         
         {/* Left Content */}
         <div className="space-y-6 text-center lg:text-left">
@@ -85,10 +84,8 @@ export default function Hero() {
         </div>
 
         {/* Right Filter Card */}
-        {/* Filter Card BELOW buttons */}
-<div className="w-full max-w-3xl mt-10">
-  <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl p-6 sm:p-8 grid gap-5 md:grid-cols-2">
-
+        <div className="relative w-full max-w-md mx-auto lg:max-w-none lg:mx-0">
+          <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl p-6 sm:p-8 grid gap-5 md:grid-cols-2">
             
             <select
               value={citizen}
