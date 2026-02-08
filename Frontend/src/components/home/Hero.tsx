@@ -2,9 +2,10 @@
 import Button from "../ui/Button";
 import { countries } from "../../assets/data/countries";
 import Lottie from "lottie-react";
-import flightMap from "../../assets/Flight_map.json";
+import flightMap from "../../assets/bgflight.json";
 import { useNavigate } from "react-router-dom";
-import { FaPaperPlane, FaWhatsapp, FaPhone } from "react-icons/fa";
+import { FaPaperPlane, FaWhatsapp} from "react-icons/fa";
+import image from "../../assets/349993.webp";
 
 export default function Hero() {
   const [citizen, setCitizen] = useState("");
@@ -22,7 +23,7 @@ export default function Hero() {
           animationData={flightMap}
           loop
           autoplay
-          className="w-full h-full object-cover opacity-30"
+          className="w-full h-full object-cover opacity-100"
         />
       </div>
 
@@ -69,9 +70,11 @@ export default function Hero() {
   className="px-8 py-3 inline-flex items-center justify-center gap-2 min-w-[220px]"
   onClick={() => (window.location.href = "tel:+919217113001")}
 >
-  <FaPhone className={ICON_CLASS} />
+  <img src={image} alt="icon" className="w-7 h-7" />
+ 
   <span className="whitespace-nowrap">Contact Us</span>
 </Button>
+
 
 
 

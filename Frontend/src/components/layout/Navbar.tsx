@@ -57,7 +57,7 @@ export default function Navbar() {
           </div>
 
           <Link to="/admin/login">
-            <Button variant="black" className="px-5">
+            <Button variant="primary" className="px-5">
               Login
             </Button>
           </Link>
