@@ -10,7 +10,7 @@ const AboutIntro = () => {
         <div className="grid lg:grid-cols-12 gap-16 items-center">
           {/* Content */}
          <div className="lg:col-span-7">
-  <div className="mb-8 flex items-center gap-4">
+  <div className="mb-8 flex items-center  gap-4">
     <span className="text-sm font-semibold tracking-wide text-blue-700 uppercase">
       Our Story
     </span>
@@ -22,25 +22,27 @@ const AboutIntro = () => {
     with Trusted Visa Expertise
   </h2>
 
-  <p className="text-gray-700 text-lg mb-6 leading-relaxed max-w-2xl">
+  <div className="max-w-xl space-y-6 leading-8 text-justify">
+  <p className="text-gray-700 text-lg">
     At <span className="font-medium text-gray-900">Migrate2West</span>,
     we make global travel and migration simple, secure, and stress-free.
     Whether you’re planning to study abroad, work overseas, or explore
     new destinations, our experts guide you every step of the way.
   </p>
 
-  <p className="text-gray-600 mb-6 leading-relaxed max-w-2xl">
+  <p className="text-gray-600">
     With years of experience and trusted partnerships across embassies
-    and consulates, we provide end-to-end support — from document
+    and consulates, we provide end-to-end support from document
     preparation and application submission to interview guidance and
     travel planning.
   </p>
 
-  <p className="text-gray-600 leading-relaxed max-w-2xl">
+  <p className="text-gray-600">
     Our mission is simple: help you move forward with confidence.
     Wherever your journey takes you, we keep the process smooth,
     transparent, and reliable.
   </p>
+</div>
 </div>
 
 

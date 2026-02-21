@@ -1,0 +1,15 @@
+export const citizens = [
+  "Indian",
+  "Pakistani",
+  "Bangladeshi",
+  "Sri Lankan",
+  "Singaporean",
+  "Thai",
+  "Malaysian",
+  "Chinese",
+  "British",
+  "American",
+  "Australian",
+  "Canadian",
+  "New Zealander",
+];

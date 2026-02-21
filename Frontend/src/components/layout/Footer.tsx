@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { FaLinkedin, FaInstagram, FaXTwitter } from "react-icons/fa6";
+import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa6";
 
 const services = [
   {
@@ -108,12 +108,12 @@ export default function Footer() {
             </a>
 
             <a
-              href="https://twitter.com/migrate2west"
+              href="https://www.facebook.com/migrate2west"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-white transition"
             >
-              <FaXTwitter />
+              <FaFacebook />
             </a>
 
             <a

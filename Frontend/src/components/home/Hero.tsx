@@ -6,6 +6,7 @@ import flightMap from "../../assets/bgflight.json";
 import { useNavigate } from "react-router-dom";
 import { FaPaperPlane, FaWhatsapp} from "react-icons/fa";
 import image from "../../assets/349993.webp";
+import { citizens } from "../../assets/data/citizenship";
 
 export default function Hero() {
   const [citizen, setCitizen] = useState("");
@@ -50,6 +51,7 @@ export default function Hero() {
   <Button
   variant="primary"
   className="px-8 inline-flex items-center gap-2"
+  onClick={() => window.location.href = "/services"}
 >
   <FaPaperPlane className={ICON_CLASS} />
   Apply Now
@@ -93,7 +95,7 @@ export default function Hero() {
               className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
             >
               <option value="">Your Citizenship</option>
-              {countries.map((c) => (
+              {citizens.map((c) => (
                 <option key={c}>{c}</option>
               ))}
             </select>

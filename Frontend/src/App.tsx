@@ -10,21 +10,16 @@ import Blog from "./pages/Blog";
 import BlogDetails from "./pages/BlogDetails";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy"
-
 import Visa from "./pages/Visa";
 import ApplyVisa from "./pages/ApplyVisa";
-
 import Passport from "./pages/Passport";
 import PassportFresh from "./pages/Passportfresh";
 import PassportRenewal from "./pages/passportRenewal";
 import Payment from "./pages/Payment";
-
 import Application from "./pages/Application";
-
 import Login from "./pages/auth/login";
 import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword";
-
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import VisaDetail from "./pages/VisaDetail";
@@ -79,10 +74,10 @@ function App() {
         {/*Hotel Conformation */}
         <Route path="/hotel-confirmation" element={<HotelConfirmation />} />
         <Route
-  path="/hotel-confirmation/apply/:slug"
-  element={<HotelConfirmationApply />}
-/>
-
+          path="/hotel-confirmation/apply/:slug"
+          element={<HotelConfirmationApply />}
+        />
+        
         {/*Travel Insurance */}
         <Route path="/travel-insurance" element={<TravelInsurance />} />
         

@@ -1,8 +1,48 @@
+import { useState } from "react";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+
 interface Props {
   onNext: () => void;
 }
 
 export default function ApplicationForm({ onNext }: Props) {
+  const { executeRecaptcha } = useGoogleReCaptcha();
+  const [loading, setLoading] = useState(false);
+
+  const handleNext = async () => {
+    if (!executeRecaptcha) return;
+
+    try {
+      setLoading(true);
+
+      // ✅ get v3 token silently
+      const token = await executeRecaptcha("visa_form_submit");
+
+      const res = await fetch(
+        "http://localhost:5000/api/captcha/verify-captcha",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (!data.success) {
+        alert("Captcha verification failed ❌");
+        return;
+      }
+
+      // ✅ verified → continue
+      onNext();
+    } catch (err) {
+      alert("Server error while verifying captcha");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <form className="space-y-10">
       {/* Header */}
@@ -107,10 +147,15 @@ export default function ApplicationForm({ onNext }: Props) {
       <div className="pt-4">
         <button
           type="button"
-          onClick={onNext}
-          className="w-full rounded-xl bg-blue-600 py-4 text-white font-semibold text-base shadow-lg shadow-blue-600/30 hover:bg-blue-700 transition active:scale-[0.98]"
+          disabled={loading}
+          onClick={handleNext}
+          className={`w-full rounded-xl py-4 text-white font-semibold text-base shadow-lg transition active:scale-[0.98] ${
+            loading
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-blue-600 shadow-blue-600/30 hover:bg-blue-700"
+          }`}
         >
-          Continue to Payment →
+          {loading ? "Verifying..." : "Continue to Payment →"}
         </button>
 
         <p className="text-center text-xs text-gray-500 mt-3">

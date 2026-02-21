@@ -1,3 +1,6 @@
+import { useState } from "react";
+import CaptchaCheckboxV3 from "../../components/CaptchaV3";
+
 interface Props {
   form: {
     name: string;
@@ -9,24 +12,35 @@ interface Props {
   onContinue: () => void;
 }
 
-import { useState } from "react";
-
 export default function ApplicantForm({
   form,
   isValid,
   onChange,
   onContinue,
 }: Props) {
-  const [notRobot, setNotRobot] = useState(false);
+  const [captchaVerified, setCaptchaVerified] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const canContinue = isValid && notRobot;
+  const canContinue = isValid && captchaVerified && !loading;
+
+  const handleContinue = async () => {
+    if (!canContinue) return;
+
+    try {
+      setLoading(true);
+
+      // frontend-only flow for now
+      onContinue();
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="max-w-xl mx-auto bg-white p-8 rounded-3xl shadow space-y-6">
-      <h2 className="text-2xl font-bold text-center">
-        Applicant Details
-      </h2>
+      <h2 className="text-2xl font-bold text-center">Applicant Details</h2>
 
+      {/* Inputs */}
       {["name", "phone", "email"].map((field) => (
         <input
           key={field}
@@ -43,29 +57,20 @@ export default function ApplicantForm({
         />
       ))}
 
-      {/* Not a robot */}
-      <label className="flex items-center gap-3 rounded-xl border px-4 py-3 cursor-pointer">
-        <input
-          type="checkbox"
-          checked={notRobot}
-          onChange={(e) => setNotRobot(e.target.checked)}
-          className="h-5 w-5 accent-blue-600"
-        />
-        <span className="text-sm text-gray-700">
-          I’m not a robot
-        </span>
-      </label>
+      {/* ✅ Your captcha component */}
+      <CaptchaCheckboxV3 onVerified={() => setCaptchaVerified(true)} />
 
+      {/* Continue button */}
       <button
         disabled={!canContinue}
-        onClick={onContinue}
+        onClick={handleContinue}
         className={`w-full py-3 rounded-xl font-semibold transition-all ${
           canContinue
             ? "bg-blue-600 text-white hover:bg-blue-700"
             : "bg-gray-200 text-gray-400 cursor-not-allowed"
         }`}
       >
-        Continue →
+        {loading ? "Processing..." : "Continue →"}
       </button>
     </div>
   );
