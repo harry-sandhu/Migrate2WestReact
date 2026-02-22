@@ -2,7 +2,7 @@
 import Button from "../ui/Button";
 import { countries } from "../../assets/data/countries";
 import Lottie from "lottie-react";
-import flightMap from "../../assets/bgflight.json";
+import flightMap from "../../assets/finalflight.json";
 import { useNavigate } from "react-router-dom";
 import { FaPaperPlane, FaWhatsapp} from "react-icons/fa";
 import image from "../../assets/349993.webp";
