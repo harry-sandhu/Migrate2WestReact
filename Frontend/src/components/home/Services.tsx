@@ -11,7 +11,7 @@ import jobImg from "../../assets/images/services/job-assistance.webp";
 import careerImg from "../../assets/images/services/career.webp";
 import meetAssistImg from "../../assets/images/services/meet-assist.webp";
 import coachingImg from "../../assets/images/services/coaching.webp";
-
+import studyBg from "../../assets/images/services/study-aboard.webp"
 import { Link } from "react-router-dom";
 
 
@@ -94,6 +94,13 @@ const services = [
     desc: "IELTS, PTE and CELPIP coaching programs.",
     href: "/coaching",
   },
+  {
+  title: "Study Abroad",
+  image: studyBg,
+  href: "/study-abroad",
+  desc: "University Admission • SOP • Offer Letter • Visa Filing",
+ 
+},
 ];
 
 

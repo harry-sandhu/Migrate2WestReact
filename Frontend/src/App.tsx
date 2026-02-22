@@ -41,6 +41,7 @@ import PassportDamaged from "./pages/passportDamaged";
 import VisaSlot from "./pages/Visaslot";
 import AirTicketApply from "./pages/AirTicketApply";
 import HotelConfirmationApply from "./pages/HotelConfirmationApply";
+import StudyAbroad from "./pages/StudyAbroad";
 
 function App() {
   return (
@@ -104,6 +105,8 @@ function App() {
 
         {/*Travel Insurance */}
         <Route path="/oci" element={<OCI />} />
+
+        <Route path="/study-abroad" element={<StudyAbroad />} />
         
         {/* Passport flow */}
         <Route path="/passport" element={<Passport />} />

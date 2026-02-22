@@ -12,6 +12,7 @@ import jobBg from "../../assets/images/services/job-assistance.webp";
 import careerBg from "../../assets/images/services/career.webp";
 import meetAssistBg from "../../assets/images/services/meet-assist.webp";
 import coachingBg from "../../assets/images/services/coaching.webp";
+import studyBg from "../../assets/images/services/study-aboard.webp";
 
 const services = [
   {
@@ -98,6 +99,14 @@ const services = [
     image: coachingBg,
     href: "/coaching",
   },
+  {
+  title: "Study Abroad",
+  subtitle: "University Admission • SOP • Offer Letter • Visa Filing",
+  image: studyBg,
+  href: "/study-abroad",
+  featured: true,
+  highlight: "Trending",
+},
 ];
 
 
