@@ -1,6 +1,6 @@
 import passportImg from "../../assets/images/services/passport.jpeg";
 import visaImg from "../../assets/images/services/visa-services.jpg";
-import airTicketImg from "../../assets/images/services/air-tickets.webp";
+//import airTicketImg from "../../assets/images/services/air-tickets.webp";
 import hotelImg from "../../assets/images/services/hotel.webp";
 import travelImg from "../../assets/images/services/travel-insurance.webp";
 import PRImg from "../../assets/images/services/PR.webp";
@@ -28,12 +28,12 @@ const services = [
     desc: "Tourist, business, study and work visa assistance.",
     href: "/visa",
   },
-  {
-    title: "Air Ticketing",
-    image: airTicketImg,
-    desc: "Domestic and international flight bookings at best prices.",
-    href: "/air-ticket",
-  },
+  //{
+  //  title: "Air Ticketing",
+  //  image: airTicketImg,
+  //  desc: "Domestic and international flight bookings at best prices.",
+  //  href: "/air-ticket",
+  //},
   {
     title: "Hotel Confirmation",
     image: hotelImg,

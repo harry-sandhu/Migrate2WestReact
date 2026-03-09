@@ -1,7 +1,7 @@
 import ServiceCard from "./ServiceCard";
 import passportBg from "../../assets/images/services/passport.jpeg"
 import visaBg from "../../assets/images/services/visa-services.jpg"
-import airTicketBg from "../../assets/images/services/air-tickets.webp"
+//import airTicketBg from "../../assets/images/services/air-tickets.webp"
 import hotelBg from "../../assets/images/services/hotel.webp"
 import travelBg from "../../assets/images/services/travel-insurance.webp"
 import PRBg from "../../assets/images/services/PR.webp"
@@ -31,12 +31,12 @@ const services = [
     featured: true,
     highlight: "High Demand",
   },
-  {
-    title: "Air Ticket",
-    subtitle: "Domestic & International",
-    image: airTicketBg,
-    href: "/air-ticket",
-  },
+  //{
+  //  title: "Air Ticket",
+  //  subtitle: "Domestic & International",
+  //  image: airTicketBg,
+  //  href: "/air-ticket",
+ // },
   {
     title: "Hotel Confirmation",
     subtitle: "Visa Purpose",
