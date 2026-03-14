@@ -3,15 +3,15 @@ dotenv.config();
 
 import app from "./app";
 import { connectDB } from "./config/db";
+import { config } from "./config/config";
 
-// Only start server locally (NOT on Vercel)
-if (!process.env.VERCEL) {
-  connectDB();
+// Connect to database
+connectDB();
 
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
-  });
-}
+// Start server (works for Railway, Vercel, and local)
+app.listen(config.port, () => {
+  console.log(`🚀 Server running on port ${config.port}`);
+});
 
+// Export for Vercel serverless
 export default app;

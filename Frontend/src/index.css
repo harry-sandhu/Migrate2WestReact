@@ -18,3 +18,8 @@
 .animate-heartbeat {
   animation: heartbeat 1.6s ease-in-out infinite;
 }
+
+body {
+  -webkit-user-select: none;
+  user-select: none;
+}

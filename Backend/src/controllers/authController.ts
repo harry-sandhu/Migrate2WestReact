@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
+import { config } from "../config/config";
 
 export const register = async (req: Request, res: Response) => {
   try {
@@ -45,7 +46,7 @@ export const login = async (req: Request, res: Response) => {
 
     const token = jwt.sign(
       { id: user._id },
-      process.env.JWT_SECRET as string,
+      config.jwtSecret,
       { expiresIn: "7d" }
     );
 
@@ -55,5 +56,24 @@ export const login = async (req: Request, res: Response) => {
     });
   } catch {
     res.status(500).json({ message: "Login failed" });
+  }
+};
+
+export const forgotPassword = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+
+    // For now, just return success (in production, you'd send an email)
+    res.json({
+      success: true,
+      message: "Password reset instructions sent to your email",
+    });
+  } catch {
+    res.status(500).json({ message: "Failed to process request" });
   }
 };

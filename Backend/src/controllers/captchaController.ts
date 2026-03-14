@@ -1,4 +1,6 @@
-export const verifyCaptcha = async (req, res) => {
+import { Request, Response } from "express";
+
+export const verifyCaptcha = async (req: Request, res: Response) => {
   try {
     const { token } = req.body;
 
@@ -45,7 +47,7 @@ export const verifyCaptcha = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Server error",
-      error: error.message,
+      error: error instanceof Error ? error.message : "Unknown error",
     });
   }
 };

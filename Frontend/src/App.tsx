@@ -20,6 +20,8 @@ import Application from "./pages/Application";
 import Login from "./pages/auth/login";
 import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword";
+import AdminDashboard from "./pages/AdminDashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import VisaDetail from "./pages/VisaDetail";
@@ -122,6 +124,9 @@ function App() {
         <Route path="/application" element={<Application />} />
         <Route path="/terms" element={<Terms/>}/>
         <Route path="/privacy" element={<Privacy/>}/>
+
+        {/* Admin Dashboard */}
+        <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
 
         {/* Admin Auth */}
         <Route path="/admin/login" element={<Login />} />
