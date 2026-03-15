@@ -22,7 +22,7 @@ export const createPaymentOrder = async (req: Request, res: Response) => {
       customer_email: customer_email || "test@example.com",
       customer_phone: customer_phone || "9999999999",
 
-      return_url: "http://localhost:5000/payment-return"
+      return_url: "http://localhost:5000/thank-you"
     };
 
     const response = await axios.post(

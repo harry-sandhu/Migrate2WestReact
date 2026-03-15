@@ -1,6 +1,7 @@
 import { Link, useLocation, Navigate } from "react-router-dom";
 import { useState } from "react";
 import qr from "../assets/images/qr.jpeg";
+import axios from "axios";
 
 /* ---------- Types ---------- */
 export interface PaymentState {
@@ -31,6 +32,33 @@ export default function Payment() {
   const [showQR, setShowQR] = useState(false);
 
   if (!state) return <Navigate to="/" replace />;
+
+  const handleOnlinePayment = async () => {
+  try {
+    const res = await axios.post("http://localhost:5000/api/payment/create-order", {
+      amount: totalAmount,
+      customer_id: applicant.phone,
+      customer_email: applicant.email,
+      customer_phone: applicant.phone
+    });
+
+    if (res.data.success) {
+      const paymentSessionId = res.data.data.payment_session_id;
+
+      const cashfree = (window as any).Cashfree({
+        mode: "sandbox"
+      });
+
+      await cashfree.checkout({
+        paymentSessionId: paymentSessionId,
+        redirectTarget: "_self"
+      });
+    }
+
+  } catch (err) {
+    console.error("Payment error:", err);
+  }
+};
 
   const {
     applicant,
@@ -112,6 +140,13 @@ export default function Payment() {
               </div>
             </div>
           </div>
+
+          <button
+             onClick={handleOnlinePayment}
+             className="mt-6 w-full bg-green-600 text-white py-4 rounded-xl font-semibold hover:bg-green-700 transition"
+           >
+             Pay Online (Card / UPI / Netbanking)
+           </button>
 
           {/* SUMMARY */}
           <div className="bg-white rounded-3xl shadow-xl p-8 h-fit sticky top-24">
