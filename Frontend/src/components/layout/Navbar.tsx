@@ -54,6 +54,12 @@ export default function Navbar() {
             >
               info@migrate2west.com
             </a>
+            <a
+             
+              className="text-sm font-semibold text-gray-800 hover:text-blue-600 transition"
+            >
+              +91-92171 13001
+            </a>
           </div>
 
           <Link to="/admin/login">

@@ -79,7 +79,7 @@ export default function Footer() {
         {/* Office */}
         <div>
           <h5 className="text-white font-semibold mb-5">Office</h5>
-          <p className="text-sm leading-relaxed text-gray-400">
+          {/*<p className="text-sm leading-relaxed text-gray-400">
             <span className="font-semibold text-gray-200">New Delhi</span>
             <br />
             Gp-57, Landmark Near NDPL Office, Saraswati Vihar,
@@ -87,7 +87,7 @@ export default function Footer() {
             North West Delhi, Delhi, India – 110034
             <br />
             10 AM to 7 PM IST
-          </p>
+          </p>*/}
 
           <a
             href="mailto:info@migrate2west.com"

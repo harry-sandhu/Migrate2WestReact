@@ -54,7 +54,7 @@ const ContactInfo = () => {
               <div className="h-px bg-gray-200 my-6" />
 
               {/* Address */}
-              <div>
+            { /* <div>
                 <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">
                   Address
                 </p>
@@ -63,7 +63,7 @@ const ContactInfo = () => {
                   <br />
                  Saraswati Vihar,North West Delhi,Delhi,India ,110034
                 </p>
-              </div>
+              </div>*/}
 
             </div>
           </div>
