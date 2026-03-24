@@ -46,21 +46,24 @@ export default function Navbar() {
 
         {/* Right Side (Laptop & Up) */}
         <div className="hidden lg:flex items-center gap-6">
-          <div className="text-right leading-tight">
-            <p className="text-xs text-gray-500">Need Help?</p>
-            <a
-              href="mailto:info@migrate2west.com"
-              className="text-sm font-semibold text-gray-800 hover:text-blue-600 transition"
-            >
-              info@migrate2west.com
-            </a>
-            <a
-             
-              className="text-sm font-semibold text-gray-800 hover:text-blue-600 transition"
-            >
-              +91-92171 13001
-            </a>
-          </div>
+  <div className="text-right leading-tight">
+    <p className="text-xs text-gray-500">Need Help?</p>
+
+    <a
+      href="mailto:info@migrate2west.com"
+      className="text-sm font-semibold text-gray-800 hover:text-blue-600 transition"
+    >
+      info@migrate2west.com
+    </a>
+
+    <a
+      href="tel:+919217113001"
+      className="text-sm font-semibold text-gray-800 hover:text-blue-600 transition block"
+    >
+      +91-92171 13001
+    </a>
+  </div>
+
 
           <Link to="/admin/login">
             <Button variant="primary" className="px-5">
