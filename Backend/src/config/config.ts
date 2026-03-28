@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // Validate required environment variables
-const requiredEnvVars = ['MONGODB_URI', 'JWT_SECRET'];
+const requiredEnvVars = ['MONGO_URI', 'JWT_SECRET'];
 
 requiredEnvVars.forEach(envVar => {
   if (!process.env[envVar]) {
