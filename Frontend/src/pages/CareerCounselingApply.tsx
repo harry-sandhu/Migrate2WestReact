@@ -9,7 +9,7 @@ import PaymentCTA from "../components/passport/PaymentCTA";
 
 import { careerCounselingConfig } from "../utils/careerCounselingConfig";
 import { getBookedSlots } from "../api/public";
-
+import aboutImg from "../assets/images/About-Us-Page.webp";
 export default function CareerCounselingApply() {
   const { slug } = useParams<{ slug: string }>();
 
@@ -86,7 +86,7 @@ export default function CareerCounselingApply() {
 
       <PageBanner
         title={finalConfig.title}
-        bgImage="/images/About-Us-Page.webp"
+        bgImage={aboutImg}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Career Counseling", href: "/career-counseling" },

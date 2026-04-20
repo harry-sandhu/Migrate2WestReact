@@ -6,6 +6,9 @@ export interface IContact extends Document {
   country: string;
   message: string;
   agree: boolean;
+  called: boolean;
+  createdAt: string;
+  phone: string;
 }
 
 const ContactSchema = new Schema<IContact>(
@@ -15,6 +18,9 @@ const ContactSchema = new Schema<IContact>(
     country: { type: String, required: true },
     message: { type: String, required: true },
     agree: { type: Boolean, required: true },
+    phone: { type: String, required: true },
+    called: { type: Boolean, default: false }, // ✅ FIXED POSITION
+    
   },
   { timestamps: true }
 );

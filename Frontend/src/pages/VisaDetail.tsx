@@ -7,7 +7,7 @@ import VisaEligibility from "../components/visa/VisaEligibility";
 import VisaProcessTimeline from "../components/visa/VisaProcessTimeline";
 import VisaRequirements from "../components/visa/VisaRequirements";
 import VisaCTA from "../components/visa/VisaCTA";
-
+import aboutImg from "../assets/images/About-Us-Page.webp";
 import { visaDetails } from "../utils/visaDetails";
 
 export default function VisaDetail() {
@@ -24,7 +24,7 @@ export default function VisaDetail() {
       {/* Banner */}
       <PageBanner
         title={visa.title}
-        bgImage="/images/About-Us-Page.webp"
+        bgImage={aboutImg}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Visa", href: "/visa" },

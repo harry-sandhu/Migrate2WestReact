@@ -9,7 +9,7 @@ import PaymentCTA from "../components/passport/PaymentCTA";
 import PageBanner from "../components/ui/PageBanner";
 
 import { getBookedSlots } from "../api/public";
-
+import aboutImg from "../assets/images/About-Us-Page.webp";
 type Step = 1 | 2;
 type PassportType = "normal" | "express" | "consultation";
 type ApplicantType = "adult" | "child";
@@ -127,7 +127,7 @@ export default function PassportFresh() {
 
       <PageBanner
         title="Apply for Passport"
-        bgImage="/images/About-Us-Page.webp"
+        bgImage={aboutImg}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Passport" },

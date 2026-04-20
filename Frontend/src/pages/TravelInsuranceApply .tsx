@@ -5,7 +5,7 @@ import useServiceData from "../hooks/useServiceData";
 import PageBanner from "../components/ui/PageBanner";
 import ApplicationForm from "../components/forms/ApplicationForm";
 import PaymentCTA from "../components/passport/PaymentCTA";
-
+import aboutImg from "../assets/images/About-Us-Page.webp";
 import { travelInsuranceConfig } from "../utils/travelInsuranceConfig";
 
 export default function TravelInsuranceApply() {
@@ -62,7 +62,7 @@ export default function TravelInsuranceApply() {
 
       <PageBanner
         title={finalConfig.title}
-        bgImage="/images/About-Us-Page.webp"
+        bgImage={aboutImg}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Travel Insurance", href: "/travel-insurance" },

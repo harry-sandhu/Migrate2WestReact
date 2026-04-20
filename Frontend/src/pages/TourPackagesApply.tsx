@@ -5,7 +5,7 @@ import useServiceData from "../hooks/useServiceData";
 import PageBanner from "../components/ui/PageBanner";
 import ApplicationForm from "../components/forms/ApplicationForm";
 import PaymentCTA from "../components/passport/PaymentCTA";
-
+import aboutImg from "../assets/images/About-Us-Page.webp";
 import { tourPackagesConfig } from "../utils/tourPackagesConfig";
 
 export default function TourPackagesApply() {
@@ -53,7 +53,7 @@ export default function TourPackagesApply() {
 
       <PageBanner
         title={finalConfig.title}
-        bgImage="/images/About-Us-Page.webp"
+        bgImage={aboutImg}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Tour Packages", href: "/tour-packages" },

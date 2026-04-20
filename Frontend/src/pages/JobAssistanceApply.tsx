@@ -7,7 +7,7 @@ import ApplicationForm from "../components/forms/ApplicationForm";
 import PaymentCTA from "../components/passport/PaymentCTA";
 
 import { jobAssistanceConfig } from "../utils/jobAssistanceConfig";
-
+import aboutImg from "../assets/images/About-Us-Page.webp";
 export default function JobAssistanceApply() {
   const { slug } = useParams<{ slug: string }>();
 
@@ -53,7 +53,7 @@ export default function JobAssistanceApply() {
 
       <PageBanner
         title={finalConfig.title}
-        bgImage="/images/About-Us-Page.webp"
+        bgImage={aboutImg}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Job Assistance", href: "/job-assistance" },

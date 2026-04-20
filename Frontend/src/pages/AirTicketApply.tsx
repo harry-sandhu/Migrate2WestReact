@@ -7,7 +7,7 @@ import FlightDetailsForm from "../components/forms/FlightDetailsForm";
 import PaymentCTA from "../components/passport/PaymentCTA";
 
 import { airTicketConfig } from "../utils/airTicketConfig";
-
+import aboutImg from "../assets/images/About-Us-Page.webp";
 type ServiceType = "domestic" | "international" | "group";
 
 export default function AirTicketApply() {
@@ -65,7 +65,7 @@ export default function AirTicketApply() {
     <div className="min-h-screen bg-[#f7f9fc]">
       <PageBanner
         title={config.title}
-        bgImage="/images/About-Us-Page.webp"
+        bgImage={aboutImg}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Air Tickets", href: "/air-tickets" },

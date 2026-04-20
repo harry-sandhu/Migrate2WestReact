@@ -3,7 +3,7 @@ import PageBanner from "../components/ui/PageBanner";
 import FAQItem from "../components/faq/FAQItem";
 import Button from "../components/ui/Button";
 import { Link } from "react-router-dom";
-
+import aboutImg from "../assets/images/About-Us-Page.webp";
 const faqs = [
   {
     question: "How long does visa processing take?",
@@ -39,7 +39,7 @@ export default function FAQ() {
     <>
       <PageBanner
         title="Frequently Asked Questions"
-        bgImage="/src/assets/images/About-Us-Page.webp"
+        bgImage={aboutImg}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "FAQ" },

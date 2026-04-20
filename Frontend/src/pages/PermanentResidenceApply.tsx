@@ -5,7 +5,7 @@ import useServiceData from "../hooks/useServiceData";
 import PageBanner from "../components/ui/PageBanner";
 import ApplicationForm from "../components/forms/ApplicationForm";
 import PaymentCTA from "../components/passport/PaymentCTA";
-
+import aboutImg from "../assets/images/About-Us-Page.webp";
 import { permanentResidenceConfig } from "../utils/permanentResidenceConfig";
 
 export default function PermanentResidenceApply() {
@@ -62,7 +62,7 @@ export default function PermanentResidenceApply() {
 
       <PageBanner
         title={finalConfig.title}
-        bgImage="/images/About-Us-Page.webp"
+        bgImage={aboutImg}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Permanent Residence", href: "/permanent-residence" },

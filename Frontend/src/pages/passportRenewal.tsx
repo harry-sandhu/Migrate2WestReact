@@ -7,7 +7,7 @@ import ApplicationType from "../components/passport/ApplicationType";
 import SlotPicker from "../components/passport/SlotPicker";
 import PaymentCTA from "../components/passport/PaymentCTA";
 import PageBanner from "../components/ui/PageBanner";
-
+import aboutImg from "../assets/images/About-Us-Page.webp";
 import { getBookedSlots } from "../api/public";
 
 type Step = 1 | 2;
@@ -114,7 +114,7 @@ export default function PassportRenewal() {
 
       <PageBanner
         title="Passport Renewal"
-        bgImage="/images/About-Us-Page.webp"
+        bgImage={aboutImg}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Passport", href: "/passport" },

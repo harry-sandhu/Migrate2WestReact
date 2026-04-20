@@ -9,7 +9,7 @@ import PaymentCTA from "../components/passport/PaymentCTA";
 
 import { meetAssistConfig } from "../utils/meetAssistConfig";
 import { getBookedSlots } from "../api/public";
-
+import aboutImg from "../assets/images/About-Us-Page.webp";
 export default function MeetAssistApply() {
   const { slug } = useParams<{ slug: string }>();
 
@@ -86,7 +86,7 @@ export default function MeetAssistApply() {
 
       <PageBanner
         title={finalConfig.title}
-        bgImage="/images/About-Us-Page.webp"
+        bgImage={aboutImg}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Meet & Assist", href: "/meet-assist" },

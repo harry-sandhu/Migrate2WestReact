@@ -9,7 +9,7 @@ import PaymentCTA from "../components/passport/PaymentCTA";
 
 import { coachingConfig } from "../utils/coachingConfig";
 import { getBookedSlots } from "../api/public";
-
+import aboutImg from "../assets/images/About-Us-Page.webp";
 export default function CoachingApply() {
   const { slug } = useParams<{ slug: string }>();
 
@@ -86,7 +86,7 @@ export default function CoachingApply() {
 
       <PageBanner
         title={finalConfig.title}
-        bgImage="/images/About-Us-Page.webp"
+        bgImage={aboutImg}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Coaching", href: "/coaching" },

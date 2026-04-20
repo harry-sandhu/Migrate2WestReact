@@ -2,13 +2,13 @@ import PageBanner from "../components/ui/PageBanner";
 import ServiceIntro from "../components/services/ServicesIntro";
 import SubServiceGrid from "../components/services/SubServiceGrid";
 import ServicesCTA from "../components/services/ServicesCTA";
-
+import aboutImg from "../assets/images/About-Us-Page.webp";
 export default function Coaching() {
   return (
     <>
       <PageBanner
         title="Coaching"
-        bgImage="/images/About-Us-Page.webp"
+        bgImage={aboutImg}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Coaching" },

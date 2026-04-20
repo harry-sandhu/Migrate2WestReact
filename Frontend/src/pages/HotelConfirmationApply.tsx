@@ -8,7 +8,7 @@ import HotelStayForm from "../components/forms/HotelStayFprm";
 import PaymentCTA from "../components/passport/PaymentCTA";
 
 import { hotelConfirmationConfig } from "../utils/hotelConfirmationConfig";
-
+import aboutImg from "../assets/images/About-Us-Page.webp";
 export default function HotelConfirmationApply() {
   const { slug } = useParams<{ slug: keyof typeof hotelConfirmationConfig }>();
 
@@ -83,7 +83,7 @@ export default function HotelConfirmationApply() {
 
       <PageBanner
         title={finalConfig.title}
-        bgImage="/images/About-Us-Page.webp"
+        bgImage={aboutImg}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Hotel Confirmation", href: "/hotel-confirmation" },

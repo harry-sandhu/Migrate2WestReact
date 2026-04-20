@@ -7,7 +7,7 @@ import ApplicationForm from "../components/forms/ApplicationForm";
 import PaymentCTA from "../components/passport/PaymentCTA";
 
 import { ociConfig } from "../utils/ociConfig";
-
+import aboutImg from "../assets/images/About-Us-Page.webp";
 export default function OCIApply() {
   const { slug } = useParams<{ slug: string }>();
 
@@ -53,7 +53,7 @@ export default function OCIApply() {
 
       <PageBanner
         title={finalConfig.title}
-        bgImage="/images/About-Us-Page.webp"
+        bgImage={aboutImg}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "OCI Card", href: "/oci" },

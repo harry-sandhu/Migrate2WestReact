@@ -50,17 +50,17 @@ export default function AdminServiceData() {
     </div>
   );
 
-  /* 🔥 ARRAY HANDLER (IMPORTANT FIX) */
+  /* 🔥 ARRAY HANDLER */
   const renderArray = (arr: any[], path: string[]) => {
     return (
-      <div className="space-y-3">
+      <div className="space-y-4">
         {arr.map((item, i) => (
           <div
             key={i}
             className="border rounded-xl p-4 bg-white shadow-sm space-y-3"
           >
             {Object.entries(item).map(([k, v]: any) => {
-              
+              const itemPath = [...path, String(i), k];
 
               if (typeof v === "number") {
                 return (
@@ -68,11 +68,7 @@ export default function AdminServiceData() {
                     key={k}
                     label={format(k)}
                     value={v}
-                    onChange={(val: any) => {
-                      const newArr = [...arr];
-                      newArr[i][k] = val;
-                      update(path, newArr);
-                    }}
+                    onChange={(val: any) => update(itemPath, val)}
                   />
                 );
               }
@@ -85,11 +81,9 @@ export default function AdminServiceData() {
                     </label>
                     <input
                       value={v}
-                      onChange={(e) => {
-                        const newArr = [...arr];
-                        newArr[i][k] = e.target.value;
-                        update(path, newArr);
-                      }}
+                      onChange={(e) =>
+                        update(itemPath, e.target.value)
+                      }
                       className="w-full border rounded px-2 py-2"
                     />
                   </div>
@@ -104,7 +98,7 @@ export default function AdminServiceData() {
     );
   };
 
-  /* 🔥 UNIVERSAL RENDER */
+  /* 🔥 FINAL FIXED RECURSIVE RENDER */
   const renderAny = (obj: any, path: string[] = []) => {
     return Object.entries(obj).map(([key, val]: any) => {
       const newPath = [...path, key];
@@ -135,13 +129,10 @@ export default function AdminServiceData() {
         );
       }
 
-      /* ✅ ARRAY (FIXED ISSUE) */
+      /* ✅ ARRAY */
       if (Array.isArray(val)) {
         return (
-          <div
-            key={newPath.join(".")}
-            className="bg-gray-50 p-4 rounded-xl space-y-3"
-          >
+          <div key={newPath.join(".")} className="space-y-3">
             <h3 className="font-semibold text-purple-600">
               {format(key)}
             </h3>
@@ -150,18 +141,19 @@ export default function AdminServiceData() {
         );
       }
 
-      /* ✅ OBJECT */
+      /* ✅ NESTED OBJECT (FIXED) */
       if (typeof val === "object" && val !== null) {
         return (
           <div
             key={newPath.join(".")}
-            className="bg-gray-50 p-4 rounded-xl space-y-3 border"
+            className="bg-gray-50 p-4 rounded-xl border space-y-3"
           >
             <h3 className="font-semibold text-blue-600">
               {format(key)}
             </h3>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* 🔥 NO GRID — FIXES NESTED STRUCTURES */}
+            <div className="space-y-3">
               {renderAny(val, newPath)}
             </div>
           </div>
@@ -202,7 +194,7 @@ export default function AdminServiceData() {
               {format(key)}
             </h2>
 
-            <div className="grid gap-4">
+            <div className="space-y-4">
               {renderAny(val, [key])}
             </div>
           </div>

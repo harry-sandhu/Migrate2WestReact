@@ -5,7 +5,7 @@ import PageBanner from "../components/ui/PageBanner";
 import ApplicationForm from "../components/forms/ApplicationForm";
 import SlotPicker from "../components/passport/SlotPicker";
 import PaymentCTA from "../components/passport/PaymentCTA";
-
+import aboutImg from "../assets/images/About-Us-Page.webp";
 import { getBookedSlots } from "../api/public";
 
 /* ---------- TYPES ---------- */
@@ -102,7 +102,7 @@ export default function VisaSlot() {
 
       <PageBanner
         title={serviceName}
-        bgImage="/images/About-Us-Page.webp"
+        bgImage={aboutImg}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Visa", href: "/visa" },

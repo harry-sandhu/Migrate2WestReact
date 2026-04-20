@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import { registerUser } from "../../api/auth";
 
 export default function Register() {
@@ -17,6 +16,7 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [isError, setIsError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -49,12 +49,9 @@ export default function Register() {
       setMessage("Registration successful! Redirecting...");
       setIsError(false);
 
-      setTimeout(() => {
-        navigate("/admin/login");
-      }, 1500);
-
+      setTimeout(() => navigate("/admin/login"), 1500);
     } catch (err: any) {
-      console.error("REGISTER ERROR:", err);
+      console.error(err);
       setMessage(err.message || "Registration failed");
       setIsError(true);
     } finally {
@@ -63,66 +60,91 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black px-4">
-      <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-xl">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0f172a] via-black to-[#020617] px-4">
 
-        <h2 className="text-xl font-bold text-center mb-4">
-          Register
-        </h2>
+      {/* Glow effects */}
+      <div className="absolute w-[500px] h-[500px] bg-purple-500/20 blur-3xl rounded-full top-10 left-10" />
+      <div className="absolute w-[400px] h-[400px] bg-blue-500/20 blur-3xl rounded-full bottom-10 right-10" />
 
-        <form onSubmit={handleSubmit} className="space-y-3">
+      <div className="relative w-full max-w-md backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-2xl p-8">
+
+        {/* Logo */}
+        <div className="flex flex-col items-center mb-6">
+          
+          <h2 className="text-2xl font-bold text-white">
+            Create Account
+          </h2>
+          <p className="text-sm text-gray-300">
+            Join Migrate2West Admin
+          </p>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-4">
 
           <input
             name="name"
             value={formData.name}
             onChange={handleChange}
-            placeholder="Name"
-            className="w-full border p-2 rounded"
+            placeholder="Full Name"
             required
+            className="w-full rounded-lg bg-white/10 border border-white/20 px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 outline-none"
           />
 
           <input
             name="email"
+            type="email"
             value={formData.email}
             onChange={handleChange}
             placeholder="Email"
-            className="w-full border p-2 rounded"
             required
+            className="w-full rounded-lg bg-white/10 border border-white/20 px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 outline-none"
           />
 
           <input
             name="phone"
             value={formData.phone}
             onChange={handleChange}
-            placeholder="Phone"
-            className="w-full border p-2 rounded"
+            placeholder="Phone Number"
             required
+            className="w-full rounded-lg bg-white/10 border border-white/20 px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 outline-none"
           />
 
-          <input
-            name="password"
-            type="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Password"
-            className="w-full border p-2 rounded"
-            required
-          />
+          <div className="relative">
+            <input
+              name="password"
+              type={showPassword ? "text" : "password"}
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Password"
+              required
+              className="w-full rounded-lg bg-white/10 border border-white/20 px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 outline-none"
+            />
+          </div>
 
           <input
             name="confirmPassword"
-            type="password"
+            type={showPassword ? "text" : "password"}
             value={formData.confirmPassword}
             onChange={handleChange}
             placeholder="Confirm Password"
-            className="w-full border p-2 rounded"
             required
+            className="w-full rounded-lg bg-white/10 border border-white/20 px-4 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 outline-none"
           />
+
+          {/* Show password toggle */}
+          <div className="flex items-center gap-2 text-sm text-gray-300">
+            <input
+              type="checkbox"
+              onChange={() => setShowPassword(!showPassword)}
+            />
+            Show Password
+          </div>
 
           {message && (
             <p
               className={`text-center text-sm ${
-                isError ? "text-red-600" : "text-green-600"
+                isError ? "text-red-400" : "text-green-400"
               }`}
             >
               {message}
@@ -132,15 +154,17 @@ export default function Register() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-black text-white p-2 rounded disabled:opacity-50"
+            className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:opacity-90 transition disabled:opacity-50"
           >
-            {loading ? "Creating..." : "Register"}
+            {loading ? "Creating..." : "Create Account"}
           </button>
         </form>
 
-        <p className="text-center mt-4 text-sm">
-          <Link to="/admin/login" className="underline">
-            Already have an account? Login
+        {/* Footer */}
+        <p className="text-center mt-6 text-sm text-gray-300">
+          Already have an account?{" "}
+          <Link to="/admin/login" className="text-blue-400 hover:underline">
+            Login
           </Link>
         </p>
       </div>

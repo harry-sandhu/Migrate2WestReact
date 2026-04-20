@@ -132,3 +132,12 @@ export const deleteTestimonial = async (id: string) => {
 
   return json;
 };
+
+
+export const toggleCalledAPI = async (id: string) => {
+  const res = await adminFetch(`/api/contact/${id}/toggle-called`, {
+    method: "PATCH",
+  });
+
+  return res.json();
+};

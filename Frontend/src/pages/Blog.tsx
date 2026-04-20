@@ -3,7 +3,7 @@ import PageBanner from "../components/ui/PageBanner";
 import BlogCard from "../components/blog/BlogCard";
 import { Link } from "react-router-dom";
 import { getBlogs } from "../api/public";
-
+import aboutImg from "../assets/images/About-Us-Page.webp";
 type BlogType = {
   _id: string;
   title: string;
@@ -45,7 +45,7 @@ export default function Blog() {
     <>
       <PageBanner
         title="Blog"
-        bgImage="/src/assets/images/About-Us-Page.webp"
+        bgImage={aboutImg}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Blog" },
