@@ -1,6 +1,5 @@
 import express from "express";
 import cors from "cors";
-import rateLimit from "express-rate-limit";
 
 import authRoutes from "./routes/authRoutes";
 import contactRoutes from "./routes/contactRoutes";
@@ -13,15 +12,8 @@ import testimonialRoutes from "./routes/testimonialRoutes";
 
 const app = express();
 
-/* ---------- RATE LIMIT ---------- */
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 200,
-  standardHeaders: true,
-  legacyHeaders: false,
-});
-
-app.use(limiter);
+/* ---------- TRUST PROXY (still good to keep) ---------- */
+app.set("trust proxy", 1);
 
 /* ---------- CORS ---------- */
 app.use(cors());
@@ -30,7 +22,9 @@ app.use(express.json());
 
 /* ---------- REQUEST LOGGING ---------- */
 app.use((req, _res, next) => {
-  console.log(`${req.method} ${req.url}`, { ip: req.ip });
+  console.log(`${req.method} ${req.url}`, {
+    ip: req.headers["x-forwarded-for"] || req.ip,
+  });
   next();
 });
 
@@ -38,7 +32,7 @@ app.use((req, _res, next) => {
 app.get("/health", (_req, res) => {
   res.status(200).json({
     status: "OK",
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   });
 });
 
@@ -62,9 +56,11 @@ app.use((_req, res) => {
 });
 
 /* ---------- ERROR HANDLER ---------- */
-app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-  console.error(err.stack);
-  res.status(500).json({ message: "Something went wrong!" });
-});
+app.use(
+  (err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+    console.error(err.stack);
+    res.status(500).json({ message: "Something went wrong!" });
+  }
+);
 
 export default app;
