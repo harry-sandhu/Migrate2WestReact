@@ -138,7 +138,7 @@ export default function CareerCounselingApply() {
           )}
 
           {/* PAYMENT */}
-          <div className={selectedSlot ? "" : "opacity-50 pointer-events-none"}>
+          <div className={isValid ? "" : "opacity-50 pointer-events-none"}>
             <PaymentCTA
               state={{
                 serviceType: "career-counseling",

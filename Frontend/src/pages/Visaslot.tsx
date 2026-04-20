@@ -150,14 +150,15 @@ export default function VisaSlot() {
           </div>
 
           {/* ERROR MESSAGE */}
-          {!selectedSlot && (
-            <p className="text-red-500 text-sm text-center">
-              Please select an appointment slot to continue
-            </p>
-          )}
+          {/* VALIDATION MESSAGE */}
+{!isValid && (
+  <p className="text-red-500 text-sm text-center">
+    Please complete all details and select an appointment slot
+  </p>
+)}
 
-          {/* PAYMENT */}
-          <div className={selectedSlot ? "" : "opacity-50 pointer-events-none"}>
+{/* PAYMENT */}
+<div className={isValid ? "" : "opacity-50 pointer-events-none"}>
             <PaymentCTA
               state={{
                 ...state,
