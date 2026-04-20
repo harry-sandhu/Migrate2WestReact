@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 import { config } from "./config";
 
+/* 🔥 CRITICAL FIX */
+mongoose.set("bufferCommands", false);
+
 let cached = (global as any).mongoose;
 
 if (!cached) {
@@ -26,7 +29,7 @@ export const connectDB = async () => {
       })
       .catch((err) => {
         console.error("❌ Mongo connection failed:", err);
-        cached.promise = null; // 🔥 IMPORTANT: allow retry
+        cached.promise = null; // allow retry
         throw err;
       });
   }

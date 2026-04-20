@@ -1,15 +1,18 @@
 import app from "../app";
 import { connectDB } from "../config/db";
 
+/* 🔥 start connection immediately */
+const dbPromise = connectDB();
+
 export default async function handler(req: any, res: any) {
   try {
-    await connectDB(); // always ensure connection
+    await dbPromise; // ensure DB is ready
     return app(req, res);
   } catch (error) {
     console.error("❌ Server error:", error);
     return res.status(500).json({
       success: false,
-      message: "Internal server error"
+      message: "Internal server error",
     });
   }
 }
