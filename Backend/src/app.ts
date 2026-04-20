@@ -40,6 +40,28 @@ app.get("/", (_req, res) => {
   res.send("✅ Server is running");
 });
 
+app.get("/api/debug-db", async (_req, res) => {
+  try {
+    const mongoose = require("mongoose");
+
+    console.log("URI:", process.env.MONGO_URI);
+
+    await mongoose.connect(process.env.MONGO_URI, {
+      serverSelectionTimeoutMS: 5000,
+    });
+
+    return res.json({
+      success: true,
+      message: "DB connected",
+    });
+  } catch (err: any) {
+    return res.status(500).json({
+      success: false,
+      error: err.message,
+    });
+  }
+});
+
 /* ---------- ROUTES ---------- */
 app.use("/api/auth", authRoutes);
 app.use("/api/contact", contactRoutes);
