@@ -1,16 +1,9 @@
 import app from "../app";
 import { connectDB } from "../config/db";
 
-let isDbReady = false;
-
 export default async function handler(req: any, res: any) {
   try {
-    if (!isDbReady) {
-      console.log("🔥 First request → connecting DB...");
-      await connectDB();
-      isDbReady = true;
-      console.log("✅ DB ready, proceeding...");
-    }
+    await connectDB(); // ALWAYS ensure connection
 
     return app(req, res);
   } catch (error) {

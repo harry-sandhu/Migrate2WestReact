@@ -1,27 +1,34 @@
 import mongoose from "mongoose";
 import { config } from "./config";
 
-mongoose.set("bufferCommands", false);
+const MONGO_URI = config.mongoUri;
 
-let isConnected = false;
+if (!MONGO_URI) {
+  throw new Error("❌ MONGO_URI missing");
+}
+
+// 👇 GLOBAL CACHE (THIS IS THE FIX)
+let cached = (global as any).mongoose;
+
+if (!cached) {
+  cached = (global as any).mongoose = { conn: null, promise: null };
+}
 
 export const connectDB = async () => {
-  if (isConnected) return;
-
-  console.log("🔥 Connecting to Mongo...");
-
-  await mongoose.connect(config.mongoUri, {
-    serverSelectionTimeoutMS: 5000,
-  });
-
-  // 🔥 WAIT UNTIL READY STATE IS 1
-  if (mongoose.connection.readyState !== 1) {
-    await new Promise((resolve, reject) => {
-      mongoose.connection.once("connected", resolve);
-      mongoose.connection.once("error", reject);
-    });
+  if (cached.conn) {
+    return cached.conn;
   }
 
-  isConnected = true;
-  console.log("✅ MongoDB fully ready");
+  if (!cached.promise) {
+    console.log("🔥 Creating new Mongo connection...");
+
+    cached.promise = mongoose.connect(MONGO_URI, {
+      serverSelectionTimeoutMS: 5000,
+    }).then((mongoose) => mongoose);
+  }
+
+  cached.conn = await cached.promise;
+  console.log("✅ Mongo connected");
+
+  return cached.conn;
 };
