@@ -51,7 +51,7 @@ export default function Hero() {
   <Button
   variant="primary"
   className="px-8 inline-flex items-center gap-2"
-  onClick={() => window.location.href = "/services"}
+  onClick={() => navigate("/services")}
 >
   <FaPaperPlane className={ICON_CLASS} />
   Apply Now
