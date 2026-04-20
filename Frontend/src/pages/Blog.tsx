@@ -1,54 +1,44 @@
+import { useEffect, useState } from "react";
 import PageBanner from "../components/ui/PageBanner";
 import BlogCard from "../components/blog/BlogCard";
-import blogimage from "../assets/images/2222.jpeg";
 import { Link } from "react-router-dom";
+import { getBlogs } from "../api/public";
 
-const blogs = [
-  {
-    title: "How to Apply for a Tourist Visa",
-    excerpt:
-      "A step-by-step guide to ensure a smooth and successful tourist visa application.",
-    image: blogimage,
-    slug: "tourist-visa-guide",
-  },
-  {
-    title: "Common Reasons Why Visa Applications Get Rejected",
-    excerpt:
-      "Avoid common mistakes that lead to visa rejection and improve your approval chances.",
-    image: blogimage,
-    slug: "visa-rejection-reasons",
-  },
-  {
-    title: "Student Visa Checklist: Documents You Must Prepare",
-    excerpt:
-      "An essential checklist of documents required for student visa applications.",
-    image: blogimage,
-    slug: "student-visa-document-checklist",
-  },
-  {
-    title: "Tourist vs Business Visa: What’s the Difference?",
-    excerpt:
-      "Understand the key differences between tourist and business visas before applying.",
-    image: blogimage,
-    slug: "tourist-vs-business-visa",
-  },
-  {
-    title: "How Early Should You Apply for a Visa?",
-    excerpt:
-      "Learn the ideal visa application timelines to avoid delays and stress.",
-    image: blogimage,
-    slug: "when-to-apply-for-visa",
-  },
-  {
-    title: "Top Tips for a Successful Visa Interview",
-    excerpt:
-      "Practical tips to help you feel confident and prepared for your visa interview.",
-    image: blogimage,
-    slug: "visa-interview-tips",
-  },
-];
+type BlogType = {
+  _id: string;
+  title: string;
+  excerpt: string;
+  image: string;
+  slug: string;
+};
 
 export default function Blog() {
+  const [blogs, setBlogs] = useState<BlogType[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadBlogs = async () => {
+      try {
+        const data = await getBlogs();
+        setBlogs(data || []);
+      } catch (err) {
+        console.error("Failed to load blogs:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadBlogs();
+  }, []);
+
+  if (loading) {
+    return <div className="p-20 text-center">Loading blogs...</div>;
+  }
+
+  if (!blogs.length) {
+    return <div className="p-20 text-center">No blogs found</div>;
+  }
+
   const [featured, ...rest] = blogs;
 
   return (
@@ -62,74 +52,52 @@ export default function Blog() {
         ]}
       />
 
-      {/* Blog Section */}
       <section className="relative bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          
-          {/* Section intro */}
-          <div className="max-w-2xl mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-blue-600 mb-4">
-              Latest Visa & Immigration Insights
-            </h2>
-            <p className="text-gray-600 text-lg">
-              Practical guides, expert tips, and updates to help you apply with confidence.
-            </p>
-          </div>
+        <div className="max-w-7xl mx-auto px-4 py-24">
 
-          {/* Featured Blog */}
-<div className="mb-14">
-  <div className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition p-6 md:p-8">
-    
-    <div className="grid md:grid-cols-12 gap-8 items-center">
-      
-      {/* Image (compact, editorial) */}
-      <div className="md:col-span-5">
-        <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
-          <img
-            src={featured.image}
-            alt={featured.title}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-black/10" />
-        </div>
-      </div>
+          {/* FEATURED */}
+          {featured && (
+            <div className="mb-14">
+              <div className="group bg-white rounded-2xl shadow-md p-6 md:p-8">
+                <div className="grid md:grid-cols-12 gap-8 items-center">
 
-      {/* Content */}
-      <div className="md:col-span-7">
-        <span className="inline-block text-xs font-semibold tracking-wide text-blue-600 bg-blue-100 px-3 py-1 rounded-full mb-4">
-          Featured Article
-        </span>
+                  <div className="md:col-span-5">
+                    <img
+                      src={featured.image}
+                      alt={featured.title}
+                      className="rounded-xl w-full h-full object-cover"
+                    />
+                  </div>
 
-        <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 leading-snug">
-          {featured.title}
-        </h3>
+                  <div className="md:col-span-7">
+                    <h3 className="text-2xl font-bold mb-4">
+                      {featured.title}
+                    </h3>
 
-        <p className="text-gray-600 mb-6 leading-relaxed text-lg">
-          {featured.excerpt}
-        </p>
+                    <p className="text-gray-600 mb-6">
+                      {featured.excerpt}
+                    </p>
 
-        <Link
-  to={`/blog/${featured.slug}`}
-  className="inline-flex items-center text-blue-600 font-semibold"
->
-  Read article
-  <span className="ml-1 transition-transform group-hover:translate-x-1">
-    →
-  </span>
-</Link>
+                    <Link
+                      to={`/blog/${featured.slug}`}
+                      className="text-blue-600 font-semibold"
+                    >
+                      Read article →
+                    </Link>
+                  </div>
 
-      </div>
+                </div>
+              </div>
+            </div>
+          )}
 
-    </div>
-  </div>
-</div>
-
-          {/* Blog Grid */}
+          {/* GRID */}
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {rest.map((blog, i) => (
-              <BlogCard key={i} {...blog} />
+            {rest.map((blog) => (
+              <BlogCard key={blog._id} {...blog} />
             ))}
           </div>
+
         </div>
       </section>
     </>

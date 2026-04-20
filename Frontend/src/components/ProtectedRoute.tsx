@@ -1,23 +1,25 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
+  adminOnly?: boolean;
 }
 
-export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const token = localStorage.getItem("m2w_token");
-    if (!token) {
-      navigate("/admin/login");
-    }
-  }, [navigate]);
-
+export default function ProtectedRoute({
+  children,
+  adminOnly = false,
+}: ProtectedRouteProps) {
   const token = localStorage.getItem("m2w_token");
+  const user = JSON.parse(localStorage.getItem("m2w_user") || "null");
+
+  // ❌ Not logged in
   if (!token) {
-    return null; // or a loading spinner
+    return <Navigate to="/admin/login" />;
+  }
+
+  // ❌ Admin route but not admin
+  if (adminOnly && user?.role !== "admin") {
+    return <Navigate to="/dashboard" />;
   }
 
   return <>{children}</>;

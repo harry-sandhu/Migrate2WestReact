@@ -2,21 +2,45 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../ui/Button";
 import type { CountryCost, VisaDetail } from "../../utils/visaDetails";
+import useServiceData from "../../hooks/useServiceData";
 
 type Props = {
   visa: VisaDetail;
   slug: string;
 };
 
-export default function VisaCostEstimator({ visa,slug }: Props) {
+export default function VisaCostEstimator({ visa, slug }: Props) {
+  const { data, loading, error } = useServiceData();
+
   const [country, setCountry] = useState<CountryCost | null>(null);
   const [people, setPeople] = useState(1);
   const [express, setExpress] = useState(false);
+
   const navigate = useNavigate();
+
+  // 🔥 GUARDS
+  if (loading) return <div className="p-10 text-center">Loading...</div>;
+  if (error) return <div className="p-10 text-center">{error}</div>;
+
+  // 🔥 GET BACKEND PRICING (dynamic)
+  const dynamicPricing = data?.visaPricing?.[slug];
+
+  // 🔥 MERGE STATIC + DYNAMIC
+  const mergedVisa: VisaDetail = {
+    ...visa,
+    supportedCountries:
+      dynamicPricing?.countries || visa.supportedCountries,
+    additionalCosts:
+      dynamicPricing?.additionalCosts || visa.additionalCosts,
+  };
+
+  // 🔥 CALCULATIONS
   const base = country?.baseCost ?? 0;
-  const perPerson = visa.additionalCosts.perPerson * people;
+  const perPerson =
+    mergedVisa.additionalCosts.perPerson * people;
+
   const expressFee = express
-    ? visa.additionalCosts.expressProcessing ?? 0
+    ? mergedVisa.additionalCosts.expressProcessing ?? 0
     : 0;
 
   const total = base + perPerson + expressFee;
@@ -39,14 +63,14 @@ export default function VisaCostEstimator({ visa,slug }: Props) {
             className="w-full rounded-xl border px-4 py-3 mb-4"
             onChange={(e) =>
               setCountry(
-                visa.supportedCountries.find(
+                mergedVisa.supportedCountries.find(
                   (c) => c.country === e.target.value
                 ) || null
               )
             }
           >
             <option value="">Select Destination Country</option>
-            {visa.supportedCountries.map((c) => (
+            {mergedVisa.supportedCountries.map((c) => (
               <option key={c.country} value={c.country}>
                 {c.country}
               </option>
@@ -55,7 +79,9 @@ export default function VisaCostEstimator({ visa,slug }: Props) {
 
           {/* People */}
           <div className="mb-4">
-            <label className="text-sm text-gray-600">Number of Applicants</label>
+            <label className="text-sm text-gray-600">
+              Number of Applicants
+            </label>
             <input
               type="number"
               min={1}
@@ -66,7 +92,7 @@ export default function VisaCostEstimator({ visa,slug }: Props) {
           </div>
 
           {/* Express */}
-          {visa.additionalCosts.expressProcessing && (
+          {mergedVisa.additionalCosts.expressProcessing && (
             <label className="flex items-center gap-3 text-sm text-gray-700">
               <input
                 type="checkbox"
@@ -107,47 +133,46 @@ export default function VisaCostEstimator({ visa,slug }: Props) {
           </div>
 
           <Button
-          type="button"
-  variant="gold"
-  className="w-full mt-4"
-  disabled={!country}
-  onClick={() => {
-    if (!country) return;
+            type="button"
+            variant="gold"
+            className="w-full mt-4"
+            disabled={!country}
+            onClick={() => {
+              if (!country) return;
 
-    navigate(`/visa/${slug}/slot`, {
-      state: {
-        serviceType: "visa",
-        serviceName: visa.title,
-        subServiceName: `${country.country} ${
-          express ? "Express" : "Normal"
-        }`,
+              navigate(`/visa/${slug}/slot`, {
+                state: {
+                  serviceType: "visa",
+                  serviceName: mergedVisa.title,
+                  subServiceName: `${country.country} ${
+                    express ? "Express" : "Normal"
+                  }`,
 
-        applicant: {
-          name: "",
-          phone: "",
-          email: "",
-        },
+                  applicant: {
+                    name: "",
+                    phone: "",
+                    email: "",
+                  },
 
-        selectedSlot: null,
+                  selectedSlot: null,
 
-        breakdown: {
-          basePrice: total,
-        },
+                  breakdown: {
+                    basePrice: total,
+                  },
 
-        totalAmount: total,
+                  totalAmount: total,
 
-        meta: {
-          country: country.country,
-          people,
-          express,
-        },
-      },
-    });
-  }}
->
-  Proceed to Apply
-</Button>
-
+                  meta: {
+                    country: country.country,
+                    people,
+                    express,
+                  },
+                },
+              });
+            }}
+          >
+            Proceed to Apply
+          </Button>
 
           <p className="text-xs text-gray-500 text-center">
             * Embassy fees not included. Final cost may vary.

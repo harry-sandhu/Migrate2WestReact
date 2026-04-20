@@ -21,31 +21,33 @@ export default function FRRO() {
       />
 
       <SubServiceGrid
-        services={[
-          {
-            title: "FRRO Registration",
-            desc: "Mandatory registration assistance for foreign nationals in India.",
-            active: true,
-            // later → href: "/frro/registration"
-          },
-          {
-            title: "Visa Extension",
-            desc: "Support for extending visa validity through FRRO procedures.",
-            active: true,
-            // later → href: "/frro/visa-extension"
-          },
-          {
-            title: "Exit Permit",
-            desc: "FRRO exit permit processing for foreign nationals.",
-            active: false,
-          },
-          {
-            title: "Change of Address / Details",
-            desc: "Update personal or address details with FRRO authorities.",
-            active: false,
-          },
-        ]}
-      />
+  services={[
+    {
+      title: "FRRO Registration",
+      desc: "Mandatory registration assistance for foreign nationals in India.",
+      active: true,
+      href: "/frro/apply/registration",
+    },
+    {
+      title: "Visa Extension",
+      desc: "Support for extending visa validity through FRRO procedures.",
+      active: true,
+      href: "/frro/apply/visa-extension",
+    },
+    {
+      title: "Exit Permit",
+      desc: "FRRO exit permit processing for foreign nationals.",
+      active: true,
+      href: "/frro/apply/exit-permit",
+    },
+    {
+      title: "Change of Address / Details",
+      desc: "Update personal or address details with FRRO authorities.",
+      active: true,
+      href: "/frro/apply/change-details",
+    },
+  ]}
+/>
 
       <ServicesCTA />
     </>

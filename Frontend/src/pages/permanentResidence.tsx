@@ -21,31 +21,33 @@ export default function PermanentResidence() {
       />
 
       <SubServiceGrid
-        services={[
-          {
-            title: "Canada Permanent Residence",
-            desc: "Apply for Canada PR through Express Entry, PNP, and other immigration programs.",
-            active: true,
-            // later → href: "/permanent-residence/canada"
-          },
-          {
-            title: "Australia Permanent Residence",
-            desc: "Permanent residency pathways including skilled migration programs.",
-            active: true,
-            // later → href: "/permanent-residence/australia"
-          },
-          {
-            title: "Skilled Migration Assessment",
-            desc: "Eligibility check and profile assessment for skilled migration.",
-            active: false,
-          },
-          {
-            title: "PR Consultation & Profile Review",
-            desc: "One-on-one consultation to evaluate PR options and chances.",
-            active: false,
-          },
-        ]}
-      />
+  services={[
+    {
+      title: "Canada Permanent Residence",
+      desc: "Apply for Canada PR through Express Entry, PNP, and other immigration programs.",
+      active: true,
+      href: "/permanent-residence/apply/canada",
+    },
+    {
+      title: "Australia Permanent Residence",
+      desc: "Permanent residency pathways including skilled migration programs.",
+      active: true,
+      href: "/permanent-residence/apply/australia",
+    },
+    {
+      title: "Skilled Migration Assessment",
+      desc: "Eligibility check and profile assessment for skilled migration.",
+      active: true,
+      href: "/permanent-residence/apply/assessment",
+    },
+    {
+      title: "PR Consultation & Profile Review",
+      desc: "One-on-one consultation to evaluate PR options and chances.",
+      active: true,
+      href: "/permanent-residence/apply/consultation",
+    },
+  ]}
+/>
 
       <ServicesCTA />
     </>

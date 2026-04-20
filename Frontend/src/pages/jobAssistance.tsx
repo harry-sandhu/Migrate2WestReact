@@ -20,36 +20,40 @@ export default function JobAssistance() {
         description="Enhance your career prospects with expert resume services, interview preparation, and job market guidance."
       />
 
-      <SubServiceGrid
-        services={[
-          {
-            title: "Resume Making",
-            desc: "Professionally crafted resumes tailored to industry standards.",
-            active: true,
-          },
-          {
-            title: "Cover Letter Writing",
-            desc: "Customized cover letters to strengthen job applications.",
-            active: true,
-          },
-          {
-            title: "Interview Preparation",
-            desc: "Mock interviews and expert guidance to boost confidence.",
-            active: true,
-          },
-          {
-            title: "Resume Marketing",
-            desc: "Strategic resume distribution to increase interview calls.",
-            active: false,
-          },
-          {
-            title: "Career Counseling",
-            desc: "Personalized career guidance based on skills and goals.",
-            active: true,
-          },
-        ]}
-      />
-
+     <SubServiceGrid
+  services={[
+    {
+      title: "Resume Making",
+      desc: "Professionally crafted resumes tailored to industry standards.",
+      active: true,
+      href: "/job-assistance/apply/resume",
+    },
+    {
+      title: "Cover Letter Writing",
+      desc: "Customized cover letters to strengthen job applications.",
+      active: true,
+      href: "/job-assistance/apply/cover-letter",
+    },
+    {
+      title: "Interview Preparation",
+      desc: "Mock interviews and expert guidance to boost confidence.",
+      active: true,
+      href: "/job-assistance/apply/interview",
+    },
+    {
+      title: "Resume Marketing",
+      desc: "Strategic resume distribution to increase interview calls.",
+      active: true,
+      href: "/job-assistance/apply/marketing",
+    },
+    {
+      title: "Career Counseling",
+      desc: "Personalized career guidance based on skills and goals.",
+      active: true,
+      href: "/job-assistance/apply/counseling",
+    },
+  ]}
+/>
       <ServicesCTA />
     </>
   );

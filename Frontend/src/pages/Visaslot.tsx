@@ -6,6 +6,8 @@ import ApplicationForm from "../components/forms/ApplicationForm";
 import SlotPicker from "../components/passport/SlotPicker";
 import PaymentCTA from "../components/passport/PaymentCTA";
 
+import { getBookedSlots } from "../api/public";
+
 /* ---------- TYPES ---------- */
 interface VisaPaymentState {
   serviceType: "visa";
@@ -43,30 +45,34 @@ export default function VisaSlot() {
     return <Navigate to="/visa" replace />;
   }
 
-  const {
-    serviceName,
-    
-    totalAmount,
-    breakdown,
-    meta,
-  } = state;
+  const { serviceName, totalAmount, breakdown, meta } = state;
 
   const [form, setForm] = useState(state.applicant);
-  const [selectedSlot, setSelectedSlot] =
-    useState<string | null>(null);
+  const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
+  const [bookedSlots, setBookedSlots] = useState<string[]>([]);
+  const [loadingSlots, setLoadingSlots] = useState(true);
+
+  /* ✅ FETCH SLOTS */
+  useEffect(() => {
+    const fetchSlots = async () => {
+      try {
+        const data = await getBookedSlots();
+        setBookedSlots(data);
+      } catch (err) {
+        console.error("Failed to fetch slots:", err);
+      } finally {
+        setLoadingSlots(false);
+      }
+    };
+
+    fetchSlots();
+  }, []);
 
   const isValid =
     form.name.trim().length > 1 &&
     form.phone.trim().length >= 10 &&
     form.email.includes("@") &&
     !!selectedSlot;
-
-  /* MOCK SLOTS (replace later with API) */
-  const bookedSlots = [
-    "2026-01-12T11:00",
-    "2026-01-12T15:00",
-    "2026-01-14T14:00",
-  ];
 
   const now = new Date();
 
@@ -81,7 +87,7 @@ export default function VisaSlot() {
     return meta.express ? diffHours >= 12 : diffHours >= 24;
   }
 
-  /* RESET SLOT IF RULES CHANGE */
+  /* ✅ RESET INVALID SLOT */
   useEffect(() => {
     if (selectedSlot) {
       const slotDate = new Date(selectedSlot);
@@ -89,7 +95,7 @@ export default function VisaSlot() {
         setSelectedSlot(null);
       }
     }
-  }, []);
+  }, [meta.express]);
 
   return (
     <div className="min-h-screen bg-[#f7f9fc]">
@@ -117,39 +123,52 @@ export default function VisaSlot() {
             </p>
           </div>
 
-          {/* APPLICANT FORM */}
+          {/* FORM */}
           <ApplicationForm
-  title="Applicant Details"
-  subtitle="We’ll use this information to contact you"
-  value={form}
-  onChange={(field, value) =>
-    setForm({ ...form, [field]: value })
-  }
-/>
-
-
-          {/* SLOT PICKER */}
-          <SlotPicker
-            bookedSlots={bookedSlots}
-            selectedSlot={selectedSlot}
-            onSelect={setSelectedSlot}
-            isSlotAllowed={isSlotAllowed}
+            title="Applicant Details"
+            subtitle="We’ll use this information to contact you"
+            value={form}
+            onChange={(field, value) =>
+              setForm({ ...form, [field]: value })
+            }
           />
 
-          {/* PAYMENT CTA */}
-          <PaymentCTA
-  disabled={!isValid}
-  state={{
-    ...state,
-    applicant: form,
-    selectedSlot,
-    breakdown,
-    totalAmount,
-  }}
-/>
+          {/* SLOT PICKER */}
+          <div id="slot-section">
+            {loadingSlots ? (
+              <p className="text-center text-gray-500">
+                Loading available slots...
+              </p>
+            ) : (
+              <SlotPicker
+                bookedSlots={bookedSlots}
+                selectedSlot={selectedSlot}
+                onSelect={setSelectedSlot}
+                isSlotAllowed={isSlotAllowed}
+              />
+            )}
+          </div>
 
+          {/* ERROR MESSAGE */}
+          {!selectedSlot && (
+            <p className="text-red-500 text-sm text-center">
+              Please select an appointment slot to continue
+            </p>
+          )}
 
-          
+          {/* PAYMENT */}
+          <div className={selectedSlot ? "" : "opacity-50 pointer-events-none"}>
+            <PaymentCTA
+              state={{
+                ...state,
+                applicant: form,
+                selectedSlot,
+                breakdown,
+                totalAmount,
+              }}
+            />
+          </div>
+
         </div>
       </section>
     </div>

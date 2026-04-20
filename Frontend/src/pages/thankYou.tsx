@@ -1,6 +1,15 @@
-import { useLocation, Navigate, Link } from "react-router-dom";
+import {
+  useLocation,
+  Navigate,
+  Link,
+  useSearchParams,
+} from "react-router-dom";
+import { useEffect, useState } from "react";
+
 import jsPDF from "jspdf";
 import logo from "../assets/images/logo.png";
+
+import { getPaymentStatus } from "../api/public";
 
 /* ---------------- TYPES ---------------- */
 interface ThankYouState {
@@ -23,13 +32,60 @@ interface ThankYouState {
   paymentMethod: "upi" | "bank" | "qr";
 }
 
-/* ---------------- COMPONENT ---------------- */
 export default function ThankYou() {
   const location = useLocation();
   const state = location.state as ThankYouState | null;
 
-  if (!state) {
+  const [params] = useSearchParams();
+  const orderId = params.get("order_id");
+
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<ThankYouState | null>(state);
+
+  /* ---------- VERIFY PAYMENT ---------- */
+  useEffect(() => {
+    const verifyPayment = async () => {
+      try {
+        if (orderId) {
+          const order = await getPaymentStatus(orderId);
+
+          setData({
+            serviceType: "unknown",
+            serviceName: "Service",
+            applicant: {
+              name: "N/A",
+              phone: "N/A",
+              email: "N/A",
+            },
+            totalAmount: order.amount || 0,
+            referenceId: orderId,
+            status:
+              order.status === "PAID"
+                ? "Payment Successful"
+                : "Pending / Failed",
+            submittedAt: new Date().toISOString(),
+            paymentMethod: "upi",
+          });
+        }
+      } catch (err) {
+        console.error("Payment verification failed:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    verifyPayment();
+  }, [orderId]);
+
+  /* ---------- GUARD ---------- */
+  if (!orderId && !state) {
     return <Navigate to="/" replace />;
+  }
+
+  if (loading || !data) {
+    return (
+      <div className="p-10 text-center">Processing payment...</div>
+    );
   }
 
   const {
@@ -42,36 +98,30 @@ export default function ThankYou() {
     status,
     submittedAt,
     paymentMethod,
-  } = state;
+  } = data;
 
-  /* ---------------- PDF RECEIPT ---------------- */
+  /* ---------- PDF ---------- */
   function downloadReceipt() {
     const doc = new jsPDF();
-
     const primary = "#1D4ED8";
     const gray = "#6B7280";
     let y = 45;
 
-    /* LOGO */
     doc.addImage(logo, "PNG", 15, 12, 40, 14);
 
-    /* HEADER */
     doc.setFontSize(18);
     doc.setTextColor(primary);
     doc.setFont("helvetica", "bold");
     doc.text("Payment Receipt", 105, 22, { align: "center" });
 
     doc.setFontSize(10);
-    doc.setFont("helvetica", "normal");
     doc.setTextColor(gray);
     doc.text("Migrate2West Global Services", 105, 28, {
       align: "center",
     });
 
-    doc.setDrawColor(220);
     doc.line(15, 35, 195, 35);
 
-    /* ROW HELPER */
     function row(label: string, value: string) {
       doc.setFont("helvetica", "bold");
       doc.setTextColor(0);
@@ -79,11 +129,9 @@ export default function ThankYou() {
 
       doc.setFont("helvetica", "normal");
       doc.text(value, 85, y);
-
       y += 8;
     }
 
-    /* META */
     row("Reference ID:", referenceId);
     row("Status:", status);
     row(
@@ -91,20 +139,14 @@ export default function ThankYou() {
       submittedAt ? new Date(submittedAt).toLocaleString() : "N/A"
     );
 
-    y += 4;
-    doc.line(15, y, 195, y);
-    y += 10;
+    y += 6;
 
-    /* APPLICANT */
     row("Name:", applicant.name);
     row("Phone:", applicant.phone);
     row("Email:", applicant.email);
 
-    y += 4;
-    doc.line(15, y, 195, y);
-    y += 10;
+    y += 6;
 
-    /* SERVICE */
     row(
       "Service:",
       subServiceName
@@ -121,38 +163,20 @@ export default function ThankYou() {
 
     row("Payment Method:", paymentMethod.toUpperCase());
 
-    y += 4;
-    doc.line(15, y, 195, y);
-    y += 10;
+    y += 6;
 
-    /* AMOUNT */
     doc.setFontSize(13);
-    doc.setFont("helvetica", "bold");
     doc.text("Total Amount Paid:", 20, y);
     doc.text(`₹ ${totalAmount}`, 85, y);
-
-    y += 15;
-
-    /* FOOTER */
-    doc.setFontSize(10);
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor(gray);
-    doc.text(
-      "Thank you for choosing Migrate2West.\nOur team has received your payment details and will contact you shortly.",
-      105,
-      y,
-      { align: "center" }
-    );
 
     doc.save(`Receipt-${referenceId}.pdf`);
   }
 
-  /* ---------------- UI ---------------- */
+  /* ---------- UI ---------- */
   return (
     <div className="bg-[#f7f9fc] min-h-screen py-20">
       <div className="max-w-4xl mx-auto px-4 space-y-10">
 
-        {/* SUCCESS HEADER */}
         <div className="text-center space-y-4">
           <div className="mx-auto w-16 h-16 flex items-center justify-center rounded-full bg-green-100 text-green-600 text-3xl">
             ✓
@@ -163,70 +187,32 @@ export default function ThankYou() {
           </h1>
 
           <p className="text-gray-600 max-w-xl mx-auto">
-            Thank you for completing your payment. Our team has received your
-            details and will contact you shortly.
+            Thank you for completing your payment.
           </p>
         </div>
 
-        {/* STATUS CARD */}
         <div className="bg-white rounded-3xl shadow p-6 space-y-4">
-          <div className="flex justify-between items-center">
-            <h3 className="font-semibold text-lg">Payment Status</h3>
-            <span className="px-4 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-700">
-              {status}
-            </span>
-          </div>
+          <h3 className="font-semibold text-lg">Payment Status</h3>
 
-          <div className="grid sm:grid-cols-2 gap-4 text-sm text-gray-700">
+          <div className="text-sm text-gray-700 space-y-2">
             <p><strong>Reference ID:</strong> {referenceId}</p>
-            <p>
-              <strong>Submitted:</strong>{" "}
-              {submittedAt ? new Date(submittedAt).toLocaleString() : "N/A"}
-            </p>
-            <p>
-              <strong>Service:</strong>{" "}
-              {subServiceName
-                ? `${serviceName} (${subServiceName})`
-                : serviceName}
-            </p>
-            {selectedSlot && (
-              <p>
-                <strong>Appointment:</strong>{" "}
-                {new Date(selectedSlot).toLocaleString()}
-              </p>
-            )}
-            <p>
-              <strong>Payment Method:</strong>{" "}
-              {paymentMethod.toUpperCase()}
-            </p>
-            <p className="font-semibold">
-              <strong>Amount Paid:</strong> ₹{totalAmount}
-            </p>
+            <p><strong>Status:</strong> {status}</p>
+            <p><strong>Amount:</strong> ₹{totalAmount}</p>
           </div>
         </div>
 
-        {/* ACTIONS */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="flex gap-4 justify-center">
           <button
             onClick={downloadReceipt}
-            className="px-6 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
+            className="px-6 py-3 bg-blue-600 text-white rounded-xl"
           >
-            Download Receipt (PDF)
+            Download Receipt
           </button>
 
-          <Link
-            to="/"
-            className="px-6 py-3 rounded-xl border border-gray-300 font-semibold text-gray-700 hover:bg-gray-100 transition text-center"
-          >
+          <Link to="/" className="px-6 py-3 border rounded-xl">
             Back to Home
           </Link>
         </div>
-
-        {/* FOOTER */}
-        <p className="text-xs text-gray-500 text-center max-w-xl mx-auto">
-          Please keep your reference ID for future communication.
-          Our support team will contact you shortly.
-        </p>
       </div>
     </div>
   );

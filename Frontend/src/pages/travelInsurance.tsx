@@ -26,24 +26,25 @@ export default function TravelInsurance() {
             title: "International Travel Insurance",
             desc: "Medical, baggage, and trip protection for overseas travel.",
             active: true,
-            // later → href: "/travel-insurance/international"
+            href: "/travel-insurance/apply/international",
           },
           {
             title: "Domestic Travel Insurance",
             desc: "Coverage for travel within India including medical and trip delays.",
             active: true,
-            // later → href: "/travel-insurance/domestic"
+            href: "/travel-insurance/apply/domestic",
           },
           {
             title: "Student Travel Insurance",
             desc: "Insurance plans tailored for students studying abroad.",
             active: true,
-            // later → href: "/travel-insurance/student"
+            href: "/travel-insurance/apply/student",
           },
           {
             title: "Senior Citizen Travel Insurance",
             desc: "Special coverage plans designed for senior travelers.",
-            active: false,
+            active: true,
+            href: "/travel-insurance/apply/senior-citizen",
           },
         ]}
       />

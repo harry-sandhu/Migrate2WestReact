@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useLocation, Navigate, useNavigate } from "react-router-dom";
 
+import { submitManualPayment } from "../api/public";
+
 /* ---------------- TYPES ---------------- */
 type PaymentMethod = "upi" | "bank" | "qr";
 
@@ -31,13 +33,12 @@ export default function PaymentSuccess() {
   const navigate = useNavigate();
   const state = location.state as PaymentState | null;
 
-  /* ---------------- SAFETY ---------------- */
-  if (!state) {
-    return <Navigate to="/" replace />;
-  }
+  if (!state) return <Navigate to="/" replace />;
 
+  /* ✅ SAFE destructuring */
   const {
     applicant,
+    serviceType,
     serviceName,
     subServiceName,
     selectedSlot,
@@ -46,6 +47,8 @@ export default function PaymentSuccess() {
 
   /* ---------------- LOCAL STATE ---------------- */
   const [method, setMethod] = useState<PaymentMethod | null>(null);
+  const [loading, setLoading] = useState(false);
+
   const [form, setForm] = useState({
     name: applicant.name,
     phone: applicant.phone,
@@ -71,26 +74,45 @@ export default function PaymentSuccess() {
         form.utr.trim().length > 0);
 
   /* ---------------- SUBMIT ---------------- */
-  function handleSubmit() {
+  const handleSubmit = async () => {
     if (!isValid) return;
 
-    const receiptPayload = {
-      ...state,
-      paymentMethod: method,
-      paymentDetails: {
-        utr: form.utr,
-        bankName: form.bankName,
-        accountLast4: form.accountLast4,
-        appUsed: form.appUsed,
-        paymentDate: form.date,
-      },
-      referenceId: "MW-" + Date.now(),
-      status: "Pending Verification",
-      submittedAt: new Date().toISOString(),
-    };
+    try {
+      setLoading(true);
 
-    navigate("/thank-you", { state: receiptPayload });
-  }
+      await submitManualPayment({
+        serviceType,
+        subService: subServiceName,
+        slot: selectedSlot,
+        applicant,
+        amount: totalAmount,
+        method,
+        paymentDetails: {
+          utr: form.utr,
+          bankName: form.bankName,
+          accountLast4: form.accountLast4,
+          appUsed: form.appUsed,
+          date: form.date,
+        },
+      });
+
+      const receiptPayload = {
+        ...state,
+        paymentMethod: method,
+        referenceId: "MW-" + Date.now(),
+        status: "Pending Verification",
+        submittedAt: new Date().toISOString(),
+      };
+
+      navigate("/thank-you", { state: receiptPayload });
+
+    } catch (err) {
+      console.error(err);
+      alert("Failed to submit payment");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   /* ---------------- UI ---------------- */
   return (
@@ -115,8 +137,7 @@ export default function PaymentSuccess() {
 
           <div className="text-sm text-gray-700 space-y-2">
             <p>
-              <strong>Service:</strong>{" "}
-              {serviceName}
+              <strong>Service:</strong> {serviceName}
               {subServiceName && (
                 <span className="text-gray-500">
                   {" "}({subServiceName})
@@ -137,42 +158,33 @@ export default function PaymentSuccess() {
           </div>
         </div>
 
-        {/* PAYMENT METHOD */}
+        {/* METHOD SELECT */}
         <div className="bg-white rounded-3xl shadow p-6 space-y-6">
           <h3 className="font-semibold text-lg">
             Payment Method
           </h3>
 
           <div className="grid sm:grid-cols-3 gap-4">
-            {[
-              { key: "upi", label: "UPI" },
-              { key: "bank", label: "Bank Transfer" },
-              { key: "qr", label: "QR Scan" },
-            ].map((m) => (
+            {["upi", "bank", "qr"].map((m) => (
               <button
-                key={m.key}
-                onClick={() => setMethod(m.key as PaymentMethod)}
-                className={`p-4 rounded-xl border font-medium transition ${
-                  method === m.key
-                    ? "border-blue-600 bg-blue-50 text-blue-700"
-                    : "border-gray-200 hover:border-gray-300"
+                key={m}
+                onClick={() => setMethod(m as PaymentMethod)}
+                className={`p-4 rounded-xl border font-medium ${
+                  method === m
+                    ? "border-blue-600 bg-blue-50"
+                    : "border-gray-200"
                 }`}
               >
-                {m.label}
+                {m.toUpperCase()}
               </button>
             ))}
           </div>
         </div>
 
-        {/* PAYMENT DETAILS */}
+        {/* FORM */}
         {method && (
           <div className="bg-white rounded-3xl shadow p-6 space-y-6">
 
-            <h3 className="font-semibold text-lg">
-              Payment Details
-            </h3>
-
-            {/* COMMON FIELDS */}
             <div className="grid sm:grid-cols-2 gap-4">
               <input
                 placeholder="Full Name"
@@ -183,7 +195,7 @@ export default function PaymentSuccess() {
                 className="border rounded-xl px-4 py-3"
               />
               <input
-                placeholder="Phone Number"
+                placeholder="Phone"
                 value={form.phone}
                 onChange={(e) =>
                   setForm({ ...form, phone: e.target.value })
@@ -208,33 +220,17 @@ export default function PaymentSuccess() {
               />
             </div>
 
-            {/* UPI / QR */}
-            {(method === "upi" || method === "qr") && (
-              <div className="grid sm:grid-cols-2 gap-4">
-                {method === "qr" && (
-                  <input
-                    placeholder="App Used (GPay / PhonePe / Paytm)"
-                    value={form.appUsed}
-                    onChange={(e) =>
-                      setForm({ ...form, appUsed: e.target.value })
-                    }
-                    className="border rounded-xl px-4 py-3"
-                  />
-                )}
-                <input
-                  placeholder="Transaction ID / UTR"
-                  value={form.utr}
-                  onChange={(e) =>
-                    setForm({ ...form, utr: e.target.value })
-                  }
-                  className="border rounded-xl px-4 py-3"
-                />
-              </div>
-            )}
+            <input
+              placeholder="Transaction ID / UTR"
+              value={form.utr}
+              onChange={(e) =>
+                setForm({ ...form, utr: e.target.value })
+              }
+              className="border rounded-xl px-4 py-3"
+            />
 
-            {/* BANK */}
             {method === "bank" && (
-              <div className="grid sm:grid-cols-3 gap-4">
+              <div className="grid sm:grid-cols-2 gap-4">
                 <input
                   placeholder="Bank Name"
                   value={form.bankName}
@@ -244,40 +240,25 @@ export default function PaymentSuccess() {
                   className="border rounded-xl px-4 py-3"
                 />
                 <input
-                  placeholder="Account Last 4 Digits"
+                  placeholder="Last 4 Digits"
                   maxLength={4}
                   value={form.accountLast4}
                   onChange={(e) =>
-                    setForm({
-                      ...form,
-                      accountLast4: e.target.value,
-                    })
-                  }
-                  className="border rounded-xl px-4 py-3"
-                />
-                <input
-                  placeholder="Transaction Reference"
-                  value={form.utr}
-                  onChange={(e) =>
-                    setForm({ ...form, utr: e.target.value })
+                    setForm({ ...form, accountLast4: e.target.value })
                   }
                   className="border rounded-xl px-4 py-3"
                 />
               </div>
             )}
 
-            {/* SUBMIT */}
             <button
-              disabled={!isValid}
+              disabled={!isValid || loading}
               onClick={handleSubmit}
-              className={`w-full py-4 rounded-xl font-bold transition ${
-                isValid
-                  ? "bg-blue-600 text-white hover:bg-blue-700"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }`}
+              className="w-full py-4 rounded-xl bg-blue-600 text-white font-bold disabled:opacity-50"
             >
-              Submit Payment Details →
+              {loading ? "Submitting..." : "Submit Payment Details"}
             </button>
+
           </div>
         )}
       </div>

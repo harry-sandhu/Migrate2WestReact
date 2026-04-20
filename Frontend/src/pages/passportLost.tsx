@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import useServiceData from "../hooks/useServiceData";
 
 import Stepper from "../components/passport/Stepper";
 import ApplicantForm from "../components/passport/ApplicantForm";
@@ -7,25 +8,17 @@ import SlotPicker from "../components/passport/SlotPicker";
 import PaymentCTA from "../components/passport/PaymentCTA";
 import PageBanner from "../components/ui/PageBanner";
 
+import { getBookedSlots } from "../api/public";
+
 type Step = 1 | 2;
 type PassportType = "normal" | "express" | "consultation";
 type ApplicantType = "adult" | "child";
 
-const bookedSlots = [
-  "2026-01-12T11:00",
-  "2026-01-12T15:00",
-  "2026-01-14T14:00",
-];
-
-const PRICES = {
-  normal: { adult: 3500, child: 2500 },
-  express: { adult: 4500, child: 3500 },
-  consultation: 800,
-};
-
 export default function PassportLost() {
   const [step, setStep] = useState<Step>(1);
   const [completedStep1, setCompletedStep1] = useState(false);
+
+  const { data, loading, error } = useServiceData();
 
   const [form, setForm] = useState({
     name: "",
@@ -37,7 +30,31 @@ export default function PassportLost() {
     useState<PassportType>("normal");
   const [applicantType, setApplicantType] =
     useState<ApplicantType>("adult");
+
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
+  const [bookedSlots, setBookedSlots] = useState<string[]>([]);
+  const [loadingSlots, setLoadingSlots] = useState(true);
+
+  /* ---------- FETCH SLOTS ---------- */
+  useEffect(() => {
+    const fetchSlots = async () => {
+      try {
+        const slots = await getBookedSlots();
+        setBookedSlots(slots);
+      } catch (err) {
+        console.error("Failed to fetch slots:", err);
+      } finally {
+        setLoadingSlots(false);
+      }
+    };
+
+    fetchSlots();
+  }, []);
+
+  /* ---------- RESET SLOT ---------- */
+  useEffect(() => {
+    setSelectedSlot(null);
+  }, [passportType]);
 
   const isValid =
     form.name.trim().length > 1 &&
@@ -46,7 +63,6 @@ export default function PassportLost() {
 
   const now = new Date();
 
-  /* SLOT RULES — stricter for lost passports */
   function isSlotAllowed(slot: Date) {
     const diffHours =
       (slot.getTime() - now.getTime()) / (1000 * 60 * 60);
@@ -55,18 +71,13 @@ export default function PassportLost() {
     const isOfficeTime = hour >= 10 && hour < 18;
     if (!isOfficeTime) return false;
 
-    if (passportType === "consultation") {
-      return diffHours >= 24;
-    }
+    if (passportType === "consultation") return diffHours >= 24;
+    if (passportType === "express") return diffHours >= 12;
 
-    if (passportType === "express") {
-      return diffHours >= 12;
-    }
-
-    // normal lost passport
     return diffHours >= 48;
   }
 
+  /* ---------- RESET INVALID SLOT ---------- */
   useEffect(() => {
     if (selectedSlot) {
       const slotDate = new Date(selectedSlot);
@@ -75,6 +86,14 @@ export default function PassportLost() {
       }
     }
   }, [passportType]);
+
+  /* ---------- GUARDS ---------- */
+  if (loading) return <div className="p-10 text-center">Loading...</div>;
+  if (error) return <div className="p-10 text-center">{error}</div>;
+  if (!data?.passportLost)
+    return <div className="p-10 text-center">Service data missing</div>;
+
+  const PRICES = data.passportLost;
 
   const basePrice =
     passportType === "consultation"
@@ -95,7 +114,7 @@ export default function PassportLost() {
 
       <PageBanner
         title="Lost Passport"
-        bgImage="/src/assets/images/About-Us-Page.webp"
+        bgImage="/images/About-Us-Page.webp"
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Passport", href: "/passport" },
@@ -143,7 +162,6 @@ export default function PassportLost() {
           {step === 2 && (
             <div className="space-y-10">
 
-              {/* CONSULTATION ENABLED */}
               <ApplicationType
                 passportType={passportType}
                 applicantType={applicantType}
@@ -151,26 +169,42 @@ export default function PassportLost() {
                 onApplicantChange={setApplicantType}
               />
 
-              <SlotPicker
-                bookedSlots={bookedSlots}
-                selectedSlot={selectedSlot}
-                onSelect={setSelectedSlot}
-                isSlotAllowed={isSlotAllowed}
-              />
+              {/* SLOT PICKER */}
+              <div id="slot-section">
+                {loadingSlots ? (
+                  <p className="text-center text-gray-500">
+                    Loading available slots...
+                  </p>
+                ) : (
+                  <SlotPicker
+                    bookedSlots={bookedSlots}
+                    selectedSlot={selectedSlot}
+                    onSelect={setSelectedSlot}
+                    isSlotAllowed={isSlotAllowed}
+                  />
+                )}
+              </div>
 
-              <PaymentCTA
-                state={{
-                  serviceType: "passport",
-                  serviceName: "Lost Passport",
-                  subServiceName,
-                  applicant: form,
-                  selectedSlot,
-                  breakdown: {
-                    basePrice,
-                  },
-                  totalAmount,
-                }}
-              />
+              {!selectedSlot && (
+                <p className="text-red-500 text-sm text-center">
+                  Please select an appointment slot to continue
+                </p>
+              )}
+
+              <div className={selectedSlot ? "" : "opacity-50 pointer-events-none"}>
+                <PaymentCTA
+                  state={{
+                    serviceType: "passport",
+                    serviceName: "Lost Passport",
+                    subServiceName,
+                    applicant: form,
+                    selectedSlot,
+                    breakdown: { basePrice },
+                    totalAmount,
+                  }}
+                />
+              </div>
+
             </div>
           )}
         </div>

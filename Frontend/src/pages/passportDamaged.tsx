@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import useServiceData from "../hooks/useServiceData";
 
 import Stepper from "../components/passport/Stepper";
 import ApplicantForm from "../components/passport/ApplicantForm";
@@ -7,32 +8,18 @@ import SlotPicker from "../components/passport/SlotPicker";
 import PaymentCTA from "../components/passport/PaymentCTA";
 import PageBanner from "../components/ui/PageBanner";
 
+import { getBookedSlots } from "../api/public";
+
 type Step = 1 | 2;
 type PassportType = "normal" | "express" | "consultation";
 type ApplicantType = "adult" | "child";
 type DamageType = "minor" | "major";
 
-const bookedSlots = [
-  "2026-01-13T11:00",
-  "2026-01-13T15:00",
-  "2026-01-15T14:00",
-];
-
-const PRICES = {
-  normal: {
-    adult: { minor: 3000, major: 4000 },
-    child: { minor: 2000, major: 3000 },
-  },
-  express: {
-    adult: { minor: 4000, major: 5000 },
-    child: { minor: 3000, major: 4000 },
-  },
-  consultation: 700,
-};
-
 export default function PassportDamaged() {
   const [step, setStep] = useState<Step>(1);
   const [completedStep1, setCompletedStep1] = useState(false);
+
+  const { data, loading, error } = useServiceData();
 
   const [form, setForm] = useState({
     name: "",
@@ -46,7 +33,31 @@ export default function PassportDamaged() {
     useState<ApplicantType>("adult");
   const [damageType, setDamageType] =
     useState<DamageType>("minor");
+
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
+  const [bookedSlots, setBookedSlots] = useState<string[]>([]);
+  const [loadingSlots, setLoadingSlots] = useState(true);
+
+  /* ---------- FETCH SLOTS ---------- */
+  useEffect(() => {
+    const fetchSlots = async () => {
+      try {
+        const slots = await getBookedSlots();
+        setBookedSlots(slots);
+      } catch (err) {
+        console.error("Failed to fetch slots:", err);
+      } finally {
+        setLoadingSlots(false);
+      }
+    };
+
+    fetchSlots();
+  }, []);
+
+  /* ---------- RESET SLOT ON TYPE CHANGE ---------- */
+  useEffect(() => {
+    setSelectedSlot(null);
+  }, [passportType]);
 
   const isValid =
     form.name.trim().length > 1 &&
@@ -55,7 +66,6 @@ export default function PassportDamaged() {
 
   const now = new Date();
 
-  /* SLOT RULES — damaged passport */
   function isSlotAllowed(slot: Date) {
     const diffHours =
       (slot.getTime() - now.getTime()) / (1000 * 60 * 60);
@@ -64,18 +74,13 @@ export default function PassportDamaged() {
     const isOfficeTime = hour >= 10 && hour < 18;
     if (!isOfficeTime) return false;
 
-    if (passportType === "consultation") {
-      return diffHours >= 24;
-    }
+    if (passportType === "consultation") return diffHours >= 24;
+    if (passportType === "express") return diffHours >= 24;
 
-    if (passportType === "express") {
-      return diffHours >= 24;
-    }
-
-    // normal damaged passport
     return diffHours >= 48;
   }
 
+  /* ---------- RESET INVALID SLOT ---------- */
   useEffect(() => {
     if (selectedSlot) {
       const slotDate = new Date(selectedSlot);
@@ -85,7 +90,14 @@ export default function PassportDamaged() {
     }
   }, [passportType]);
 
-  /* PRICE LOGIC */
+  /* ---------- GUARDS ---------- */
+  if (loading) return <div className="p-10 text-center">Loading...</div>;
+  if (error) return <div className="p-10 text-center">{error}</div>;
+  if (!data?.passportDamaged)
+    return <div className="p-10 text-center">Service data missing</div>;
+
+  const PRICES = data.passportDamaged;
+
   const basePrice =
     passportType === "consultation"
       ? PRICES.consultation
@@ -103,7 +115,7 @@ export default function PassportDamaged() {
 
       <PageBanner
         title="Damaged Passport"
-        bgImage="/src/assets/images/About-Us-Page.webp"
+        bgImage="/images/About-Us-Page.webp"
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Passport", href: "/passport" },
@@ -151,7 +163,6 @@ export default function PassportDamaged() {
           {step === 2 && (
             <div className="space-y-10">
 
-              {/* PASSPORT TYPE */}
               <ApplicationType
                 passportType={passportType}
                 applicantType={applicantType}
@@ -168,60 +179,65 @@ export default function PassportDamaged() {
 
                   <div className="grid sm:grid-cols-2 gap-4">
                     {[
-                      {
-                        key: "minor",
-                        label: "Minor Damage",
-                        desc: "Torn pages, faded print, small water marks",
-                      },
-                      {
-                        key: "major",
-                        label: "Major Damage",
-                        desc: "Burnt, missing pages, unreadable details",
-                      },
+                      { key: "minor", label: "Minor Damage" },
+                      { key: "major", label: "Major Damage" },
                     ].map((d) => (
                       <button
                         key={d.key}
                         onClick={() =>
                           setDamageType(d.key as DamageType)
                         }
-                        className={`p-4 rounded-xl border text-left transition ${
+                        className={`p-4 rounded-xl border ${
                           damageType === d.key
                             ? "border-blue-600 bg-blue-50"
-                            : "border-gray-200 hover:border-gray-300"
+                            : "border-gray-200"
                         }`}
                       >
-                        <div className="font-medium">
-                          {d.label}
-                        </div>
-                        <div className="text-sm text-gray-600">
-                          {d.desc}
-                        </div>
+                        {d.label}
                       </button>
                     ))}
                   </div>
                 </div>
               )}
 
-              <SlotPicker
-                bookedSlots={bookedSlots}
-                selectedSlot={selectedSlot}
-                onSelect={setSelectedSlot}
-                isSlotAllowed={isSlotAllowed}
-              />
+              {/* SLOT PICKER */}
+              <div id="slot-section">
+                {loadingSlots ? (
+                  <p className="text-center text-gray-500">
+                    Loading available slots...
+                  </p>
+                ) : (
+                  <SlotPicker
+                    bookedSlots={bookedSlots}
+                    selectedSlot={selectedSlot}
+                    onSelect={setSelectedSlot}
+                    isSlotAllowed={isSlotAllowed}
+                  />
+                )}
+              </div>
 
-              <PaymentCTA
-                state={{
-                  serviceType: "passport",
-                  serviceName: "Damaged Passport",
-                  subServiceName,
-                  applicant: form,
-                  selectedSlot,
-                  breakdown: {
-                    basePrice,
-                  },
-                  totalAmount,
-                }}
-              />
+              {/* SLOT REQUIRED */}
+              {!selectedSlot && (
+                <p className="text-red-500 text-sm text-center">
+                  Please select an appointment slot to continue
+                </p>
+              )}
+
+              {/* PAYMENT */}
+              <div className={selectedSlot ? "" : "opacity-50 pointer-events-none"}>
+                <PaymentCTA
+                  state={{
+                    serviceType: "passport",
+                    serviceName: "Damaged Passport",
+                    subServiceName,
+                    applicant: form,
+                    selectedSlot,
+                    breakdown: { basePrice },
+                    totalAmount,
+                  }}
+                />
+              </div>
+
             </div>
           )}
         </div>

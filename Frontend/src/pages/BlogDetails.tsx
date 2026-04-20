@@ -1,20 +1,36 @@
 import { useParams, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import PageBanner from "../components/ui/PageBanner";
-import { blogs } from "../assets/data/blogs";
+import { getBlogBySlug } from "../api/public";
 
 export default function BlogDetails() {
   const { slug } = useParams<{ slug: string }>();
-  const blog = blogs.find((b) => b.slug === slug);
+  const [blog, setBlog] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!slug) return;
+
+    const loadBlog = async () => {
+      try {
+        const data = await getBlogBySlug(slug);
+        setBlog(data);
+      } catch (err) {
+        console.error("Failed to load blog:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadBlog();
+  }, [slug]);
+
+  if (loading) {
+    return <div className="p-20 text-center">Loading...</div>;
+  }
 
   if (!blog) {
-    return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4">
-        <h2 className="text-2xl font-bold mb-4">Blog not found</h2>
-        <Link to="/blog" className="text-blue-600 hover:underline">
-          ← Back to Blog
-        </Link>
-      </div>
-    );
+    return <div className="p-20 text-center">Blog not found</div>;
   }
 
   return (
@@ -30,32 +46,24 @@ export default function BlogDetails() {
       />
 
       <section className="bg-white py-20">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-xl text-gray-700 mb-10 leading-relaxed">
+        <div className="max-w-3xl mx-auto px-4">
+
+          <p className="text-xl mb-10">
             {blog.excerpt}
           </p>
 
-          <article className="space-y-6 text-gray-700 leading-relaxed text-lg">
-            {blog.content.map((para, i) => (
-              <p key={i}>{para}</p>
+          <article className="space-y-6">
+            {blog.content?.map((p: string, i: number) => (
+              <p key={i}>{p}</p>
             ))}
           </article>
 
-          <div className="mt-14 flex flex-col sm:flex-row items-center justify-between gap-6">
-            <Link
-              to="/blog"
-              className="text-blue-600 font-semibold hover:underline"
-            >
-              ← Back to Blog
-            </Link>
-
-            <Link
-              to="/contact"
-              className="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition"
-            >
-              Need Visa Help?
+          <div className="mt-10">
+            <Link to="/blog" className="text-blue-600">
+              ← Back
             </Link>
           </div>
+
         </div>
       </section>
     </>

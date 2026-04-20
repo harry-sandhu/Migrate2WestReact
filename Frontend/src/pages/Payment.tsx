@@ -1,13 +1,14 @@
 import { Link, useLocation, Navigate } from "react-router-dom";
 import { useState } from "react";
 import qr from "../assets/images/qr.jpeg";
-import axios from "axios";
+
+import { createPaymentOrder } from "../api/public";
 
 /* ---------- Types ---------- */
 export interface PaymentState {
-  serviceType: string;        // passport | coaching | etc
-  serviceName: string;        // Passport Application | IELTS Coaching
-  subServiceName?: string;    // Normal Passport | Academic IELTS
+  serviceType: string;
+  serviceName: string;
+  subServiceName?: string;
 
   applicant: {
     name: string;
@@ -29,45 +30,71 @@ export interface PaymentState {
 export default function Payment() {
   const location = useLocation();
   const state = location.state as PaymentState | null;
+
   const [showQR, setShowQR] = useState(false);
+  const [loadingPayment, setLoadingPayment] = useState(false);
 
   if (!state) return <Navigate to="/" replace />;
 
-  const handleOnlinePayment = async () => {
-  try {
-    const res = await axios.post("http://localhost:5000/api/payment/create-order", {
-      amount: totalAmount,
-      customer_id: applicant.phone,
-      customer_email: applicant.email,
-      customer_phone: applicant.phone
-    });
-
-    if (res.data.success) {
-      const paymentSessionId = res.data.data.payment_session_id;
-
-      const cashfree = (window as any).Cashfree({
-        mode: "sandbox"
-      });
-
-      await cashfree.checkout({
-        paymentSessionId: paymentSessionId,
-        redirectTarget: "_self"
-      });
-    }
-
-  } catch (err) {
-    console.error("Payment error:", err);
-  }
-};
-
+  /* ✅ destructure early (important fix) */
   const {
     applicant,
+    serviceType,
     serviceName,
     subServiceName,
     selectedSlot,
     breakdown,
     totalAmount,
   } = state;
+
+  /* ---------- PAYMENT HANDLER ---------- */
+  const handleOnlinePayment = async () => {
+    try {
+      if (!selectedSlot) {
+        alert("Please select a slot first");
+        return;
+      }
+
+      setLoadingPayment(true);
+
+      // optional fallback storage
+      localStorage.setItem(
+        "bookingData",
+        JSON.stringify({
+          serviceType,
+          subService: subServiceName,
+          slot: selectedSlot,
+          applicant,
+        })
+      );
+
+      const data = await createPaymentOrder({
+        amount: totalAmount,
+        customer_id: applicant.name,
+        customer_email: applicant.email,
+        customer_phone: applicant.phone,
+        serviceType,
+        subService: subServiceName,
+        slot: selectedSlot,
+      });
+
+      const paymentUrl = data?.payment_links?.web;
+
+      if (!paymentUrl) {
+        alert("Payment link not received");
+        setLoadingPayment(false);
+        return;
+      }
+
+      // redirect
+      window.location.href = paymentUrl;
+
+    } catch (err) {
+      console.error("Payment error:", err);
+      alert("Payment failed. Please try again.");
+      setLoadingPayment(false);
+    }
+  };
 
   return (
     <div className="bg-[#f7f9fc] min-h-screen py-20">
@@ -85,7 +112,7 @@ export default function Payment() {
 
         <div className="grid lg:grid-cols-3 gap-10">
 
-          {/* PAYMENT METHODS */}
+          {/* LEFT SIDE */}
           <div className="lg:col-span-2 space-y-8">
 
             {/* UPI */}
@@ -131,7 +158,9 @@ export default function Payment() {
 
             {/* BANK */}
             <div className="bg-white rounded-3xl shadow-lg p-8">
-              <h3 className="text-xl font-semibold mb-4">Bank Transfer</h3>
+              <h3 className="text-xl font-semibold mb-4">
+                Bank Transfer
+              </h3>
               <div className="grid sm:grid-cols-2 gap-6 text-gray-700">
                 <p><strong>Account Name:</strong> Migrate2west Global</p>
                 <p><strong>Bank:</strong> HDFC Bank</p>
@@ -139,14 +168,18 @@ export default function Payment() {
                 <p><strong>IFSC:</strong> HDFC0000123</p>
               </div>
             </div>
-          </div>
 
-          <button
-             onClick={handleOnlinePayment}
-             className="mt-6 w-full bg-green-600 text-white py-4 rounded-xl font-semibold hover:bg-green-700 transition"
-           >
-             Pay Online (Card / UPI / Netbanking)
-           </button>
+            {/* ONLINE PAYMENT BUTTON */}
+            <button
+              onClick={handleOnlinePayment}
+              disabled={loadingPayment}
+              className="w-full bg-green-600 text-white py-4 rounded-xl font-semibold hover:bg-green-700 transition disabled:opacity-50"
+            >
+              {loadingPayment
+                ? "Processing Payment..."
+                : "Pay Online (Card / UPI / Netbanking)"}
+            </button>
+          </div>
 
           {/* SUMMARY */}
           <div className="bg-white rounded-3xl shadow-xl p-8 h-fit sticky top-24">
@@ -159,7 +192,9 @@ export default function Payment() {
                 <span>
                   {serviceName}
                   {subServiceName && (
-                    <span className="text-gray-500"> ({subServiceName})</span>
+                    <span className="text-gray-500">
+                      {" "}({subServiceName})
+                    </span>
                   )}
                 </span>
                 <span>₹{breakdown.basePrice}</span>
@@ -200,6 +235,7 @@ export default function Payment() {
               I’ve Completed the Payment →
             </Link>
           </div>
+
         </div>
       </div>
     </div>

@@ -21,31 +21,33 @@ export default function OCI() {
       />
 
       <SubServiceGrid
-        services={[
-          {
-            title: "New OCI Card Application",
-            desc: "Apply for a new OCI card with complete eligibility and document support.",
-            active: true,
-            // later → href: "/oci/new"
-          },
-          {
-            title: "OCI Card Renewal",
-            desc: "Renew or reissue OCI card due to passport or personal detail changes.",
-            active: true,
-            // later → href: "/oci/renewal"
-          },
-          {
-            title: "OCI Miscellaneous Services",
-            desc: "Update personal details, address, or passport information in OCI.",
-            active: false,
-          },
-          {
-            title: "OCI to Indian Visa Assistance",
-            desc: "Guidance for OCI-related visa or travel requirements.",
-            active: false,
-          },
-        ]}
-      />
+  services={[
+    {
+      title: "New OCI Card Application",
+      desc: "Apply for a new OCI card with complete eligibility and document support.",
+      active: true,
+      href: "/oci/apply/new",
+    },
+    {
+      title: "OCI Card Renewal",
+      desc: "Renew or reissue OCI card due to passport or personal detail changes.",
+      active: true,
+      href: "/oci/apply/renewal",
+    },
+    {
+      title: "OCI Miscellaneous Services",
+      desc: "Update personal details, address, or passport information in OCI.",
+      active: true,
+      href: "/oci/apply/misc",
+    },
+    {
+      title: "OCI to Indian Visa Assistance",
+      desc: "Guidance for OCI-related visa or travel requirements.",
+      active: true,
+      href: "/oci/apply/visa-assistance",
+    },
+  ]}
+/>
 
       <ServicesCTA />
     </>

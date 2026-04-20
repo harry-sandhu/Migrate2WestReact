@@ -30,3 +30,20 @@ export const submitContact = async (req: Request, res: Response) => {
     });
   }
 };
+
+
+export const getContacts = async (_req: Request, res: Response) => {
+  try {
+    const contacts = await Contact.find().sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      data: contacts
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+};

@@ -21,19 +21,21 @@ export default function TourPackages() {
       />
 
       <SubServiceGrid
-        services={[
-          {
-            title: "Domestic Tour Packages",
-            desc: "Explore popular destinations across India with curated travel plans.",
-            active: true,
-          },
-          {
-            title: "International Tour Packages",
-            desc: "Discover international destinations with complete travel arrangements.",
-            active: true,
-          },
-        ]}
-      />
+  services={[
+    {
+      title: "Domestic Tour Packages",
+      desc: "Explore popular destinations across India with curated travel plans.",
+      active: true,
+      href: "/tour-packages/apply/domestic",
+    },
+    {
+      title: "International Tour Packages",
+      desc: "Discover international destinations with complete travel arrangements.",
+      active: true,
+      href: "/tour-packages/apply/international",
+    },
+  ]}
+/>
 
       <ServicesCTA />
     </>

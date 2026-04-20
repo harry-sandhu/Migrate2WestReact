@@ -1,8 +1,10 @@
 import { Router } from "express";
-import { submitContact } from "../controllers/contactController";
+import { getContacts, submitContact } from "../controllers/contactController";
+import { adminOnly, protect } from "../middleware/authmiddleware";
 
 const router = Router();
 
 router.post("/", submitContact);
+router.get("/", protect, adminOnly, getContacts);
 
 export default router;

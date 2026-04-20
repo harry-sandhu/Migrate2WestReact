@@ -21,19 +21,21 @@ export default function CareerCounseling() {
       />
 
       <SubServiceGrid
-        services={[
-          {
-            title: "Young Professional Counseling",
-            desc: "Career planning and guidance for fresh graduates and early professionals.",
-            active: true,
-          },
-          {
-            title: "Career Professional Counseling",
-            desc: "Strategic career guidance for experienced professionals.",
-            active: true,
-          },
-        ]}
-      />
+  services={[
+    {
+      title: "Young Professional Counseling",
+      desc: "Career planning and guidance for fresh graduates and early professionals.",
+      active: true,
+      href: "/career-counseling/apply/young-professional",
+    },
+    {
+      title: "Career Professional Counseling",
+      desc: "Strategic career guidance for experienced professionals.",
+      active: true,
+      href: "/career-counseling/apply/experienced-professional",
+    },
+  ]}
+/>
 
       <ServicesCTA />
     </>

@@ -1,18 +1,22 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const API_BASE = "http://localhost:5000";
+import { registerUser } from "../../api/auth";
 
 export default function Register() {
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     password: "",
     confirmPassword: "",
   });
+
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -25,171 +29,120 @@ export default function Register() {
     e.preventDefault();
     setLoading(true);
     setMessage("");
+    setIsError(false);
 
     if (formData.password !== formData.confirmPassword) {
       setMessage("Passwords do not match");
+      setIsError(true);
       setLoading(false);
       return;
     }
 
     try {
-      const res = await fetch(`${API_BASE}/api/auth/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-        }),
+      await registerUser({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password,
       });
 
-      const data = await res.json();
+      setMessage("Registration successful! Redirecting...");
+      setIsError(false);
 
-      if (!res.ok) {
-        setMessage(data.message || "Registration failed");
-        return;
-      }
-
-      setMessage("Registration successful! Please login.");
       setTimeout(() => {
         navigate("/admin/login");
-      }, 2000);
-    } catch (err) {
-      setMessage("Server error. Please try again.");
+      }, 1500);
+
+    } catch (err: any) {
+      console.error("REGISTER ERROR:", err);
+      setMessage(err.message || "Registration failed");
+      setIsError(true);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-neutral-900 to-black px-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8">
+    <div className="min-h-screen flex items-center justify-center bg-black px-4">
+      <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-xl">
 
-        {/* Logo */}
-        <div className="flex justify-center mb-6">
-          <div className="w-14 h-14 rounded-full bg-black text-white flex items-center justify-center text-2xl">
-            🌍
-          </div>
-        </div>
-
-        {/* Title */}
-        <h2 className="text-2xl font-bold text-center text-gray-900 mb-2">
-          Create Your Account
+        <h2 className="text-xl font-bold text-center mb-4">
+          Register
         </h2>
-        <p className="text-center text-sm text-gray-500 mb-6">
-          Start your journey with Migrate2West
-        </p>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Full Name */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Full Name
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Enter your full name"
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-black"
-              required
-            />
-          </div>
+        <form onSubmit={handleSubmit} className="space-y-3">
 
-          {/* Email */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Email Address
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Enter your email"
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-black"
-              required
-            />
-          </div>
+          <input
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Name"
+            className="w-full border p-2 rounded"
+            required
+          />
 
-          {/* Password */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Password
-            </label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Create a password"
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-black"
-              required
-            />
-          </div>
+          <input
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Email"
+            className="w-full border p-2 rounded"
+            required
+          />
 
-          {/* Confirm Password */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              placeholder="Re-enter password"
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-black"
-              required
-            />
-          </div>
+          <input
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            placeholder="Phone"
+            className="w-full border p-2 rounded"
+            required
+          />
 
-          {/* Terms & Privacy */}
-          <div className="flex items-start gap-2 text-sm text-gray-600">
-            <input
-              type="checkbox"
-              className="mt-1 accent-black"
-              required
-            />
-            <span>
-              I agree to the{" "}
-              <Link to="/terms" className="underline hover:text-black">
-                Terms & Conditions
-              </Link>{" "}
-              and{" "}
-              <Link to="/privacy" className="underline hover:text-black">
-                Privacy Policy
-              </Link>
-            </span>
-          </div>
+          <input
+            name="password"
+            type="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Password"
+            className="w-full border p-2 rounded"
+            required
+          />
+
+          <input
+            name="confirmPassword"
+            type="password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            placeholder="Confirm Password"
+            className="w-full border p-2 rounded"
+            required
+          />
 
           {message && (
-            <div className={`text-sm text-center ${message.includes('successful') ? 'text-green-600' : 'text-red-600'}`}>
+            <p
+              className={`text-center text-sm ${
+                isError ? "text-red-600" : "text-green-600"
+              }`}
+            >
               {message}
-            </div>
+            </p>
           )}
 
-          {/* Button */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-black text-white py-3 rounded-lg font-semibold tracking-wide hover:bg-neutral-800 transition disabled:opacity-50"
+            className="w-full bg-black text-white p-2 rounded disabled:opacity-50"
           >
-            {loading ? "Creating Account..." : "Register"}
+            {loading ? "Creating..." : "Register"}
           </button>
         </form>
 
-        {/* Footer links */}
-        <div className="mt-6 text-center text-sm text-gray-600">
-          Already have an account?{" "}
-          <Link to="/admin/login" className="underline hover:text-black">
-            Login
+        <p className="text-center mt-4 text-sm">
+          <Link to="/admin/login" className="underline">
+            Already have an account? Login
           </Link>
-        </div>
+        </p>
       </div>
     </div>
   );

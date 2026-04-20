@@ -21,24 +21,27 @@ export default function MeetAndAssist() {
       />
 
       <SubServiceGrid
-        services={[
-          {
-            title: "Arrival Assistance",
-            desc: "Support at airport arrivals including immigration and baggage assistance.",
-            active: true,
-          },
-          {
-            title: "Departure Assistance",
-            desc: "Hassle-free departure support with check-in and boarding assistance.",
-            active: true,
-          },
-          {
-            title: "Transit Assistance",
-            desc: "Seamless transit support at connecting airports.",
-            active: false,
-          },
-        ]}
-      />
+  services={[
+    {
+      title: "Arrival Assistance",
+      desc: "Support at airport arrivals including immigration and baggage assistance.",
+      active: true,
+      href: "/meet-assist/apply/arrival",
+    },
+    {
+      title: "Departure Assistance",
+      desc: "Hassle-free departure support with check-in and boarding assistance.",
+      active: true,
+      href: "/meet-assist/apply/departure",
+    },
+    {
+      title: "Transit Assistance",
+      desc: "Seamless transit support at connecting airports.",
+      active: true,
+      href: "/meet-assist/apply/transit",
+    },
+  ]}
+/>
 
       <ServicesCTA />
     </>
