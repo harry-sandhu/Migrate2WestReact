@@ -14,6 +14,14 @@ export const connectDB = async () => {
     serverSelectionTimeoutMS: 5000,
   });
 
+  // 🔥 WAIT UNTIL READY STATE IS 1
+  if (mongoose.connection.readyState !== 1) {
+    await new Promise((resolve, reject) => {
+      mongoose.connection.once("connected", resolve);
+      mongoose.connection.once("error", reject);
+    });
+  }
+
   isConnected = true;
-  console.log("✅ MongoDB connected");
+  console.log("✅ MongoDB fully ready");
 };
