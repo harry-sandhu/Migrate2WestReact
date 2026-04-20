@@ -162,10 +162,27 @@ export default function Payment() {
                 Bank Transfer
               </h3>
               <div className="grid sm:grid-cols-2 gap-6 text-gray-700">
-                <p><strong>Account Name:</strong> Migrate2west Global</p>
-                <p><strong>Bank:</strong> HDFC Bank</p>
-                <p><strong>Account No:</strong> 12345*****</p>
-                <p><strong>IFSC:</strong> HDFC0000123</p>
+                <div className="grid sm:grid-cols-2 gap-6 text-gray-700">
+  <p>
+    <strong>Account Name:</strong><br />
+    MIGRATE2WEST GLOBAL PRIVATE LIMITED
+  </p>
+
+  <p>
+    <strong>Bank:</strong><br />
+    HDFC Bank
+  </p>
+
+  <p>
+    <strong>Account Number:</strong><br />
+    50200118833908
+  </p>
+
+  <p>
+    <strong>Branch:</strong><br />
+    DLF City Court, Sikanderpur, Gurugram
+  </p>
+</div>
               </div>
             </div>
 
