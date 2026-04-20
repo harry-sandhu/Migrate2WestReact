@@ -60,7 +60,7 @@ export default function AdminServiceData() {
             className="border rounded-xl p-4 bg-white shadow-sm space-y-3"
           >
             {Object.entries(item).map(([k, v]: any) => {
-              const newPath = [...path, i.toString(), k];
+              
 
               if (typeof v === "number") {
                 return (
