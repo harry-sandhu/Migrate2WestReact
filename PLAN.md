@@ -12,7 +12,7 @@ A functioning full-stack MERN-style application (Express/TypeScript + MongoDB ba
 
 ## Issues Found
 - No README existed before this change, despite the project being public and deployed.
-- `Backend/src/app.ts` exposes a `GET /api/debug-db` endpoint that attempts a live Mongo connection and logs `process.env.MONGO_URI` to the console on every call — this is a debug/diagnostic route left in the main app file and should not ship to production (information disclosure + unnecessary DB connection attempts).
+- ~~`Backend/src/app.ts` exposes a `GET /api/debug-db` endpoint that attempts a live Mongo connection and logs `process.env.MONGO_URI` to the console on every call~~ — **fixed**: this debug/diagnostic route has been removed from `Backend/src/app.ts`.
 - Commit history is heavily "exploratory" (many near-duplicate fix commits, keyboard-mash messages) — not a code issue, but makes `git bisect`/history review harder going forward.
 - No automated tests found in either Backend or Frontend.
 - `Backend/combined.log` and `Backend/error.log` appear to be committed log files rather than `.gitignore`-excluded runtime artifacts (worth verifying `.gitignore` coverage).
@@ -31,7 +31,7 @@ A functioning full-stack MERN-style application (Express/TypeScript + MongoDB ba
 - No unit, integration, or e2e tests currently exist. Given the payment flow and admin RBAC logic, these are the highest-value areas to cover first.
 
 ## Security
-- Remove or gate the `/api/debug-db` endpoint behind a non-production environment check (or delete it entirely) — it currently logs the Mongo connection string to server logs on every request and is reachable publicly.
+- **Fixed**: the `/api/debug-db` endpoint, which logged the Mongo connection string to server logs on every request and was reachable publicly, has been removed entirely from `Backend/src/app.ts`.
 - Confirm reCAPTCHA verification and rate limiting are applied consistently across public-facing POST endpoints (contact, slot booking, manual payment) to prevent abuse.
 - Confirm JWT secret and payment gateway keys are only ever read from environment variables (not hardcoded) — nothing hardcoded was found in the reviewed source, but this should be part of ongoing review discipline.
 
@@ -62,7 +62,7 @@ A functioning full-stack MERN-style application (Express/TypeScript + MongoDB ba
 ## Priority Roadmap
 
 ### P0 — Critical
-- Remove or disable the `/api/debug-db` debug endpoint in `Backend/src/app.ts` before any further public deployment.
+- ~~Remove or disable the `/api/debug-db` debug endpoint in `Backend/src/app.ts` before any further public deployment.~~ Done — the route has been removed.
 
 ### P1 — Important
 - Add a minimal test suite covering payment creation/status and admin-only route protection.
@@ -76,7 +76,7 @@ A functioning full-stack MERN-style application (Express/TypeScript + MongoDB ba
 - Add lightweight API documentation for the route groups.
 
 ## Recommended Next Steps
-1. Patch the `/api/debug-db` route immediately (P0).
+1. ~~Patch the `/api/debug-db` route immediately (P0).~~ Done.
 2. Add `.env.example` files and confirm `.gitignore` excludes logs/`.env`/`dist`.
 3. Introduce a basic test harness (e.g. Jest/Vitest) starting with payment and auth-protected routes.
 4. Decide on Railway vs. Vercel as the documented deployment path and remove/update the unused config.
